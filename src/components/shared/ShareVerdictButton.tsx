@@ -10,10 +10,11 @@ import { Share2, Check, Copy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface ShareVerdictButtonProps {
-  verdict: 'SESUAI' | 'ADA_PELANGGARAN'
-  violationCount: number
-  city: string
-  grossSalary: number
+  customText?: string
+  verdict?: 'SESUAI' | 'ADA_PELANGGARAN'
+  violationCount?: number
+  city?: string
+  grossSalary?: number
   className?: string
 }
 
@@ -22,6 +23,7 @@ function formatIDR(n: number) {
 }
 
 export function ShareVerdictButton({
+  customText,
   verdict,
   violationCount,
   city,
@@ -30,9 +32,9 @@ export function ShareVerdictButton({
 }: ShareVerdictButtonProps) {
   const [copied, setCopied] = useState(false)
 
-  const text = verdict === 'SESUAI'
-    ? `✅ Slip gaji saya di ${city} (${formatIDR(grossSalary)}/bulan) sudah sesuai regulasi! Cek juga di cekwajar.id — gratis!`
-    : `⚠️ Ada ${violationCount} pelanggaran di slip gaji saya di ${city}. Potensi kerugian Rp juta-an/tahun. Cek juga di cekwajar.id — gratis!`
+  const text = customText ?? (verdict === 'SESUAI'
+    ? `✅ Slip gaji saya di ${city} (${formatIDR(grossSalary!)}/bulan) sudah sesuai regulasi! Cek juga di cekwajar.id — gratis!`
+    : `⚠️ Ada ${violationCount} pelanggaran di slip gaji saya di ${city}. Potensi kerugian Rp juta-an/tahun. Cek juga di cekwajar.id — gratis!`)
 
   const handleCopy = async () => {
     try {

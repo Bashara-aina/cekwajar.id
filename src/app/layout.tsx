@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { GlobalNav } from '@/components/layout/GlobalNav'
@@ -22,6 +22,12 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#10b981',
+}
 
 export const metadata: Metadata = {
   title: 'cekwajar.id — Audit Slip Gaji, Benchmark Gaji & Harga Properti',

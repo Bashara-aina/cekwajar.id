@@ -22,6 +22,7 @@ import { Badge } from '@/components/ui/badge'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
 import { CityCommandSelect, CityOption } from '@/components/shared/CityCommandSelect'
 import { FormProgress } from '@/components/shared/FormProgress'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
 
 // --- Types --------------------------------------------------------------------
 
@@ -937,14 +938,17 @@ export default function WajarGajiPage() {
             </Card>
           )}
 
-          {/* Back to Home */}
-          <div className="mt-6 text-center">
+          {/* Share + Back to Home */}
+          <div className="mt-6 flex items-center justify-between">
             <Link
               href="/"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
+            <ShareVerdictButton
+              customText={`Aku baru cek benchmark gaji ${matchedTitle} di ${selectedCity} di cekwajar.id. Cek gajimu juga — gratis! cekwajar.id`}
+            />
           </div>
 
           <CrossToolSuggestion fromTool="wajar-gaji" className="mt-6" />

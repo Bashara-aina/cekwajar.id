@@ -1,5 +1,5 @@
 // ==============================================================================
-// cekwajar.id ? Disclaimer Banner
+// cekwajar.id — Disclaimer Banner
 // Warning banners for tools with regulatory disclaimers
 // ==============================================================================
 
@@ -17,7 +17,7 @@ interface DisclaimerBannerProps {
 const DISCLAIMERS: Record<DisclaimerBannerProps['type'], { title: string; body: string }> = {
   tax: {
     title: 'Catatan Penting',
-    body: 'Hasil kalkulasi PPh21 bersifat indikatif berdasarkan PMK 168/2023. Angka aktual mungkin berbeda tergantung situasi pajak kamu. Ini bukan?? nasihat perpajakan.',
+    body: 'Hasil kalkulasi PPh21 bersifat indikatif berdasarkan PMK 168/2023. Angka aktual mungkin berbeda tergantung situasi pajak kamu. Ini bukan nasihat perpajakan.',
   },
   ppp: {
     title: 'Tentang Data PPP',
@@ -41,11 +41,11 @@ export function DisclaimerBanner({ type }: DisclaimerBannerProps) {
   const { title, body } = DISCLAIMERS[type]
 
   return (
-    <div className="flex gap-3 rounded-lg border border-amber-200 bg-amber-50 p-3">
-      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+    <div className="flex gap-3 rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/40 dark:bg-amber-950/20 p-3">
+      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
       <div>
-        <p className="text-sm font-semibold text-amber-800">{title}</p>
-        <p className="mt-0.5 text-xs text-amber-700">{body}</p>
+        <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">{title}</p>
+        <p className="mt-0.5 text-xs text-amber-700 dark:text-amber-400/90">{body}</p>
       </div>
     </div>
   )
