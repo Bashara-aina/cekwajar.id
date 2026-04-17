@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PremiumGate } from '@/components/shared/PremiumGate'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
 import { COLComparisonChart } from '@/components/wajar-hidup/COLComparisonChart'
 import {
   Select,
@@ -369,10 +370,13 @@ export default function WajarHidupPage() {
             COL Index: Jakarta = 100 sebagai baseline
           </div>
 
-          <div className="text-center">
+          <div className="flex items-center justify-between">
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
+            <ShareVerdictButton
+              customText={`Biaya hidup di ${result.toCity} ${result.verdict === 'LEBIH_MURAH' ? 'lebih murah' : result.verdict === 'LEBIH_MAHAL' ? 'lebih mahal' : 'setara'} dibanding ${result.fromCity}. Cek perbandingan biaya hidupmu di cekwajar.id — gratis!`}
+            />
           </div>
 
           <CrossToolSuggestion fromTool="wajar-hidup" className="mt-6" />

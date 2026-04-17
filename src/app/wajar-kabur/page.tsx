@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/select'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
 import { PPPBasketComparison } from '@/components/wajar-kabur/PPPBasketComparison'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
 
 // --- Types --------------------------------------------------------------------
 
@@ -309,10 +310,13 @@ export default function WajarKaburPage() {
             </CardContent>
           </Card>
 
-          <div className="text-center">
+          <div className="flex items-center justify-between">
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
+            <ShareVerdictButton
+              customText={`Aku baru cek perbandingan daya beli gaji IDR vs ${result.countryName} di cekwajar.id. ${result.isPPPBetter ? 'Ternyata lebih baik secara PPP!' : 'Hasilnya mengejutkan!'} Cek juga — gratis!`}
+            />
           </div>
 
           <CrossToolSuggestion fromTool="wajar-kabur" className="mt-6" />

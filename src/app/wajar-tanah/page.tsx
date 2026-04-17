@@ -27,6 +27,7 @@ import { VerdictBadge } from '@/components/wajar-tanah/VerdictBadge'
 import { PropertyPriceBar } from '@/components/wajar-tanah/PropertyPriceBar'
 import { PropertyVerdict } from '@/app/api/property/benchmark/route'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
 
 // --- Provinces & Cities --------------------------------------------------------
 
@@ -465,11 +466,14 @@ export default function WajarTanahPage() {
             </div>
           )}
 
-          {/* Back to Home */}
-          <div className="mt-6 text-center">
+          {/* Share + Back to Home */}
+          <div className="mt-6 flex items-center justify-between">
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
+            <ShareVerdictButton
+              customText={`Aku baru cek harga properti di ${selectedDistrict ?? selectedCity} — hasilnya ${verdict ?? 'WAJAR'} berdasarkan data pasar. Cek di cekwajar.id — gratis!`}
+            />
           </div>
 
           <CrossToolSuggestion fromTool="wajar-tanah" className="mt-6" />
