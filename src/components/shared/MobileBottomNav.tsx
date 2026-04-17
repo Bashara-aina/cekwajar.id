@@ -30,7 +30,7 @@ export function MobileBottomNav({ className }: { className?: string }) {
   return (
     <nav
       className={cn(
-        'fixed bottom-0 inset-x-0 z-40 border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 md:hidden',
+        'fixed bottom-0 inset-x-0 z-40 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 dark:bg-background/95 dark:supports-[backdrop-filter]:bg-background/80 md:hidden',
         className
       )}
       aria-label="Navigasi utama"

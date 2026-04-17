@@ -7,6 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -94,6 +95,12 @@ function calculateCOLAdjustment(
 // --- Handler ------------------------------------------------------------------
 
 export async function GET(request: NextRequest) {
+  const ip = request.headers.get('x-forwarded-for') ?? 'unknown'
+  const { allowed } = checkRateLimit(`col-compare:${ip}`, RATE_LIMITS.calculation)
+  if (!allowed) {
+    return NextResponse.json({ error: { code: 'RATE_LIMIT', message: 'Terlalu banyak permintaan. Coba lagi dalam 1 jam.' } }, { status: 429 })
+  }
+
   const searchParams = request.nextUrl.searchParams
 
   const parsed = QuerySchema.safeParse({

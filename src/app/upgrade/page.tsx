@@ -169,7 +169,7 @@ export default function UpgradePage() {
           },
         })
       } else {
-        setError('Midtrans tidak tersedia. Silakan刷新页面后重试。')
+        setError('Midtrans tidak tersedia. Silakan refresh halaman dan coba lagi.')
         setLoadingPlan(null)
       }
     } catch {
@@ -204,7 +204,7 @@ export default function UpgradePage() {
               className={cn(
                 'px-5 py-2 rounded-md text-sm font-medium transition-all',
                 billingPeriod === 'monthly'
-                  ? 'bg-white text-foreground shadow-sm'
+                  ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               )}
             >
@@ -215,7 +215,7 @@ export default function UpgradePage() {
               className={cn(
                 'px-5 py-2 rounded-md text-sm font-medium transition-all',
                 billingPeriod === 'annual'
-                  ? 'bg-white text-foreground shadow-sm'
+                  ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               )}
             >
@@ -313,6 +313,9 @@ export default function UpgradePage() {
                       <div className="text-xs text-emerald-600 mt-1 font-medium">
                         {formatIDR(tier.annualPrice)} / tahun
                       </div>
+                    )}
+                    {tier.id === 'basic' && billingPeriod === 'monthly' && (
+                      <p className="mt-1 text-xs text-muted-foreground">Kurang dari 1 kopi per hari</p>
                     )}
                   </div>
                 </CardHeader>

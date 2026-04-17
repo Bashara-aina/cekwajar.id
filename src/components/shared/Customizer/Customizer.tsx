@@ -87,7 +87,7 @@ function RadiusPicker() {
             onClick={() => setBorderRadius(opt.value)}
             title={opt.label}
             className={cn(
-              'flex h-10 w-10 items-center justify-center border-2 border-border bg-white text-xs font-medium transition-all duration-150',
+              'flex h-10 w-10 items-center justify-center border-2 border-border bg-card text-xs font-medium transition-all duration-150',
               'hover:border-border hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500',
               opt.className,
               settings.borderRadius === opt.value
@@ -108,7 +108,7 @@ function RadiusPicker() {
 
 function PreviewCard({ className }: { className?: string }) {
   return (
-    <div className={cn('rounded-xl border border-border bg-white p-4 shadow-sm', className)}>
+    <div className={cn('rounded-xl border border-border bg-card p-4 shadow-sm', className)}>
       <div className="space-y-2">
         <div className="h-3 w-1/3 rounded bg-muted" />
         <div className="h-8 rounded-lg bg-muted/80" />

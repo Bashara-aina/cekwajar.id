@@ -151,7 +151,7 @@ export function CommandMenu() {
             onClick={(e) => e.stopPropagation()}
           >
             <Command
-              className="overflow-hidden rounded-xl border border-border bg-white shadow-2xl dark:border-border dark:bg-background"
+              className="overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
               loop
             >
               {/* Search header */}

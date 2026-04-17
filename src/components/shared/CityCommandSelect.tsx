@@ -112,7 +112,7 @@ export function CityCommandSelect({
         aria-haspopup="listbox"
         onClick={() => setOpen(!open)}
         className={cn(
-          'flex h-10 w-full items-center justify-between rounded-lg border bg-white px-3 py-2 text-sm',
+          'flex h-10 w-full items-center justify-between rounded-lg border bg-card px-3 py-2 text-sm',
           'transition-colors hover:border-border focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1',
           open && 'border-emerald-500 ring-2 ring-emerald-500',
           !selectedCity && 'text-muted-foreground'

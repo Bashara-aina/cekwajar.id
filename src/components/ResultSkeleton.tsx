@@ -23,15 +23,15 @@ export function ResultSkeleton({ className }: { className?: string }) {
 
       {/* Summary cards */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="rounded-lg border border-border bg-white p-3 space-y-1.5">
+        <div className="rounded-lg border border-border bg-card p-3 space-y-1.5">
           <Skeleton shimmer className="h-3 w-16" />
           <Skeleton shimmer className="h-5 w-20" />
         </div>
-        <div className="rounded-lg border border-border bg-white p-3 space-y-1.5">
+        <div className="rounded-lg border border-border bg-card p-3 space-y-1.5">
           <Skeleton shimmer className="h-3 w-16" />
           <Skeleton shimmer className="h-5 w-20" />
         </div>
-        <div className="rounded-lg border border-border bg-white p-3 space-y-1.5">
+        <div className="rounded-lg border border-border bg-card p-3 space-y-1.5">
           <Skeleton shimmer className="h-3 w-16" />
           <Skeleton shimmer className="h-5 w-20" />
         </div>
@@ -40,7 +40,7 @@ export function ResultSkeleton({ className }: { className?: string }) {
       {/* Violations */}
       <div className="space-y-2.5 mb-6">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="rounded-lg border border-border bg-white p-4">
+          <div key={i} className="rounded-lg border border-border bg-card p-4">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-2">
                 <Skeleton shimmer className="h-5 w-5 rounded-full" />

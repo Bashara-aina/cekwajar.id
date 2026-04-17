@@ -51,7 +51,7 @@ export function ViolationItem({ violation, showAmount, reportedValue, calculated
       'rounded-lg border p-4',
       violation.code === 'V06'
         ? 'border-red-300 bg-red-50/50'
-        : 'border-border bg-white'
+        : 'border-border bg-card'
     )}>
       {/* Header row */}
       <div className="flex items-start justify-between gap-3">

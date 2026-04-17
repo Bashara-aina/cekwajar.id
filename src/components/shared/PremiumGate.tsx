@@ -62,7 +62,7 @@ export function PremiumGate({
 
       {/* Gate overlay — centered, does NOT cover full height */}
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-center pb-4 px-4">
-        <div className="flex flex-col items-center gap-2 rounded-xl border border-amber-200 bg-white/95 p-4 text-center shadow-sm backdrop-blur-sm">
+        <div className="flex flex-col items-center gap-2 rounded-xl border border-amber-200 bg-card/95 dark:bg-card/90 p-4 text-center shadow-sm backdrop-blur-sm">
           <div className="rounded-full bg-amber-100 p-2">
             <Lock className="h-4 w-4 text-amber-600" />
           </div>

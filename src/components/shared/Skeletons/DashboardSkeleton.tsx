@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 function StatCardSkeleton() {
   return (
-    <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
       {/* Card header */}
       <div className="flex items-center justify-between">
         <Skeleton shimmer className="h-4 w-28 rounded" />
@@ -28,7 +28,7 @@ function StatCardSkeleton() {
 
 function ChartSkeleton() {
   return (
-    <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
       {/* Chart header */}
       <div className="mb-6 flex items-center justify-between">
         <div className="space-y-1.5">
@@ -52,7 +52,7 @@ function ChartSkeleton() {
 
 function TableSkeleton() {
   return (
-    <div className="rounded-xl border border-border bg-white shadow-sm">
+    <div className="rounded-xl border border-border bg-card shadow-sm">
       {/* Table header */}
       <div className="flex items-center justify-between border-b border-border px-6 py-4">
         <Skeleton shimmer className="h-5 w-32 rounded" />

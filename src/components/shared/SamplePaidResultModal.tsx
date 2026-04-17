@@ -31,7 +31,7 @@ export function SamplePaidResultModal({ open, onClose }: SamplePaidResultModalPr
       aria-label="Contoh hasil premium"
     >
       <div
-        className="w-full max-w-lg rounded-2xl border bg-white shadow-2xl"
+        className="w-full max-w-lg rounded-2xl border bg-card shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -72,7 +72,7 @@ export function SamplePaidResultModal({ open, onClose }: SamplePaidResultModalPr
             { code: 'V01', label: 'JHT tidak dibayar', slip: 'Rp 0', should: 'Rp 170.000', diff: '+Rp 170.000' },
             { code: 'V05', label: 'BPJS Kesehatan tidak dipotong', slip: 'Rp 0', should: 'Rp 150.000', diff: '+Rp 150.000' },
           ].map((v) => (
-            <div key={v.code} className="flex items-center justify-between rounded-lg border bg-white px-3 py-2">
+            <div key={v.code} className="flex items-center justify-between rounded-lg border bg-card px-3 py-2">
               <div className="flex items-center gap-2">
                 <span className="rounded bg-red-100 px-1.5 py-0.5 text-xs font-semibold text-red-700">{v.code}</span>
                 <span className="text-sm text-foreground">{v.label}</span>

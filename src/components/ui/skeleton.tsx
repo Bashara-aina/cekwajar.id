@@ -61,7 +61,7 @@ function SkeletonCard({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'rounded-xl border border-border bg-white p-6 space-y-4 shadow-sm',
+        'rounded-xl border border-border bg-card p-6 space-y-4 shadow-sm',
         className
       )}
     >

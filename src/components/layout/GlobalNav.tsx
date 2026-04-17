@@ -33,9 +33,9 @@ import { WordmarkLogo } from '@/components/WordmarkLogo'
 const TOOL_ACCENT: Record<string, string> = {
   'wajar-slip': 'bg-amber-500',
   'wajar-gaji': 'bg-blue-500',
-  'wajar-tanah': 'bg-amber-500',
+  'wajar-tanah': 'bg-stone-500',
   'wajar-kabur': 'bg-indigo-500',
-  'wajar-hidup': 'bg-rose-500',
+  'wajar-hidup': 'bg-teal-500',
 }
 
 export function GlobalNav() {
@@ -101,8 +101,8 @@ export function GlobalNav() {
   }
 
   return (
-    <header className="stick top-0 z-50 w-full border-b shadow-sm" style={{ backgroundColor: 'var(--nav-bg)', borderColor: 'var(--nav-border)' }}>
-      <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 lg:h-16 lg:px-6">
+    <header className="sticky top-0 z-50 w-full border-b shadow-sm" style={{ backgroundColor: 'var(--nav-bg)', borderColor: 'var(--nav-border)' }}>
+      <nav aria-label="Main navigation" className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 lg:h-16 lg:px-6">
         {/* Logo */}
         <WordmarkLogo size="md" />
 
@@ -112,6 +112,8 @@ export function GlobalNav() {
             <Link
               key={tool.id}
               href={tool.href}
+              title={`${tool.name} — ${tool.description}`}
+              aria-label={`${tool.name} — ${tool.description}`}
               className={cn(
                 'rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
                 pathname === tool.href
@@ -235,15 +237,18 @@ export function GlobalNav() {
                   href={tool.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    'flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium transition-colors',
+                    'flex items-start gap-3 rounded-md px-3 py-2.5 text-base font-medium transition-colors',
                     pathname === tool.href
                       ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300'
                       : ''
                   )}
                   style={{ color: pathname === tool.href ? undefined : 'var(--muted-foreground)' }}
                 >
-                  <tool.Icon className="h-5 w-5" />
-                  {tool.name}
+                  <tool.Icon className="h-5 w-5 mt-0.5 shrink-0" />
+                  <div>
+                    <div>{tool.name}</div>
+                    <span className="text-xs text-muted-foreground font-normal">{tool.description}</span>
+                  </div>
                 </Link>
               ))}
 

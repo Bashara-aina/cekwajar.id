@@ -529,7 +529,7 @@ export default function WajarGajiPage() {
                     id="experience"
                     value={selectedExperience}
                     onChange={(e) => setSelectedExperience(e.target.value)}
-                    className="flex h-10 w-full rounded-lg border bg-white px-3 py-2 text-sm mt-1.5"
+                    className="flex h-10 w-full rounded-lg border bg-card px-3 py-2 text-sm mt-1.5"
                   >
                     {EXPERIENCE_BUCKETS.map((bucket) => (
                       <option key={bucket.value} value={bucket.value}>{bucket.label}</option>

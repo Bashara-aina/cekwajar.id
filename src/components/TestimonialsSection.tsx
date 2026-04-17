@@ -17,7 +17,7 @@ interface Testimonial {
 const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      'Gak pernah tau slip gaji aku那么多人这么多年来 ternyata salahitung JHT. Pas cek di sini, ketahuan — perusahaan kurang bayar 3 bulan. Langsung kirim email ke HR.',
+      'Gak pernah tau slip gaji aku selama ini ternyata salah hitung JHT. Pas cek di sini, ketahuan — perusahaan kurang bayar 3 bulan. Langsung kirim email ke HR.',
     name: 'Arif W.',
     role: 'Software Engineer, 4 tahun pengalaman',
     location: 'Jakarta',
@@ -66,7 +66,7 @@ export function TestimonialsSection({ className }: { className?: string }) {
 
         <div className="grid gap-4 md:grid-cols-3">
           {TESTIMONIALS.map((t) => (
-            <Card key={t.name} className="bg-white">
+            <Card key={t.name} className="bg-card">
               <CardContent className="p-5">
                 <Quote className="h-5 w-5 text-emerald-200 mb-3" />
                 <p className="text-sm text-foreground leading-relaxed mb-4">

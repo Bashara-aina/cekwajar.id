@@ -89,6 +89,7 @@ export default function PricingPage() {
           <CardHeader>
             <CardTitle>Perbandingan Fitur</CardTitle>
           </CardHeader>
+          <p className="px-6 pb-2 text-xs text-muted-foreground sm:hidden">← Geser untuk lihat semua fitur →</p>
           <CardContent className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
             <table className="min-w-[600px] sm:min-w-0 sm:w-full text-sm">
               <thead>

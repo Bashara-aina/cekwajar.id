@@ -3,6 +3,7 @@
 
 /* ─── Light theme (default) ─── */
 :root {
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #0f172a;
   --card: #ffffff;
@@ -45,6 +46,7 @@
 
 /* ─── Dark theme ─── */
 .dark {
+  color-scheme: dark;
   --background: #0f172a;      /* slate-900 */
   --foreground: #f8fafc;      /* slate-50 */
   --card: #1e293b;            /* slate-800 */
@@ -185,6 +187,12 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure anchor targets are not hidden behind the 64px sticky nav */
+#main-content,
+[id] {
+  scroll-margin-top: 80px;
 }
 
 /* Suppress iOS tap flash on interactive elements */

@@ -134,8 +134,8 @@ export function detectViolations(input: ViolationInput): Violation[] {
       v(
         'V06',
         'CRITICAL',
-        'Gaji Di Bawah UMK',
-        `Gaji Rp ${grossSalary.toLocaleString('id-ID')} di bawah UMK kota ini (Rp ${cityUMK.toLocaleString('id-ID')}). Ini PELANGGARAN HUKUM berat.`,
+        'Gaji Di Bawah UMK/UMR',
+        `Gaji Rp ${grossSalary.toLocaleString('id-ID')} di bawah UMK/UMR kota ini (Rp ${cityUMK.toLocaleString('id-ID')}). Ini PELANGGARAN HUKUM berat.`,
         cityUMK - grossSalary,
         'Laporkan ke Dinas Ketenagakerjaan setempat atau konsultasikan dengan Serikat Pekerja/LC KCHI.'
       )

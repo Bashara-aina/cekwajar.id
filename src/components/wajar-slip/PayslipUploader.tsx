@@ -339,7 +339,7 @@ export function PayslipUploader({ onFieldsExtracted, onManualMode }: PayslipUplo
                     key={`${field}-${value}`}
                     type="text"
                     defaultValue={value != null ? String(value) : ''}
-                    className={`${needsCheck ? 'border-amber-400 bg-white' : 'border-emerald-300 bg-white'}`}
+                    className={`${needsCheck ? 'border-amber-400 bg-card' : 'border-emerald-300 bg-card'}`}
                     onChange={(e) => {
                       const parsed = parseInt(e.target.value.replace(/\D/g, '') || '0', 10)
                       // Update extracted fields in result

@@ -35,8 +35,8 @@ export function FormProgress({ steps, currentStep, className }: FormProgressProp
                   className={cn(
                     'flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors',
                     isCompleted && 'border-emerald-500 bg-emerald-500 text-white',
-                    isCurrent && 'border-emerald-500 bg-white text-emerald-600',
-                    isPending && 'border-border bg-white text-muted-foreground'
+                    isCurrent && 'border-emerald-500 bg-card text-emerald-600',
+                    isPending && 'border-border bg-card text-muted-foreground'
                   )}
                 >
                   {isCompleted ? (

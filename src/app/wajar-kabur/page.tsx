@@ -5,7 +5,7 @@
 // Full implementation with World Bank PPP + Frankfurter exchange rates
 // ==============================================================================
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Plane, Lock, Info, ArrowRight, ChevronDown, ChevronLeft, Globe, TrendingUp, TrendingDown, XCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
@@ -86,14 +86,14 @@ export default function WajarKaburPage() {
   const [gatedCountryName, setGatedCountryName] = useState('')
 
   // Load countries on mount
-  useState(() => {
+  useEffect(() => {
     fetch('/api/abroad/countries')
       .then((r) => r.json())
       .then((json) => {
         if (json.success) setCountries(json.data.countries)
       })
       .catch(() => null)
-  })
+  }, [])
 
   const selectedCountryData = countries.find((c) => c.country_code === selectedCountry)
   const isSelectedGated =
@@ -156,49 +156,107 @@ export default function WajarKaburPage() {
   // === IDLE / LOADING ==========================================================
 
   if (pageState === 'IDLE' || pageState === 'LOADING') {
+    const isLoading = pageState === 'LOADING'
+    const countriesLoaded = countries.length > 0
+
     return (
       <div data-tool="wajar-kabur" className="min-h-screen bg-indigo-50">
         <div className="mx-auto max-w-2xl px-4 py-12">
           <div className="mb-8 text-center">
             <div className="mb-4"><Plane className="h-12 w-12 text-emerald-600 mx-auto" /></div>
-            <Skeleton shimmer className="mx-auto h-8 w-40 mb-2" />
-            <Skeleton shimmer className="mx-auto h-4 w-72" />
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Wajar Kabur</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Bandingkan daya beli gaji IDR kamu vs gaji di luar negeri — berbasis data PPP Bank Dunia.
+            </p>
           </div>
 
           <Card>
             <CardContent className="p-6">
-              <div className="space-y-5">
-                {/* Salary Input */}
-                <div>
-                  <Skeleton shimmer className="h-4 w-36 mb-2" />
-                  <Skeleton shimmer className="h-10 w-full" />
+              {!countriesLoaded ? (
+                <div className="space-y-5">
+                  <div><Skeleton shimmer className="h-4 w-36 mb-2" /><Skeleton shimmer className="h-10 w-full" /></div>
+                  <div><Skeleton shimmer className="h-4 w-56 mb-2" /><Skeleton shimmer className="h-10 w-full" /></div>
+                  <div><Skeleton shimmer className="h-4 w-24 mb-2" /><Skeleton shimmer className="h-10 w-full" /></div>
+                  <Skeleton shimmer className="h-10 w-full rounded-lg" />
                 </div>
+              ) : (
+                <div className="space-y-5">
+                  {/* Gaji saat ini */}
+                  <div>
+                    <Label htmlFor="kabur-salary">Gaji Kamu Saat Ini (IDR/bulan)</Label>
+                    <Input
+                      id="kabur-salary"
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="8.500.000"
+                      value={salaryInput}
+                      onChange={(e) => setSalaryInput(e.target.value)}
+                      className="mt-1.5"
+                    />
+                  </div>
 
-                {/* Optional Offer */}
-                <div>
-                  <Skeleton shimmer className="h-4 w-56 mb-2" />
-                  <Skeleton shimmer className="h-10 w-full" />
+                  {/* Tawaran gaji (opsional) */}
+                  <div>
+                    <Label htmlFor="kabur-offer">Tawaran Gaji di Luar Negeri (opsional)</Label>
+                    <Input
+                      id="kabur-offer"
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="Kosongkan jika belum ada tawaran"
+                      value={offerInput}
+                      onChange={(e) => setOfferInput(e.target.value)}
+                      className="mt-1.5"
+                    />
+                    <p className="mt-1 text-xs text-muted-foreground">Masukkan dalam mata uang lokal negara tujuan</p>
+                  </div>
+
+                  {/* Negara tujuan */}
+                  <div>
+                    <Label htmlFor="kabur-country">Negara Tujuan</Label>
+                    <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                      <SelectTrigger id="kabur-country" className="mt-1.5">
+                        <SelectValue placeholder="Pilih negara..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {countries.map((c) => (
+                          <SelectItem key={c.country_code} value={c.country_code}>
+                            {c.flag_emoji} {c.country_name} ({c.currency_code})
+                            {!c.is_free_tier && ' 🔒'}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {isSelectedGated && (
+                      <p className="mt-1 text-xs text-amber-600">Negara ini memerlukan paket Basic+</p>
+                    )}
+                  </div>
+
+                  {errorMessage && (
+                    <p className="text-sm text-red-600">{errorMessage}</p>
+                  )}
+
+                  <Button
+                    onClick={handleCompare}
+                    disabled={isLoading}
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 h-11"
+                  >
+                    {isLoading ? 'Menghitung daya beli...' : 'Bandingkan Daya Beli'}
+                    {!isLoading && <ArrowRight className="ml-2 h-4 w-4" />}
+                  </Button>
                 </div>
-
-                {/* Country Selector */}
-                <div>
-                  <Skeleton shimmer className="h-4 w-24 mb-2" />
-                  <Skeleton shimmer className="h-10 w-full" />
-                </div>
-
-                {/* Submit Button */}
-                <Skeleton shimmer className="h-10 w-full rounded-lg" />
-              </div>
+              )}
             </CardContent>
           </Card>
 
-          {/* Info Skeleton */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+          <div className="mt-6 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 p-4">
             <div className="flex items-start gap-3">
-              <Skeleton shimmer className="h-5 w-5 rounded" />
-              <div className="flex-1 space-y-2">
-                <Skeleton shimmer className="h-4 w-32" />
-                <Skeleton shimmer className="h-3 w-full" />
+              <Info className="h-5 w-5 shrink-0 text-blue-600 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-foreground">Cara kerja</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  Kami menggunakan data PPP (Purchasing Power Parity) Bank Dunia dan nilai tukar real-time
+                  untuk menghitung daya beli gajimu di negara tujuan.
+                </p>
               </div>
             </div>
           </div>

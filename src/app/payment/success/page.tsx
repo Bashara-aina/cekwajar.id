@@ -91,7 +91,7 @@ function PaymentContent() {
             </p>
           </div>
 
-          <div className="w-full space-y-2 rounded-lg bg-white/80 p-4 text-left text-sm text-muted-foreground">
+          <div className="w-full space-y-2 rounded-lg bg-card/80 p-4 text-left text-sm text-muted-foreground">
             <p className="font-semibold text-foreground">Yang bisa kamu akses sekarang:</p>
             <ul className="space-y-1.5">
               {tier === 'pro' ? (

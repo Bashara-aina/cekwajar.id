@@ -50,7 +50,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="px-4 py-12 lg:py-16 bg-white">
+    <section className="px-4 py-12 lg:py-16 bg-card">
       <div className="mx-auto max-w-3xl">
         <h2 className="text-center text-xl font-bold text-foreground sm:text-2xl">
           Cara Kerja

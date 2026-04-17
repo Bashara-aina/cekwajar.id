@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { getWorldBankPPP } from '@/lib/external/worldbank'
+import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 import { getExchangeRate } from '@/lib/external/exchangerates'
 
 export const runtime = 'nodejs'
@@ -72,6 +73,12 @@ function calculatePPPComparison(
 // --- Handler ------------------------------------------------------------------
 
 export async function GET(request: NextRequest) {
+  const ip = request.headers.get('x-forwarded-for') ?? 'unknown'
+  const { allowed } = checkRateLimit(`abroad:${ip}`, RATE_LIMITS.calculation)
+  if (!allowed) {
+    return NextResponse.json({ error: { code: 'RATE_LIMIT', message: 'Terlalu banyak permintaan. Coba lagi dalam 1 jam.' } }, { status: 429 })
+  }
+
   const searchParams = request.nextUrl.searchParams
 
   const parsed = QuerySchema.safeParse({

@@ -58,7 +58,7 @@ export function MobileCitySheet({
         type="button"
         onClick={() => setSheetOpen(true)}
         className={cn(
-          'flex h-10 w-full items-center justify-between rounded-lg border bg-white px-3 py-2 text-sm',
+          'flex h-10 w-full items-center justify-between rounded-lg border bg-card px-3 py-2 text-sm',
           'transition-colors hover:border-border focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1',
           'text-left',
           !selectedCity && 'text-muted-foreground'
@@ -88,7 +88,7 @@ export function MobileCitySheet({
           />
 
           {/* Sheet */}
-          <div className="relative bg-white rounded-t-2xl max-h-[80vh] overflow-hidden flex flex-col">
+          <div className="relative bg-card rounded-t-2xl max-h-[80vh] overflow-hidden flex flex-col">
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-2">
               <div className="w-10 h-1 rounded-full bg-muted" />
@@ -109,7 +109,7 @@ export function MobileCitySheet({
             {/* City list */}
             <div className="flex-1 overflow-y-auto">
               {/* Search */}
-              <div className="sticky top-0 bg-white border-b border-border px-4 py-2">
+              <div className="sticky top-0 bg-card border-b border-border px-4 py-2">
                 <div className="flex items-center gap-2 border rounded-lg px-3 py-2 bg-muted">
                   <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
                   <input

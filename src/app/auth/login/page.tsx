@@ -97,7 +97,7 @@ function LoginForm() {
             <div className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-muted-foreground">atau</span>
+            <span className="bg-background px-2 text-muted-foreground">atau</span>
           </div>
         </div>
 

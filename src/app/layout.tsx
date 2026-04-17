@@ -35,11 +35,19 @@ export const metadata: Metadata = {
     '5 alat gratis untuk karyawan Indonesia. Audit PPh21 & BPJS, benchmark gaji, dan cek harga properti.',
   keywords: ['gaji', 'slip gaji', 'pph21', 'bpjs', 'Indonesia', 'audit', 'benchmark'],
   openGraph: {
-    title: 'cekwajar.id',
+    title: 'cekwajar.id — Audit Slip Gaji, Benchmark Gaji & Harga Properti',
     description: 'Audit slip gaji, benchmark gaji & harga properti — gratis.',
+    url: 'https://cekwajar.id',
+    siteName: 'cekwajar.id',
     locale: 'id_ID',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'cekwajar.id',
+    description: 'Audit slip gaji, benchmark gaji & harga properti — gratis.',
+  },
+  metadataBase: new URL('https://cekwajar.id'),
 }
 
 export default function RootLayout({
