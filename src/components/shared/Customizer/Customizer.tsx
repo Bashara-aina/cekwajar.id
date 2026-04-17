@@ -34,8 +34,8 @@ function AccentColorPicker() {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-        <Palette className="h-4 w-4 text-slate-400" />
+      <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+        <Palette className="h-4 w-4 text-muted-foreground" />
         Accent Color
       </div>
       <div className="flex gap-2">
@@ -49,7 +49,7 @@ function AccentColorPicker() {
               'hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
               opt.className,
               settings.accentColor === opt.value
-                ? 'ring-2 ring-offset-2 ring-slate-400 scale-110'
+                ? 'ring-2 ring-offset-2 ring-muted-foreground scale-110'
                 : 'opacity-60 hover:opacity-100'
             )}
             aria-label={`Set accent to ${opt.label}`}
@@ -76,8 +76,8 @@ function RadiusPicker() {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-        <Circle className="h-4 w-4 text-slate-400" />
+      <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+        <Circle className="h-4 w-4 text-muted-foreground" />
         Border Radius
       </div>
       <div className="flex gap-2">
@@ -87,12 +87,12 @@ function RadiusPicker() {
             onClick={() => setBorderRadius(opt.value)}
             title={opt.label}
             className={cn(
-              'flex h-10 w-10 items-center justify-center border-2 border-slate-200 bg-white text-xs font-medium transition-all duration-150',
-              'hover:border-slate-300 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500',
+              'flex h-10 w-10 items-center justify-center border-2 border-border bg-white text-xs font-medium transition-all duration-150',
+              'hover:border-border hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500',
               opt.className,
               settings.borderRadius === opt.value
                 ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm'
-                : 'text-slate-500'
+                : 'text-muted-foreground'
             )}
             aria-label={`Set radius to ${opt.label}`}
           >
@@ -108,13 +108,13 @@ function RadiusPicker() {
 
 function PreviewCard({ className }: { className?: string }) {
   return (
-    <div className={cn('rounded-xl border border-slate-200 bg-white p-4 shadow-sm', className)}>
+    <div className={cn('rounded-xl border border-border bg-white p-4 shadow-sm', className)}>
       <div className="space-y-2">
-        <div className="h-3 w-1/3 rounded bg-slate-200" />
-        <div className="h-8 rounded-lg bg-slate-100" />
+        <div className="h-3 w-1/3 rounded bg-muted" />
+        <div className="h-8 rounded-lg bg-muted/80" />
         <div className="flex gap-2">
           <div className="h-6 w-16 rounded-full bg-emerald-100" />
-          <div className="h-6 w-16 rounded-full bg-slate-100" />
+          <div className="h-6 w-16 rounded-full bg-muted" />
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@ export function Customizer() {
             <SheetTitle className="text-lg font-bold">Customize Theme</SheetTitle>
             <SheetDescription className="sr-only" />
           </div>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted-foreground">
             Personalize your dashboard experience
           </p>
         </SheetHeader>
@@ -153,7 +153,7 @@ export function Customizer() {
         <div className="flex flex-col gap-8">
           {/* Live preview */}
           <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Preview
             </p>
             <PreviewCard />
@@ -166,13 +166,13 @@ export function Customizer() {
           <RadiusPicker />
 
           {/* Current config summary */}
-          <div className="rounded-lg border border-dashed border-slate-200 p-3">
-            <p className="text-xs text-slate-400">
-              <span className="font-medium text-slate-600">
+          <div className="rounded-lg border border-dashed border-border p-3">
+            <p className="text-xs text-muted-foreground">
+              <span className="font-medium text-foreground">
                 {settings.accentColor.charAt(0).toUpperCase() + settings.accentColor.slice(1)}
               </span>{' '}
               ·{' '}
-              <span className="font-medium text-slate-600">
+              <span className="font-medium text-foreground">
                 {settings.borderRadius}
               </span>
             </p>

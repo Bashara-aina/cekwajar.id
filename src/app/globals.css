@@ -143,6 +143,40 @@
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
+
+  /* ─── Per-Tool Page Tint Colors ─── */
+  --color-tool-slip-tint: #fffbeb;
+  --color-tool-slip-accent: #f59e0b;
+  --color-tool-gaji-tint: #eff6ff;
+  --color-tool-gaji-accent: #3b82f6;
+  --color-tool-tanah-tint: #fafaf9;
+  --color-tool-tanah-accent: #78716c;
+  --color-tool-kabur-tint: #eef2ff;
+  --color-tool-kabur-accent: #6366f1;
+  --color-tool-hidup-tint: #f0fdfa;
+  --color-tool-hidup-accent: #14b8a6;
+}
+
+/* Tool theme variables for CSS-only theming */
+[data-tool="wajar-slip"] {
+  --tool-accent: 245 158 11;
+  --tool-tint: 255 251 235;
+}
+[data-tool="wajar-gaji"] {
+  --tool-accent: 59 130 246;
+  --tool-tint: 239 246 255;
+}
+[data-tool="wajar-tanah"] {
+  --tool-accent: 120 113 108;
+  --tool-tint: 250 250 249;
+}
+[data-tool="wajar-kabur"] {
+  --tool-accent: 99 102 241;
+  --tool-tint: 238 242 255;
+}
+[data-tool="wajar-hidup"] {
+  --tool-accent: 20 184 166;
+  --tool-tint: 240 253 250;
 }
 
 body {

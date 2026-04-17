@@ -94,17 +94,17 @@ export function IDRInput({
         onBlur={handleBlur}
         placeholder={placeholder}
         className={cn(
-          'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 pr-7 text-sm font-medium text-slate-900',
+          'w-full rounded-lg border border-border bg-background px-3 py-2 pr-7 text-sm font-medium text-foreground',
           'transition-all duration-150',
           'focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20',
-          'hover:border-slate-300',
-          'placeholder:text-slate-400 placeholder:font-normal',
+          'hover:border-emerald-400',
+          'placeholder:text-muted-foreground placeholder:font-normal',
           className
         )}
         {...props}
       />
       {/* IDR currency indicator */}
-      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400">
+      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-muted-foreground">
         IDR
       </span>
     </div>

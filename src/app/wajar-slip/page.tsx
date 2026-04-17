@@ -18,7 +18,13 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { PremiumGate } from '@/components/shared/PremiumGate'
+import { ViolationSummaryBanner } from '@/components/shared/ViolationSummaryBanner'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
+import { FormProgress } from '@/components/shared/FormProgress'
+import { CityCommandSelect } from '@/components/shared/CityCommandSelect'
+import { FieldTooltip, SLIP_TOOLTIPS } from '@/components/shared/FieldTooltip'
 import { Skeleton } from '@/components/ui/skeleton'
+import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
 import { ViolationItem } from '@/components/wajar-slip/ViolationItem'
 import { UMKBadge } from '@/components/wajar-slip/UMKBadge'
 import { PayslipUploader } from '@/components/wajar-slip/PayslipUploader'
@@ -317,12 +323,12 @@ export default function WajarSlipPage() {
   // ─── IDLE state — show OCR uploader ────────────────────────────────────
   if (state.status === 'IDLE') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-slip" className="min-h-screen bg-amber-50">
         <div className="mx-auto max-w-2xl px-4 py-10 space-y-5">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-slate-900">Cek Slip Gaji — Gratis</h1>
-            <p className="mt-1 text-sm text-slate-500">
+            <h1 className="text-2xl font-bold text-foreground">Cek Slip Gaji — Gratis</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
               Pastikan PPh21 dan BPJS sudah dipotong dengan benar. Hanya butuh 30 detik.
             </p>
           </div>
@@ -337,7 +343,7 @@ export default function WajarSlipPage() {
           />
 
           {/* Manual mode link */}
-          <p className="text-center text-xs text-slate-400">
+          <p className="text-center text-xs text-muted-foreground">
             Atau{' '}
             <button
               onClick={handleManualMode}
@@ -359,8 +365,33 @@ export default function WajarSlipPage() {
     const monthLabel = MONTHS.find((m) => m.value === data.monthNumber)?.label ?? ''
 
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div
+        data-tool="wajar-slip"
+        className="min-h-screen bg-amber-50"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-label="Hasil audit slip gaji"
+      >
         <div className="mx-auto max-w-2xl px-4 py-8">
+
+          {/* Step indicator */}
+          <div className="mb-6">
+            <FormProgress
+              steps={[
+                { label: 'Upload', description: 'Unggah slip gaji' },
+                { label: 'Konfirmasi', description: 'Pastikan datanya benar' },
+                { label: 'Hasil', description: 'Pelanggaran & detail' },
+              ]}
+              currentStep={2}
+            />
+          </div>
+
+          {/* Violation summary */}
+          <ViolationSummaryBanner
+            verdict={data.verdict}
+            violationCount={data.violationCount}
+            className="mb-4"
+          />
 
           {/* Verdict header */}
           <Card className={`mb-6 ${data.verdict === 'SESUAI' ? 'border-emerald-300 bg-emerald-50' : 'border-red-300 bg-red-50'}`}>
@@ -376,7 +407,7 @@ export default function WajarSlipPage() {
                     ? 'Slip Gaji Sesuai Regulasi'
                     : 'Ada Pelanggaran pada Slip Gaji'}
                 </h2>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1 text-sm text-muted-foreground">
                   {data.verdict === 'SESUAI'
                     ? `Tidak ada pelanggaran ditemukan. Gaji bruto Rp ${data.grossSalary.toLocaleString('id-ID')}/bulan, ${monthLabel} ${data.year}.`
                     : `Ditemukan ${data.violationCount} pelanggaran pada slip gaji kamu.`}
@@ -447,6 +478,7 @@ export default function WajarSlipPage() {
               userTier={userTier}
               requiredTier="basic"
               featureLabel="Detail selisih IDR dan panduan tindakan"
+              benefit="Lihat rincian PPh21, BPJS, JHT per komponen"
             >
               <Card className="mb-6">
                 <CardHeader>
@@ -455,14 +487,14 @@ export default function WajarSlipPage() {
                 <CardContent className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b text-slate-500">
+                      <tr className="border-b text-muted-foreground">
                         <th className="text-left py-2 pr-4">Komponen</th>
                         <th className="text-right py-2 px-2">Di Slip</th>
                         <th className="text-right py-2 px-2">Seharusnya</th>
                         <th className="text-right py-2 pl-2">Selisih</th>
                       </tr>
                     </thead>
-                    <tbody className="text-slate-700">
+                    <tbody className="text-foreground">
                       {[
                         {
                           label: 'PPh21',
@@ -487,9 +519,9 @@ export default function WajarSlipPage() {
                       ].map((row) => {
                         const diff = row.correct - row.slip
                         return (
-                          <tr key={row.label} className="border-b border-slate-100">
-                            <td className="py-2 pr-4 font-medium">{row.label}</td>
-                            <td className="py-2 px-2 text-right text-slate-500">
+                          <tr key={row.label} className="border-b border-border">
+                            <td className="py-2 pr-4 font-medium text-foreground">{row.label}</td>
+                            <td className="py-2 px-2 text-right text-muted-foreground">
                               Rp {row.slip.toLocaleString('id-ID')}
                             </td>
                             <td className="py-2 px-2 text-right">
@@ -521,16 +553,16 @@ export default function WajarSlipPage() {
           )}
 
           {/* Caveats */}
-          <p className="mb-6 text-xs text-slate-400">
+          <p className="mb-6 text-xs text-muted-foreground">
             Kalkulasi berdasarkan PMK 168/2023 (TER) dan peraturan BPJS yang berlaku.
             Alat ini tidak menggantikan konsultasi dengan konsultan pajak.
           </p>
 
           {/* Actions */}
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             <button
               onClick={() => dispatch({ type: 'RESET' })}
-              className="flex-1 rounded-lg border border-slate-200 bg-white py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
+              className="flex-1 rounded-lg border border-border bg-white py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors"
             >
               Cek Slip Lain
             </button>
@@ -540,7 +572,15 @@ export default function WajarSlipPage() {
             >
               Hitung Ulang
             </button>
+            <ShareVerdictButton
+              verdict={data.verdict}
+              violationCount={data.violationCount}
+              city={data.city}
+              grossSalary={data.grossSalary}
+            />
           </div>
+
+          <CrossToolSuggestion fromTool="wajar-slip" className="mt-6" />
         </div>
       </div>
     )
@@ -549,7 +589,7 @@ export default function WajarSlipPage() {
   // ─── ERROR state ────────────────────────────────────────────────────────────
   if (state.status === 'ERROR') {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div data-tool="wajar-slip" className="min-h-screen bg-amber-50 flex items-center justify-center">
         <Card className="mx-4 max-w-md border-red-200 bg-red-50">
           <CardContent className="flex flex-col items-center gap-3 p-8 text-center">
             <AlertCircle className="h-10 w-10 text-red-500" />
@@ -569,20 +609,34 @@ export default function WajarSlipPage() {
     )
   }
 
-  // ─── MANUAL FORM (and OCR fields pre-filled) ───────────────────────────────
+  // ─── MANUAL FORM (and OCR fields pre-filled) ────────────────────────────────
+  const isManualForm = state.status === 'MANUAL_FORM' || state.status === 'CALCULATING' || state.status === 'OCR_CONFIRM'
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div data-tool="wajar-slip" className="min-h-screen bg-amber-50">
       <div className="mx-auto max-w-xl px-4 py-8">
+        {/* Step indicator */}
+        <div className="mb-6">
+          <FormProgress
+            steps={[
+              { label: 'Upload', description: 'Unggah slip gaji' },
+              { label: 'Konfirmasi', description: 'Pastikan datanya benar' },
+              { label: 'Hasil', description: 'Pelanggaran & detail' },
+            ]}
+            currentStep={isManualForm ? 1 : 0}
+          />
+        </div>
+
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-slate-900">Cek Slip Gaji</h1>
-            <p className="text-sm text-slate-500">
+            <h1 className="text-xl font-bold text-foreground">Cek Slip Gaji</h1>
+            <p className="text-sm text-muted-foreground">
               {ocrSource !== 'manual' ? `Hasil OCR: ${ocrSource}` : 'Input data manual'}
             </p>
           </div>
           <button
             onClick={() => dispatch({ type: 'RESET' })}
-            className="flex items-center gap-1 text-sm text-slate-400 hover:text-slate-600"
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
           >
             <X className="h-4 w-4" />
             Batal
@@ -598,7 +652,10 @@ export default function WajarSlipPage() {
 
           {/* Gross Salary */}
           <div>
-            <Label htmlFor="grossSalary">Gaji Bruto /bulan *</Label>
+            <div className="flex items-center justify-between mb-1">
+              <Label htmlFor="grossSalary">Gaji Bruto /bulan *</Label>
+              <FieldTooltip content={SLIP_TOOLTIPS.grossSalary.content} example={SLIP_TOOLTIPS.grossSalary.example} />
+            </div>
             <Input
               id="grossSalary"
               placeholder="7.500.000"
@@ -613,7 +670,10 @@ export default function WajarSlipPage() {
           {/* PTKP + Kota row */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label>Status PTKP *</Label>
+              <div className="flex items-center justify-between mb-1">
+                <Label>Status PTKP *</Label>
+                <FieldTooltip content={SLIP_TOOLTIPS.ptkpStatus.content} example={SLIP_TOOLTIPS.ptkpStatus.example} />
+              </div>
               <Select
                 onValueChange={(v) => form.setValue('ptkpStatus', v as FormValues['ptkpStatus'])}
                 defaultValue={form.getValues('ptkpStatus')}
@@ -635,23 +695,17 @@ export default function WajarSlipPage() {
             </div>
 
             <div>
-              <Label>Kota *</Label>
-              <Select onValueChange={(v) => form.setValue('city', v)} defaultValue={form.getValues('city')}>
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Pilih kota..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {cities.length === 0 ? (
-                    <SelectItem value="loading" disabled>Memuat kota...</SelectItem>
-                  ) : (
-                    cities.map((c) => (
-                      <SelectItem key={`${c.city}-${c.province}`} value={c.city}>
-                        {c.city} ({c.province})
-                      </SelectItem>
-                    ))
-                  )}
-                </SelectContent>
-              </Select>
+              <div className="flex items-center justify-between mb-1">
+                <Label>Kota *</Label>
+                <FieldTooltip content={SLIP_TOOLTIPS.city.content} example={SLIP_TOOLTIPS.city.example} />
+              </div>
+              <CityCommandSelect
+                value={form.watch('city')}
+                onChange={(city) => form.setValue('city', city)}
+                cities={cities}
+                className="mt-1"
+                placeholder="Pilih kota..."
+              />
               {form.formState.errors.city && (
                 <p className="mt-1 text-xs text-red-500">{form.formState.errors.city.message}</p>
               )}
@@ -686,41 +740,51 @@ export default function WajarSlipPage() {
                 {...form.register('year', { valueAsNumber: true })}
               />
             </div>
-            <div>
-              <Label>Punya NPWP?</Label>
-              <div className="mt-1 flex items-center gap-3">
-                <label className="flex items-center gap-2 text-sm">
+            <fieldset className="border-0 p-0 m-0">
+              <legend className="text-sm font-medium text-foreground mb-2 flex items-center gap-1">
+                Punya NPWP?
+              </legend>
+              <FieldTooltip content={SLIP_TOOLTIPS.hasNPWP.content} className="inline-flex ml-1" />
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer text-sm">
                   <input
                     type="radio"
                     checked={form.watch('hasNPWP') === true}
                     onChange={() => form.setValue('hasNPWP', true)}
                     className="accent-emerald-600"
+                    aria-describedby="npwp-hint"
                   />
-                  Ya
+                  Ya, punya NPWP
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 cursor-pointer text-sm">
                   <input
                     type="radio"
                     checked={form.watch('hasNPWP') === false}
                     onChange={() => form.setValue('hasNPWP', false)}
                     className="accent-emerald-600"
                   />
-                  Tidak
+                  Tidak punya
                 </label>
               </div>
-            </div>
+              <p id="npwp-hint" className="text-xs text-muted-foreground mt-1">
+                Tanpa NPWP, tarif PPh21 lebih tinggi 20%.
+              </p>
+            </fieldset>
           </div>
 
           <Separator />
 
           {/* Reported deductions */}
           <div>
-            <p className="text-sm font-medium text-slate-700">Isian dari Slip Gaji</p>
-            <p className="text-xs text-slate-400 mb-3">Masukkan angka yang ada di slip gaji kamu</p>
+            <p className="text-sm font-medium text-foreground">Isian dari Slip Gaji</p>
+            <p className="text-xs text-muted-foreground mb-3">Masukkan angka yang ada di slip gaji kamu</p>
 
             <div className="space-y-3">
               <div>
-                <Label htmlFor="reportedPph21">PPh21 Dipotong</Label>
+                <div className="flex items-center justify-between mb-1">
+                  <Label htmlFor="reportedPph21">PPh21 Dipotong</Label>
+                  <FieldTooltip content={SLIP_TOOLTIPS.reportedPph21.content} example={SLIP_TOOLTIPS.reportedPph21.example} />
+                </div>
                 <Input
                   id="reportedPph21"
                   placeholder="112.500"
@@ -731,7 +795,10 @@ export default function WajarSlipPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="reportedJht">JHT Karyawan</Label>
+                  <div className="flex items-center justify-between mb-1">
+                    <Label htmlFor="reportedJht">JHT Karyawan</Label>
+                    <FieldTooltip content={SLIP_TOOLTIPS.reportedJht.content} example={SLIP_TOOLTIPS.reportedJht.example} />
+                  </div>
                   <Input
                     id="reportedJht"
                     placeholder="150.000"
@@ -740,7 +807,10 @@ export default function WajarSlipPage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="reportedJp">JP Karyawan</Label>
+                  <div className="flex items-center justify-between mb-1">
+                    <Label htmlFor="reportedJp">JP Karyawan</Label>
+                    <FieldTooltip content={SLIP_TOOLTIPS.reportedJp.content} example={SLIP_TOOLTIPS.reportedJp.example} />
+                  </div>
                   <Input
                     id="reportedJp"
                     placeholder="75.000"
@@ -751,7 +821,10 @@ export default function WajarSlipPage() {
               </div>
 
               <div>
-                <Label htmlFor="reportedKesehatan">BPJS Kesehatan Karyawan</Label>
+                <div className="flex items-center justify-between mb-1">
+                  <Label htmlFor="reportedKesehatan">BPJS Kesehatan Karyawan</Label>
+                  <FieldTooltip content={SLIP_TOOLTIPS.reportedKesehatan.content} example={SLIP_TOOLTIPS.reportedKesehatan.example} />
+                </div>
                 <Input
                   id="reportedKesehatan"
                   placeholder="75.000"
@@ -761,7 +834,10 @@ export default function WajarSlipPage() {
               </div>
 
               <div>
-                <Label htmlFor="takeHome">Take Home Pay</Label>
+                <div className="flex items-center justify-between mb-1">
+                  <Label htmlFor="takeHome">Take Home Pay</Label>
+                  <FieldTooltip content={SLIP_TOOLTIPS.takeHome.content} example={SLIP_TOOLTIPS.takeHome.example} />
+                </div>
                 <Input
                   id="takeHome"
                   placeholder="7.000.000"
@@ -781,7 +857,7 @@ export default function WajarSlipPage() {
             {state.status === 'CALCULATING' ? (
               <>
                 <Skeleton shimmer className="mr-2 h-4 w-4 inline-block rounded-full" />
-                Menghitung... <Zap className="inline h-4 w-4 text-amber-500 ml-1" />
+                Memvalidasi slip gaji kamu... <Zap className="inline h-4 w-4 text-amber-500 ml-1" />
               </>
             ) : (
               'Cek Slip Gaji →'
@@ -790,7 +866,7 @@ export default function WajarSlipPage() {
         </form>
 
         {/* Disclaimer */}
-        <p className="mt-4 text-center text-xs text-slate-400">
+        <p className="mt-4 text-center text-xs text-muted-foreground">
           Kalkulasi berdasarkan PMK 168/2023 (TER). Hasil bukan pengganti konsultasi pajak resmi.
         </p>
       </div>

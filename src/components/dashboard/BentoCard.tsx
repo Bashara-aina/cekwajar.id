@@ -35,7 +35,7 @@ export function BentoCard({
     return (
       <div
         className={cn(
-          'relative flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all',
+          'relative flex flex-col rounded-2xl border border-border bg-background p-6 shadow-sm transition-all',
           borderClass,
           featured && 'ring-2 ring-emerald-400/50',
           className
@@ -47,13 +47,13 @@ export function BentoCard({
               <div className="text-emerald-600">{icon}</div>
             </div>
             <div>
-              <h3 className="font-semibold text-slate-900 dark:text-slate-50">
+              <h3 className="font-semibold text-foreground dark:text-muted">
                 {title}
               </h3>
             </div>
           </div>
         </div>
-        <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">{description}</p>
+        <p className="mt-4 text-sm text-muted-foreground dark:text-muted">{description}</p>
         {featured && (
           <div className="mt-auto pt-4">
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700">
@@ -71,7 +71,7 @@ export function BentoCard({
       whileTap={{ scale: 0.99 }}
       transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        'relative flex h-full min-h-[140px] flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300',
+        'relative flex h-full min-h-[140px] flex-col rounded-2xl border border-border bg-background p-6 shadow-sm transition-all duration-300',
         borderClass,
         featured && 'ring-2 ring-emerald-400/50',
         className
@@ -83,14 +83,14 @@ export function BentoCard({
             <div className="text-emerald-600">{icon}</div>
           </div>
           <div>
-            <h3 className="font-semibold text-slate-900 dark:text-slate-50">
+            <h3 className="font-semibold text-foreground dark:text-muted">
               {title}
             </h3>
           </div>
         </div>
       </div>
 
-      <p className="mt-4 flex-1 text-sm text-slate-600 dark:text-slate-400">{description}</p>
+      <p className="mt-4 flex-1 text-sm text-muted-foreground dark:text-muted">{description}</p>
 
       {featured && (
         <div className="mt-auto pt-4">

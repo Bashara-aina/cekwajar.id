@@ -18,7 +18,7 @@ function Skeleton({
   return (
     <div
       className={cn(
-        'rounded-md bg-slate-200',
+        'rounded-md bg-muted',
         shimmer && 'bg-shimmer',
         className
       )}
@@ -61,7 +61,7 @@ function SkeletonCard({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'rounded-xl border border-slate-200 bg-white p-6 space-y-4 shadow-sm',
+        'rounded-xl border border-border bg-white p-6 space-y-4 shadow-sm',
         className
       )}
     >

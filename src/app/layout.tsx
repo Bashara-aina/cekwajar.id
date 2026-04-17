@@ -4,6 +4,7 @@ import './globals.css'
 import { GlobalNav } from '@/components/layout/GlobalNav'
 import { Footer } from '@/components/layout/Footer'
 import { CookieConsent } from '@/components/layout/CookieConsent'
+import { MobileBottomNav } from '@/components/shared/MobileBottomNav'
 import { validateEnvVars } from '@/lib/config/validate'
 import { SettingsProvider } from '@/contexts/settings-context'
 import { ClientProviders } from '@/components/ClientProviders'
@@ -43,10 +44,18 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${jakartaSans.variable} ${geistMono.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
+        {/* Skip to content — accessibility requirement */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-emerald-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium"
+        >
+          Langsung ke konten utama
+        </a>
         <SettingsProvider>
           <ClientProviders>
             <GlobalNav />
-            <main className="flex-1">{children}</main>
+            <main id="main-content" className="flex-1">{children}</main>
+            <MobileBottomNav />
             <Footer />
             <CookieConsent />
           </ClientProviders>

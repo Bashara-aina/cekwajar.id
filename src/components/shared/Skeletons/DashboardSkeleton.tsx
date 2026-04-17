@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 function StatCardSkeleton() {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
       {/* Card header */}
       <div className="flex items-center justify-between">
         <Skeleton shimmer className="h-4 w-28 rounded" />
@@ -28,7 +28,7 @@ function StatCardSkeleton() {
 
 function ChartSkeleton() {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
       {/* Chart header */}
       <div className="mb-6 flex items-center justify-between">
         <div className="space-y-1.5">
@@ -38,7 +38,7 @@ function ChartSkeleton() {
         <Skeleton shimmer className="h-8 w-20 rounded-md" />
       </div>
       {/* Chart body — area placeholder */}
-      <div className="relative h-48 overflow-hidden rounded-lg bg-slate-50">
+      <div className="relative h-48 overflow-hidden rounded-lg bg-muted">
         {/* Fake chart bars */}
         <div className="absolute inset-x-4 bottom-0 flex items-end justify-between gap-2">
           {[65, 45, 80, 55, 90, 70, 85, 60, 75, 50, 88, 72].map((h, i) => (
@@ -52,15 +52,15 @@ function ChartSkeleton() {
 
 function TableSkeleton() {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="rounded-xl border border-border bg-white shadow-sm">
       {/* Table header */}
-      <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+      <div className="flex items-center justify-between border-b border-border px-6 py-4">
         <Skeleton shimmer className="h-5 w-32 rounded" />
         <Skeleton shimmer className="h-8 w-24 rounded-md" />
       </div>
       {/* Table rows */}
       {[...Array(5)].map((_, i) => (
-        <div key={i} className="flex items-center gap-4 border-b border-slate-50 px-6 py-4 last:border-0">
+        <div key={i} className="flex items-center gap-4 border-b border-border px-6 py-4 last:border-0">
           {/* Avatar + name */}
           <div className="flex items-center gap-3 flex-1">
             <Skeleton shimmer className="h-9 w-9 rounded-full" />

@@ -81,7 +81,7 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
       style={{ animationDelay: `${index * 80}ms`, animationFillMode: 'both' } as React.CSSProperties}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-slate-500">
+        <CardTitle className="text-sm font-medium text-muted-foreground">
           {stat.title}
         </CardTitle>
       </CardHeader>
@@ -93,10 +93,10 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
               prefix={stat.prefix}
               suffix={stat.suffix}
               decimals={stat.decimals ?? 0}
-              className="text-3xl font-bold tracking-tight text-slate-900"
+              className="text-3xl font-bold tracking-tight text-foreground"
             />
             {stat.trendLabel && (
-              <p className="mt-1 text-xs text-slate-400">{stat.trendLabel}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{stat.trendLabel}</p>
             )}
           </div>
           <TrendBadge trend={stat.trend} />

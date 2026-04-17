@@ -17,9 +17,7 @@ import {
   MapPin,
   Globe,
   BarChart3,
-  Clock,
   Sparkles,
-  Zap,
   Shield,
   ChevronRight,
 } from 'lucide-react'
@@ -28,16 +26,17 @@ import { PaymentToast } from '@/components/shared/PaymentToast'
 import { ToastProvider } from '@/components/ui/toast'
 import { StaggerContainer, StaggerItem } from '@/components/transitions'
 import { BentoCard } from '@/components/dashboard/BentoCard'
+import { DashboardStats } from '@/components/dashboard/DashboardStats'
 import { cn } from '@/lib/utils'
 
 const TIER_FEATURES = {
   free: {
     name: 'Paket Gratis',
-    color: 'text-slate-700 dark:text-slate-300',
-    border: 'border-slate-200 dark:border-slate-700',
-    bg: 'bg-slate-50 dark:bg-slate-900/50',
+    color: 'text-foreground dark:text-muted-foreground',
+    border: 'border-border dark:border-muted-foreground',
+    bg: 'bg-muted dark:bg-muted/50',
     badge: 'free',
-    accentBg: 'bg-slate-500 dark:bg-slate-600',
+    accentBg: 'bg-muted-foreground/80 dark:bg-muted-foreground',
     features: [
       { label: '3 audit slip gaji/hari', included: true },
       { label: 'Benchmark provinsi', included: true },
@@ -156,15 +155,15 @@ export default async function DashboardPage() {
   return (
     <ToastProvider>
       <PaymentToast />
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <div data-tool="dashboard" className="min-h-screen bg-background">
         <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
           {/* Welcome header */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+              <h1 className="text-2xl font-bold text-foreground">
                 Halo, {displayName}!
               </h1>
-              <p className="text-slate-500 dark:text-slate-400">
+              <p className="text-muted-foreground">
                 Berikut ringkasan akun cekwajar.id kamu.
               </p>
             </div>
@@ -215,7 +214,7 @@ export default async function DashboardPage() {
                             'flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium',
                             f.included
                               ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
-                              : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
+                              : 'bg-muted text-muted-foreground'
                           )}
                         >
                           {f.included ? (
@@ -257,63 +256,7 @@ export default async function DashboardPage() {
 
             {/* Quick stats row */}
             <StaggerItem className="col-span-1 sm:col-span-2 lg:col-span-4">
-              <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                <Card className="bg-slate-100 dark:bg-slate-900 border-slate-200 dark:border-slate-700">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-lg bg-slate-200 p-2 dark:bg-slate-700">
-                        <Zap className="h-4 w-4 text-slate-600 dark:text-slate-300" />
-                      </div>
-                      <div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">Audit Hari Ini</p>
-                        <p className="text-lg font-bold text-slate-900 dark:text-slate-50">0 / 3</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-800">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-lg bg-emerald-200 p-2 dark:bg-emerald-800">
-                        <Calculator className="h-4 w-4 text-emerald-700 dark:text-emerald-300" />
-                      </div>
-                      <div>
-                        <p className="text-xs text-emerald-600 dark:text-emerald-400">Total Audit</p>
-                        <p className="text-lg font-bold text-emerald-900 dark:text-emerald-100">0</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-lg bg-blue-200 p-2 dark:bg-blue-800">
-                        <TrendingUp className="h-4 w-4 text-blue-700 dark:text-blue-300" />
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600 dark:text-blue-400">Gaji Ditemukan</p>
-                        <p className="text-lg font-bold text-blue-900 dark:text-blue-100">0</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-purple-50 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-lg bg-purple-200 p-2 dark:bg-purple-800">
-                        <Clock className="h-4 w-4 text-purple-700 dark:text-purple-300" />
-                      </div>
-                      <div>
-                        <p className="text-xs text-purple-600 dark:text-purple-400">Minggu Ini</p>
-                        <p className="text-lg font-bold text-purple-900 dark:text-purple-100">0</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+              <DashboardStats userId={user.id} />
             </StaggerItem>
 
             {/* Recent audits — full width card */}
@@ -338,13 +281,13 @@ export default async function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-col items-center justify-center py-6 text-center">
-                    <div className="rounded-full bg-slate-100 p-4 dark:bg-slate-800 mb-3">
-                      <Calculator className="h-8 w-8 text-slate-300 dark:text-slate-600" />
+                    <div className="rounded-full bg-muted p-4 mb-3">
+                      <Calculator className="h-8 w-8 text-muted-foreground" />
                     </div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <p className="text-sm text-muted-foreground">
                       Belum ada audit slip gaji.
                     </p>
-                    <p className="text-xs text-slate-400 dark:text-slate-500 mb-4">
+                    <p className="text-xs text-muted-foreground mb-4">
                       Mulai analisis pertama kamu sekarang.
                     </p>
                     <Button asChild size="sm" className="bg-emerald-600 hover:bg-emerald-700">

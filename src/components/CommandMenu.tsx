@@ -103,12 +103,12 @@ export function CommandMenu() {
         {/* Desktop trigger */}
         <button
           onClick={() => setOpen(true)}
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+          className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground border border-border rounded-lg hover:bg-muted transition-colors cursor-pointer"
           aria-label="Open command menu"
         >
           <Search className="h-4 w-4" />
           <span className="text-xs">Search...</span>
-          <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-slate-200 bg-slate-100 px-1.5 font-mono text-[10px] font-medium text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
+          <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
             ⌘K
           </kbd>
         </button>
@@ -151,38 +151,38 @@ export function CommandMenu() {
             onClick={(e) => e.stopPropagation()}
           >
             <Command
-              className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-950"
+              className="overflow-hidden rounded-xl border border-border bg-white shadow-2xl dark:border-border dark:bg-background"
               loop
             >
               {/* Search header */}
-              <div className="flex items-center border-b border-slate-100 px-3 dark:border-slate-800">
-                <Search className="mr-2 h-4 w-4 shrink-0 text-slate-400 dark:text-slate-500" />
+              <div className="border-b border-border px-3 py-2 dark:border-border">
+                <Search className="mr-2 h-4 w-4 shrink-0 text-muted-foreground dark:text-muted-foreground" />
                 <Command.Input
                   ref={inputRef}
                   value={search}
                   onValueChange={setSearch}
                   placeholder="Ketik perintah atau navigasi..."
-                  className="flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground dark:placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
                   autoFocus
                 />
                 <button
                   onClick={() => { setOpen(false); setSearch('') }}
-                  className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer"
+                  className="p-1 hover:bg-muted dark:hover:bg-muted rounded cursor-pointer"
                   aria-label="Close"
                 >
-                  <X className="h-4 w-4 text-slate-400" />
+                  <X className="h-4 w-4 text-muted-foreground" />
                 </button>
               </div>
 
               <Command.List className="max-h-[320px] overflow-y-auto overflow-x-hidden p-2 scrollbar-hide">
-                <Command.Empty className="py-6 text-center text-sm text-slate-500 dark:text-slate-400">
+                <Command.Empty className="py-6 text-center text-sm text-muted-foreground dark:text-muted-foreground">
                   Tidak ada hasil.
                 </Command.Empty>
 
                 {/* Navigation group */}
                 <Command.Group
                   heading="Navigasi"
-                  className="px-2 py-2 text-xs font-medium text-slate-400 dark:text-slate-500"
+                  className="px-2 py-2 text-xs font-medium text-muted-foreground dark:text-muted-foreground"
                 >
                   {NAV_ITEMS.map((item) => {
                     const Icon = item.icon
@@ -191,14 +191,14 @@ export function CommandMenu() {
                         key={item.path}
                         value={`${item.name} ${item.description}`}
                         onSelect={() => handleNavigate(item.path)}
-                        className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2.5 text-sm text-slate-600 outline-none transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-50 data-[selected=true]:bg-slate-100 dark:data-[selected=true]:bg-slate-800"
+                        className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2.5 text-sm text-foreground outline-none transition-colors hover:bg-muted hover:text-foreground dark:text-foreground dark:hover:bg-muted data-[selected=true]:bg-muted dark:data-[selected=true]:bg-muted"
                       >
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800">
-                          <Icon className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted dark:bg-muted">
+                          <Icon className="h-4 w-4 text-muted-foreground dark:text-muted-foreground" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium">{item.name}</p>
-                          <p className="text-xs text-slate-400 dark:text-slate-500 line-clamp-1">
+                          <p className="text-xs text-muted-foreground dark:text-muted-foreground line-clamp-1">
                             {item.description}
                           </p>
                         </div>
@@ -210,16 +210,16 @@ export function CommandMenu() {
                 {/* Theme group */}
                 <Command.Group
                   heading="Tema"
-                  className="px-2 py-2 text-xs font-medium text-slate-400 dark:text-slate-500"
+                  className="px-2 py-2 text-xs font-medium text-muted-foreground dark:text-muted-foreground"
                 >
                   {THEME_ITEMS.map((item) => (
                     <Command.Item
                       key={item.value}
                       value={`theme ${item.label}`}
                       onSelect={() => handleThemeChange(item.value)}
-                      className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2.5 text-sm text-slate-600 outline-none transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-50 data-[selected=true]:bg-slate-100 dark:data-[selected=true]:bg-slate-800"
+                      className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2.5 text-sm text-foreground outline-none transition-colors hover:bg-muted hover:text-foreground dark:text-foreground dark:hover:bg-muted data-[selected=true]:bg-muted dark:data-[selected=true]:bg-muted"
                     >
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted dark:bg-muted">
                         {item.icon}
                       </div>
                       <span className="capitalize">{item.label}</span>
@@ -229,18 +229,18 @@ export function CommandMenu() {
               </Command.List>
 
               {/* Footer hint */}
-              <div className="border-t border-slate-100 px-3 py-2 dark:border-slate-800">
-                <div className="flex items-center gap-4 text-xs text-slate-400 dark:text-slate-500">
+              <div className="border-t border-border px-3 py-2 dark:border-border">
+                <div className="flex items-center gap-4 text-xs text-muted-foreground dark:text-muted-foreground">
                   <span className="flex items-center gap-1">
-                    <kbd className="rounded border border-slate-200 bg-slate-100 px-1 py-0.5 font-mono dark:border-slate-700 dark:bg-slate-800">↑↓</kbd>
+                    <kbd className="rounded border border-border bg-muted px-1 py-0.5 font-mono dark:border-border dark:bg-muted">↑↓</kbd>
                     navigasi
                   </span>
                   <span className="flex items-center gap-1">
-                    <kbd className="rounded border border-slate-200 bg-slate-100 px-1 py-0.5 font-mono dark:border-slate-700 dark:bg-slate-800">↵</kbd>
+                    <kbd className="rounded border border-border bg-muted px-1 py-0.5 font-mono dark:border-border dark:bg-muted">↵</kbd>
                     pilih
                   </span>
                   <span className="flex items-center gap-1">
-                    <kbd className="rounded border border-slate-200 bg-slate-100 px-1 py-0.5 font-mono dark:border-slate-700 dark:bg-slate-800">esc</kbd>
+                    <kbd className="rounded border border-border bg-muted px-1 py-0.5 font-mono dark:border-border dark:bg-muted">esc</kbd>
                     tutup
                   </span>
                 </div>

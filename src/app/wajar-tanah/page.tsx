@@ -9,7 +9,7 @@ import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Home, Trees, Building, Store, AlertCircle,
-  ChevronDown, Info, Lock, MapPin, XCircle
+  ChevronDown, ChevronLeft, Info, Lock, MapPin, XCircle
 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -26,6 +26,7 @@ import {
 import { VerdictBadge } from '@/components/wajar-tanah/VerdictBadge'
 import { PropertyPriceBar } from '@/components/wajar-tanah/PropertyPriceBar'
 import { PropertyVerdict } from '@/app/api/property/benchmark/route'
+import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
 
 // --- Provinces & Cities --------------------------------------------------------
 
@@ -241,7 +242,7 @@ export default function WajarTanahPage() {
 
   if (state === 'IDLE' || state === 'LOADING') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-tanah" className="min-h-screen bg-stone-50">
         <div className="mx-auto max-w-2xl px-4 py-12">
           <div className="mb-8 text-center">
             <div className="mb-4"><Home className="h-12 w-12 text-emerald-600 mx-auto" /></div>
@@ -317,12 +318,12 @@ export default function WajarTanahPage() {
 
   if (state === 'NO_DATA') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-tanah" className="min-h-screen bg-stone-50">
         <div className="mx-auto max-w-2xl px-4 py-12 text-center">
           <div className="mb-4"><MapPin className="h-12 w-12 text-emerald-600 mx-auto" /></div>
-          <h2 className="text-xl font-bold text-slate-900">Belum Ada Data</h2>
-          <p className="mt-2 text-slate-500">{benchmarkData?.message}</p>
-          <p className="mt-1 text-sm text-slate-400">{benchmarkData?.suggestion}</p>
+          <h2 className="text-xl font-bold text-foreground">Belum Ada Data</h2>
+          <p className="mt-2 text-muted-foreground">{benchmarkData?.message}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{benchmarkData?.suggestion}</p>
           <Button
             onClick={() => {
               setSelectedDistrict('')
@@ -334,8 +335,8 @@ export default function WajarTanahPage() {
             Coba Lagi
           </Button>
           <div className="mt-6">
-            <Link href="/" className="text-sm text-slate-500 hover:text-emerald-600">
-              ← Kembali ke Homepage
+            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
           </div>
         </div>
@@ -347,7 +348,7 @@ export default function WajarTanahPage() {
 
   if (state === 'ERROR') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-tanah" className="min-h-screen bg-stone-50">
         <div className="mx-auto max-w-2xl px-4 py-12 text-center">
           <div className="mb-4"><XCircle className="h-12 w-12 text-red-500 mx-auto" /></div>
           <h2 className="text-xl font-bold text-red-900">Terjadi Kesalahan</h2>
@@ -372,7 +373,7 @@ export default function WajarTanahPage() {
     const { verdict, percentileEstimate, message, askingPricePerSqm, benchmark, disclaimer } = benchmarkData
 
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-tanah" className="min-h-screen bg-stone-50">
         <div className="mx-auto max-w-2xl px-4 py-8">
           {/* Back button */}
           <button
@@ -380,9 +381,10 @@ export default function WajarTanahPage() {
               setState('IDLE')
               setBenchmarkData(null)
             }}
-            className="flex items-center text-sm text-slate-500 hover:text-emerald-600 mb-4"
+            className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
           >
-            ← Cek Lagi
+            <ChevronLeft className="h-4 w-4" />
+            Cek lagi
           </button>
 
           <Card className="mb-6">
@@ -392,48 +394,48 @@ export default function WajarTanahPage() {
 
               {/* Price Comparison */}
               <div className="mt-6 grid grid-cols-2 gap-4">
-                <div className="text-center p-4 bg-slate-50 rounded-lg">
-                  <div className="text-xs text-slate-500">Harga kamu</div>
-                  <div className="text-lg font-bold text-slate-700">
+                <div className="text-center p-4 bg-muted rounded-lg">
+                  <div className="text-xs text-muted-foreground">Harga kamu</div>
+                  <div className="text-lg font-bold text-foreground">
                     {askingPricePerSqm ? formatIDR(askingPricePerSqm) : '-'}
-                    <span className="text-xs font-normal text-slate-400">/m²</span>
+                    <span className="text-xs font-normal text-muted-foreground">/m²</span>
                   </div>
                 </div>
                 <div className="text-center p-4 bg-emerald-50 rounded-lg">
-                  <div className="text-xs text-slate-500">Median Pasar</div>
+                  <div className="text-xs text-muted-foreground">Median Pasar</div>
                   <div className="text-lg font-bold text-emerald-700">
                     {benchmark?.p50 ? formatIDR(benchmark.p50) : '-'}
-                    <span className="text-xs font-normal text-slate-400">/m²</span>
+                    <span className="text-xs font-normal text-muted-foreground">/m²</span>
                   </div>
                 </div>
               </div>
 
               {/* Position */}
               <div className="mt-4 text-center">
-                <div className="text-sm text-slate-500">Posisi estimasi</div>
-                <div className="text-2xl font-bold text-slate-700">
+                <div className="text-sm text-muted-foreground">Posisi estimasi</div>
+                <div className="text-2xl font-bold text-foreground">
                   P{percentileEstimate ?? '?'}
                 </div>
-                <div className="text-xs text-slate-400 mt-1">
+                <div className="text-xs text-muted-foreground mt-1">
                   {benchmark?.sampleCount ? `Berdasarkan ${benchmark.sampleCount} listing` : ''}
                   {benchmark?.freshness ? ` · ${benchmark.freshness} lalu` : ''}
                 </div>
               </div>
 
               {/* Verdict Message */}
-              <div className="mt-4 p-3 bg-slate-50 rounded-lg text-sm text-slate-600">
+              <div className="mt-4 p-3 bg-muted rounded-lg text-sm text-muted-foreground">
                 {message}
               </div>
 
               {/* Premium Gate: P25-P75 range */}
               {benchmark?.p25 && benchmark?.p75 ? (
                 <div className="mt-6">
-                  <div className="p-4 border border-dashed border-slate-300 rounded-lg text-center">
-                    <Lock className="h-5 w-5 text-slate-400 mx-auto mb-2" />
-                    <p className="text-sm font-medium text-slate-600">
+                  <div className="p-4 border border-dashed border-border rounded-lg text-center">
+                    <Lock className="h-5 w-5 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-sm font-medium text-muted-foreground">
                       Upgrade ke Basic+ untuk rentang harga P25-P75
                     </p>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Lihat distribusi lengkap harga di area ini
                     </p>
                     <Button size="sm" className="mt-3 bg-emerald-600 hover:bg-emerald-700">
@@ -465,10 +467,12 @@ export default function WajarTanahPage() {
 
           {/* Back to Home */}
           <div className="mt-6 text-center">
-            <Link href="/" className="text-sm text-slate-500 hover:text-emerald-600">
-              ← Kembali ke Homepage
+            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
           </div>
+
+          <CrossToolSuggestion fromTool="wajar-tanah" className="mt-6" />
         </div>
       </div>
     )

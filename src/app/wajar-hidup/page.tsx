@@ -7,12 +7,15 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Home, Info, ArrowRight, ChevronDown, Building2, MapPin, XCircle, TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { Home, Info, ArrowRight, ChevronDown, ChevronLeft, Building2, MapPin, XCircle, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
+import { PremiumGate } from '@/components/shared/PremiumGate'
+import { COLComparisonChart } from '@/components/wajar-hidup/COLComparisonChart'
 import {
   Select,
   SelectContent,
@@ -83,6 +86,7 @@ export default function WajarHidupPage() {
   const [lifestyleTier, setLifestyleTier] = useState<LifestyleTier>('STANDAR')
   const [result, setResult] = useState<CompareResponse['data'] | null>(null)
   const [errorMessage, setErrorMessage] = useState('')
+  const [userTier] = useState<'free' | 'basic' | 'pro'>('free')
 
   // Load cities on mount
   useEffect(() => {
@@ -158,7 +162,7 @@ export default function WajarHidupPage() {
 
   if (pageState === 'IDLE' || pageState === 'LOADING') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-hidup" className="min-h-screen bg-teal-50">
         <div className="mx-auto max-w-2xl px-4 py-12">
           <div className="mb-8 text-center">
             <div className="mb-4"><Building2 className="h-12 w-12 text-emerald-600 mx-auto" /></div>
@@ -222,7 +226,7 @@ export default function WajarHidupPage() {
 
   if (pageState === 'ERROR') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-hidup" className="min-h-screen bg-teal-50">
         <div className="mx-auto max-w-2xl px-4 py-12 text-center">
           <div className="mb-4"><XCircle className="h-12 w-12 text-red-500 mx-auto" /></div>
           <h2 className="text-xl font-bold text-red-900">Terjadi Kesalahan</h2>
@@ -244,13 +248,14 @@ export default function WajarHidupPage() {
       result.verdict === 'LEBIH_MAHAL' ? 'LEBIH_MAHAL' : 'SAMA'
 
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-hidup" className="min-h-screen bg-teal-50">
         <div className="mx-auto max-w-2xl px-4 py-8">
           <button
             onClick={resetState}
-            className="flex items-center text-sm text-slate-500 hover:text-emerald-600 mb-4"
+            className="flex items-center text-sm text-muted-foreground hover:text-emerald-600 mb-4"
           >
-            ← Hitung Lagi
+            <ChevronLeft className="h-4 w-4" />
+            Hitung lagi
           </button>
 
           {/* Verdict Card */}
@@ -274,7 +279,7 @@ export default function WajarHidupPage() {
                     </div>
                   )}
                 </div>
-                <div className="text-xl font-bold text-slate-800">
+                <div className="text-xl font-bold text-foreground">
                   {result.verdict === 'LEBIH_MURAH'
                     ? `Lebih Murah di ${result.toCity}!`
                     : result.verdict === 'LEBIH_MAHAL'
@@ -282,7 +287,7 @@ export default function WajarHidupPage() {
                     : 'Biaya Hidup Setara'}
                 </div>
                 {result.verdict !== 'SAMA' && (
-                  <div className="text-lg font-medium text-slate-600 mt-1">
+                  <div className="text-lg font-medium text-muted-foreground mt-1">
                     {result.verdict === 'LEBIH_MURAH'
                       ? `Dengan gaji ${formatIDR(result.requiredSalary)}, kamu hemat ${formatIDR(Math.abs(result.salaryDifference))}/bulan`
                       : `Kamu butuh ${absPct}% lebih banyak untuk gaya hidup yang sama di ${result.toCity}`}
@@ -292,31 +297,31 @@ export default function WajarHidupPage() {
 
               {/* COL Index Display */}
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="text-center p-4 bg-slate-50 rounded-lg">
-                  <div className="text-xs text-slate-500">📍 {result.fromCity}</div>
-                  <div className="text-2xl font-bold text-slate-700">
+                <div className="text-center p-4 bg-muted rounded-lg">
+                  <div className="text-xs text-muted-foreground">📍 {result.fromCity}</div>
+                  <div className="text-2xl font-bold text-foreground">
                     {result.fromCOLIndex.toFixed(1)}
                   </div>
-                  <div className="text-xs text-slate-400">COL Index</div>
+                  <div className="text-xs text-muted-foreground">COL Index</div>
                 </div>
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <div className="text-xs text-slate-500">📍 {result.toCity}</div>
+                  <div className="text-xs text-muted-foreground">📍 {result.toCity}</div>
                   <div className="text-2xl font-bold text-blue-700">
                     {result.toCOLIndex.toFixed(1)}
                   </div>
-                  <div className="text-xs text-slate-400">COL Index</div>
+                  <div className="text-xs text-muted-foreground">COL Index</div>
                 </div>
               </div>
 
               {/* Required Salary */}
               <div className="text-center p-4 bg-emerald-50 rounded-xl mb-4">
-                <div className="text-xs text-slate-500">Gaji Setara di {result.toCity}</div>
+                <div className="text-xs text-muted-foreground">Gaji Setara di {result.toCity}</div>
                 <div className="text-2xl font-bold text-emerald-700">
                   {formatIDR(result.requiredSalary)}
-                  <span className="text-sm font-normal text-slate-400">/bulan</span>
+                  <span className="text-sm font-normal text-muted-foreground">/bulan</span>
                 </div>
                 {result.salaryDifference !== 0 && (
-                  <div className="text-sm text-slate-500 mt-1">
+                  <div className="text-sm text-muted-foreground mt-1">
                     {result.salaryDifference < 0
                       ? `Hemat ${formatIDR(Math.abs(result.salaryDifference))}/bulan`
                       : `Butuh lebih ${formatIDR(result.salaryDifference)}/bulan`}
@@ -325,32 +330,52 @@ export default function WajarHidupPage() {
               </div>
 
               {/* Category Breakdown — Basic+ Gate */}
-              <div className="mt-4">
-                <div className="p-4 border border-dashed border-slate-300 rounded-lg text-center">
-                  <div className="text-sm font-medium text-slate-600">
+              {result.categoryBreakdown && result.categoryBreakdown.length > 0 ? (
+                <PremiumGate
+                  userTier={userTier}
+                  requiredTier="basic"
+                  featureLabel="Detail breakdown per kategori"
+                  benefit="Bandingkan biaya hidup per kategori"
+                >
+                  <COLComparisonChart
+                    categories={result.categoryBreakdown}
+                    fromCity={result.fromCity}
+                    toCity={result.toCity}
+                    className="mt-4"
+                  />
+                </PremiumGate>
+              ) : (
+                <div className="mt-4 p-4 border border-dashed border-border rounded-lg text-center">
+                  <div className="text-sm font-medium text-muted-foreground">
                     Detail breakdown per kategori (Basic+)
                   </div>
-                  <div className="text-xs text-slate-400 mt-1">
+                  <div className="text-xs text-muted-foreground mt-1">
                     Upgrade untuk lihat distribusi biaya di setiap kategori
                   </div>
-                  <Button size="sm" className="mt-3 bg-emerald-600 hover:bg-emerald-700">
+                  <Button
+                    size="sm"
+                    className="mt-3 bg-emerald-600 hover:bg-emerald-700"
+                    onClick={() => { window.location.href = '/upgrade' }}
+                  >
                     Upgrade Sekarang
                   </Button>
                 </div>
-              </div>
+              )}
             </CardContent>
           </Card>
 
           {/* COL Baseline Note */}
-          <div className="text-center text-xs text-slate-400 mb-4">
+          <div className="text-center text-xs text-muted-foreground mb-4">
             COL Index: Jakarta = 100 sebagai baseline
           </div>
 
           <div className="text-center">
-            <Link href="/" className="text-sm text-slate-500 hover:text-emerald-600">
-              ← Kembali ke Homepage
+            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
           </div>
+
+          <CrossToolSuggestion fromTool="wajar-hidup" className="mt-6" />
         </div>
       </div>
     )

@@ -7,7 +7,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Plane, Lock, Info, ArrowRight, ChevronDown, Globe, TrendingUp, TrendingDown } from 'lucide-react'
+import { Plane, Lock, Info, ArrowRight, ChevronDown, ChevronLeft, Globe, TrendingUp, TrendingDown, XCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -20,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
+import { PPPBasketComparison } from '@/components/wajar-kabur/PPPBasketComparison'
 
 // --- Types --------------------------------------------------------------------
 
@@ -154,7 +156,7 @@ export default function WajarKaburPage() {
 
   if (pageState === 'IDLE' || pageState === 'LOADING') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-kabur" className="min-h-screen bg-indigo-50">
         <div className="mx-auto max-w-2xl px-4 py-12">
           <div className="mb-8 text-center">
             <div className="mb-4"><Plane className="h-12 w-12 text-emerald-600 mx-auto" /></div>
@@ -208,11 +210,11 @@ export default function WajarKaburPage() {
 
   if (pageState === 'GATED') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-kabur" className="min-h-screen bg-indigo-50">
         <div className="mx-auto max-w-2xl px-4 py-12 text-center">
-          <div className="mb-4"><Lock className="h-12 w-12 text-slate-400 mx-auto" /></div>
-          <h2 className="text-xl font-bold text-slate-900">Negara Ini Untuk Basic+</h2>
-          <p className="mt-2 text-slate-500">
+          <div className="mb-4"><Lock className="h-12 w-12 text-muted-foreground mx-auto" /></div>
+          <h2 className="text-xl font-bold text-foreground">Negara Ini Untuk Basic+</h2>
+          <p className="mt-2 text-muted-foreground">
             Data PPP untuk <strong>{gatedCountryName}</strong> tersedia untuk langganan
             Basic+ ke atas.
           </p>
@@ -228,8 +230,8 @@ export default function WajarKaburPage() {
             </Link>
           </div>
           <div className="mt-4">
-            <Link href="/" className="text-sm text-slate-500 hover:text-emerald-600">
-              ← Kembali ke Homepage
+            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
           </div>
         </div>
@@ -241,7 +243,7 @@ export default function WajarKaburPage() {
 
   if (pageState === 'ERROR') {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-kabur" className="min-h-screen bg-indigo-50">
         <div className="mx-auto max-w-2xl px-4 py-12 text-center">
           <div className="mb-4"><XCircle className="h-12 w-12 text-red-500 mx-auto" /></div>
           <h2 className="text-xl font-bold text-red-900">Terjadi Kesalahan</h2>
@@ -263,13 +265,14 @@ export default function WajarKaburPage() {
       : null
 
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div data-tool="wajar-kabur" className="min-h-screen bg-indigo-50">
         <div className="mx-auto max-w-2xl px-4 py-8">
           <button
             onClick={resetState}
-            className="flex items-center text-sm text-slate-500 hover:text-emerald-600 mb-4"
+            className="flex items-center text-sm text-muted-foreground hover:text-emerald-600 mb-4"
           >
-            ← Bandingkan Lagi
+            <ChevronLeft className="h-4 w-4" />
+            Bandingkan lagi
           </button>
 
           <Card className="mb-6">
@@ -277,78 +280,27 @@ export default function WajarKaburPage() {
               {/* Country Header */}
               <div className="text-center mb-6">
                 <div className="mb-2"><Globe className="h-10 w-10 text-emerald-600 mx-auto" /></div>
-                <div className="text-xl font-bold text-slate-800">{result.countryName}</div>
-                <div className="text-sm text-slate-500">
+                <div className="text-xl font-bold text-foreground">{result.countryName}</div>
+                <div className="text-sm text-muted-foreground">
                   1 {result.currencyCode} = {formatNumber(result.exchangeRate, 2)} IDR
                 </div>
               </div>
 
-              {/* Two Column Comparison */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                {/* Indonesia */}
-                <div className="text-center p-4 bg-slate-50 rounded-lg">
-                  <div className="text-xs text-slate-500 mb-1">🇮🇩 Gaji Kamu di Indonesia</div>
-                  <div className="text-lg font-bold text-slate-700">
-                    {formatIDR(result.idSalary)}
-                  </div>
-                  <div className="text-xs text-slate-400 mt-1">
-                    = {formatNumber(result.userPowerIntlUSD, 0)} international $
-                  </div>
-                </div>
-
-                {/* Target Country */}
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <div className="text-xs text-slate-500 mb-1">{flag} Nominal Setara</div>
-                  <div className="text-lg font-bold text-blue-700">
-                    {formatNumber(result.nominalEquivalent, 0)} {result.currencyCode}
-                  </div>
-                  <div className="text-xs text-slate-400 mt-1">
-                    = {formatNumber(result.userPowerIntlUSD, 0)} international $
-                  </div>
-                </div>
-              </div>
-
-              {/* Big Ratio Banner */}
-              {result.realRatio !== null && result.offerSalary && (
-                <div
-                  className={`text-center p-4 rounded-xl mb-4 ${
-                    result.isPPPBetter
-                      ? 'bg-emerald-50 border-2 border-emerald-200'
-                      : 'bg-red-50 border-2 border-red-200'
-                  }`}
-                >
-                  {result.isPPPBetter ? (
-                    <div>
-                      <div className="mb-2 h-8 w-8 rounded-full bg-emerald-100 mx-auto flex items-center justify-center">
-                        <TrendingUp className="h-5 w-5 text-emerald-600" />
-                      </div>
-                      <div className="text-lg font-bold text-emerald-700">
-                        Penawaran {ratioDisplay}× lebih besar secara daya beli
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <div className="mb-2 h-8 w-8 rounded-full bg-red-100 mx-auto flex items-center justify-center">
-                        <TrendingDown className="h-5 w-5 text-red-600" />
-                      </div>
-                      <div className="text-lg font-bold text-red-700">
-                        Penawaran hanya {ratioDisplay}× daya beli
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {!result.offerSalary && (
-                <div className="text-center p-3 bg-slate-50 rounded-lg text-sm text-slate-500 mb-4">
-                  Masukkan tawaran gaji untuk melihat perbandingan penuh
-                </div>
-              )}
-
-              {/* PPP Source */}
-              <div className="text-center text-xs text-slate-400 mb-2">
-                PPP sumber: World Bank {result.pppYear}
-              </div>
+              {/* PPP Basket Comparison */}
+              <PPPBasketComparison
+                countryName={result.countryName}
+                currencyCode={result.currencyCode}
+                exchangeRate={result.exchangeRate}
+                idSalary={result.idSalary}
+                nominalEquivalent={result.nominalEquivalent}
+                userPowerIntlUSD={result.userPowerIntlUSD}
+                offerSalary={result.offerSalary}
+                offerPowerIntlUSD={result.offerPowerIntlUSD}
+                realRatio={result.realRatio}
+                isPPPBetter={result.isPPPBetter}
+                pppYear={result.pppYear}
+                className="mb-4"
+              />
 
               {/* Disclaimer */}
               <div className="p-3 bg-amber-50 rounded-lg">
@@ -358,10 +310,12 @@ export default function WajarKaburPage() {
           </Card>
 
           <div className="text-center">
-            <Link href="/" className="text-sm text-slate-500 hover:text-emerald-600">
-              ← Kembali ke Homepage
+            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
           </div>
+
+          <CrossToolSuggestion fromTool="wajar-kabur" className="mt-6" />
         </div>
       </div>
     )
