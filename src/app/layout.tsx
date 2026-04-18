@@ -3,7 +3,6 @@ import { Plus_Jakarta_Sans, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { GlobalNav } from '@/components/layout/GlobalNav'
 import { Footer } from '@/components/layout/Footer'
-import { CookieConsent } from '@/components/layout/CookieConsent'
 import { validateEnvVars } from '@/lib/config/validate'
 import { SettingsProvider } from '@/contexts/settings-context'
 import { ClientProviders } from '@/components/ClientProviders'
@@ -61,7 +60,6 @@ export default function RootLayout({
             <GlobalNav />
             <main id="main-content" className="flex-1">{children}</main>
             <Footer />
-            <CookieConsent />
           </ClientProviders>
         </SettingsProvider>
       </body>

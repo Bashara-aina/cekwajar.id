@@ -1,6 +1,7 @@
 // @ts-nocheck
 'use client'
 import React, { useState, useEffect } from 'react'
+import { WordmarkLogo } from '@/components/WordmarkLogo'
 
 
 // GlobalNav + Footer — exported to window
@@ -37,21 +38,10 @@ function GlobalNav({ currentPage, onNavigate, darkMode, onToggleDark }) {
       }}>
         {/* Logo */}
         <button onClick={() => onNavigate('home')} style={{
-          display: 'flex', alignItems: 'center', gap: 8,
+          display: 'flex', alignItems: 'center',
           background: 'none', border: 'none', cursor: 'pointer', padding: 0,
         }}>
-          <span style={{
-            width: 28, height: 28, borderRadius: 8,
-            background: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 2L3 6h2v6h6V6h2L8 2z" fill="white" opacity="0.9"/>
-              <rect x="2" y="12" width="12" height="1.5" rx="0.75" fill="white" opacity="0.7"/>
-            </svg>
-          </span>
-          <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--foreground)', letterSpacing: '-0.02em' }}>
-            cekwajar<span style={{ color: '#10b981' }}>.id</span>
-          </span>
+          <WordmarkLogo size="md" />
         </button>
 
         {/* Desktop tool links */}
@@ -153,14 +143,14 @@ function SiteFooter({ onNavigate }) {
     }}>
       <div style={{ maxWidth: 1024, margin: '0 auto' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, justifyContent: 'space-between', marginBottom: 24 }}>
-          <div>
-            <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--foreground)', marginBottom: 6 }}>
-              cekwajar<span style={{ color: '#10b981' }}>.id</span>
+            <div>
+              <div style={{ marginBottom: 8 }}>
+                <WordmarkLogo size="sm" />
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--muted-foreground)', maxWidth: 240, lineHeight: 1.6 }}>
+                Transparansi keuangan untuk semua orang Indonesia.
+              </div>
             </div>
-            <div style={{ fontSize: 12, color: 'var(--muted-foreground)', maxWidth: 240, lineHeight: 1.6 }}>
-              Transparansi keuangan untuk semua orang Indonesia.
-            </div>
-          </div>
           <div style={{ display: 'flex', gap: 48 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--muted-foreground)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>Alat</div>
