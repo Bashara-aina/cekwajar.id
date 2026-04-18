@@ -214,6 +214,17 @@ a, button, [role="button"] {
   }
 }
 
+/* Source UI responsive nav helpers */
+@media (max-width: 768px) {
+  .desktop-nav { display: none !important; }
+  .hide-mobile { display: none !important; }
+  .show-mobile { display: flex !important; }
+}
+
+@media (min-width: 769px) {
+  .show-mobile { display: none !important; }
+}
+
 /* ─── Safe Area Padding (spec 06) ─── */
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom, 0);
