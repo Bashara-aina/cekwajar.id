@@ -4,10 +4,22 @@
 // ══════════════════════════════════════════════════════════════════════════════
 
 import { Upload, FileText, BarChart3, Calculator, CheckCircle } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
-const steps = [
+interface HowItWorksStep {
+  icon: LucideIcon
+  title: string
+  description: string
+  color?: string
+  iconColor?: string
+}
+
+interface HowItWorksProps {
+  steps?: HowItWorksStep[]
+}
+
+const defaultSteps = [
   {
-    number: 1,
     icon: Upload,
     title: 'Upload slip gaji',
     description: 'Upload slip gaji kamu dalam format foto atau PDF',
@@ -15,7 +27,6 @@ const steps = [
     iconColor: 'text-amber-600',
   },
   {
-    number: 2,
     icon: FileText,
     title: 'AI menganalisis',
     description: 'AI mendeteksi 7 jenis pelanggaran umum dalam 30 detik',
@@ -23,7 +34,6 @@ const steps = [
     iconColor: 'text-blue-600',
   },
   {
-    number: 3,
     icon: BarChart3,
     title: 'Verdict ditampilkan',
     description: 'Lihat detail pelanggaran dengan jumlah kerugian kamu',
@@ -31,7 +41,6 @@ const steps = [
     iconColor: 'text-purple-600',
   },
   {
-    number: 4,
     icon: Calculator,
     title: 'Hitung wajar',
     description: 'Dapatkan perbandingan dengan standar UMR dan benchmark',
@@ -39,7 +48,6 @@ const steps = [
     iconColor: 'text-emerald-600',
   },
   {
-    number: 5,
     icon: CheckCircle,
     title: 'Langkah selanjutnya',
     description: 'Dapatkan panduan praktis untuk mengklaim hak kamu',
@@ -48,7 +56,7 @@ const steps = [
   },
 ]
 
-export function HowItWorks() {
+export function HowItWorks({ steps = defaultSteps }: HowItWorksProps) {
   return (
     <section className="px-4 py-12 lg:py-16 bg-white">
       <div className="mx-auto max-w-3xl">
@@ -68,17 +76,19 @@ export function HowItWorks() {
               <div className="h-0.5 bg-gradient-to-r from-amber-200 via-blue-200 via-purple-200 via-emerald-200 to-teal-200 w-full max-w-xl" />
             </div>
 
-            {steps.map((step) => {
+            {steps.map((step, index) => {
               const Icon = step.icon
+              const color = step.color ?? 'bg-emerald-100 text-emerald-700'
+              const iconColor = step.iconColor ?? 'text-emerald-600'
               return (
-                <div key={step.number} className="relative z-10 flex flex-col items-center" style={{ width: `${100 / steps.length}%` }}>
+                <div key={`${step.title}-${index}`} className="relative z-10 flex flex-col items-center" style={{ width: `${100 / steps.length}%` }}>
                   {/* Icon circle */}
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-full ${step.color} shadow-sm`}>
-                    <Icon className={`h-5 w-5 ${step.iconColor}`} />
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-full ${color} shadow-sm`}>
+                    <Icon className={`h-5 w-5 ${iconColor}`} />
                   </div>
                   {/* Step number */}
                   <span className="mt-2 text-xs font-semibold text-muted-foreground">
-                    Langkah {step.number}
+                    Langkah {index + 1}
                   </span>
                   {/* Title */}
                   <span className="mt-1 text-center text-sm font-semibold text-foreground leading-tight">
@@ -98,12 +108,14 @@ export function HowItWorks() {
         <div className="mt-8 md:hidden space-y-4">
           {steps.map((step, index) => {
             const Icon = step.icon
+            const color = step.color ?? 'bg-emerald-100 text-emerald-700'
+            const iconColor = step.iconColor ?? 'text-emerald-600'
             return (
-              <div key={step.number} className="flex gap-4">
+              <div key={`${step.title}-${index}`} className="flex gap-4">
                 {/* Number column */}
                 <div className="flex flex-col items-center">
-                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${step.color}`}>
-                    <Icon className={`h-4 w-4 ${step.iconColor}`} />
+                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${color}`}>
+                    <Icon className={`h-4 w-4 ${iconColor}`} />
                   </div>
                   {index < steps.length - 1 && (
                     <div className="w-px flex-1 bg-muted my-1" />
@@ -112,7 +124,7 @@ export function HowItWorks() {
                 {/* Content */}
                 <div className="pb-4">
                   <div className="text-xs font-semibold text-muted-foreground">
-                    Langkah {step.number}
+                    Langkah {index + 1}
                   </div>
                   <div className="text-sm font-semibold text-foreground mt-0.5">
                     {step.title}
