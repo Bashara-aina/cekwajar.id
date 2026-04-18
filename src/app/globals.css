@@ -207,4 +207,61 @@ a, button, [role="button"] {
     min-height: 52px;
     font-size: 16px;
   }
+
+  button[type="submit"],
+  button[type="button"] {
+    min-height: 52px;
+  }
+}
+
+/* ─── Safe Area Padding (spec 06) ─── */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* ─── Bottom Nav Spacer (spec 11) ─── */
+/* Covers both main element pages and div.min-h-screen tool pages */
+@media (max-width: 767px) {
+  main,
+  [data-tool],
+  .min-h-screen {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 4px)) !important;
+  }
+
+  /* Additional safety for explicit pb-nav usage */
+  .pb-nav {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 4px)) !important;
+  }
+}
+
+/* ─── Tap Highlight Disable (spec 06) ─── */
+a, button, [role="button"], [role="tab"], [role="option"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tap-highlight-transparent {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Smooth Scrolling ─── */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Mobile Active State Feedback (spec 06) ─── */
+@media (hover: none) and (pointer: coarse) {
+  /* Mobile: show press state */
+  button:active,
+  a:active,
+  [role="button"]:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+  }
+
+  /* Card press state */
+  .card-interactive:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
 }

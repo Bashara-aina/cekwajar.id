@@ -9,11 +9,10 @@ import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Home, Trees, Building, Store, AlertCircle,
-  ChevronDown, ChevronLeft, Info, Lock, MapPin, XCircle
+  ChevronDown, ChevronLeft, Info, Lock, MapPin, XCircle, TrendingUp, Trash2, FileCheck, ShieldCheck
 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -26,8 +25,13 @@ import {
 import { VerdictBadge } from '@/components/wajar-tanah/VerdictBadge'
 import { PropertyPriceBar } from '@/components/wajar-tanah/PropertyPriceBar'
 import { PropertyVerdict } from '@/app/api/property/benchmark/route'
+import { COPY } from '@/lib/copy'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
-import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
+import { HowItWorks } from '@/components/HowItWorks'
+import { TrustBadges } from '@/components/shared/TrustBadges'
+import { PageHeader } from '@/components/shared/PageHeader/PageHeader'
+import { ResultSkeleton } from '@/components/ResultSkeleton'
+import { DisclaimerBanner } from '@/components/shared/DisclaimerBanner'
 
 // --- Provinces & Cities --------------------------------------------------------
 
@@ -221,7 +225,7 @@ export default function WajarTanahPage() {
 
       if (!json.success) {
         setState('ERROR')
-        setErrorMessage(json.data?.message ?? 'Terjadi kesalahan')
+        setErrorMessage(json.data?.message ?? COPY.error.genericError)
         return
       }
 
@@ -235,81 +239,206 @@ export default function WajarTanahPage() {
       setBenchmarkData(json.data)
     } catch {
       setState('ERROR')
-      setErrorMessage('Tidak dapat terhubung ke server')
+      setErrorMessage(COPY.error.networkError)
     }
   }
 
-  // --- Render IDLE / FORM ---
-
-  if (state === 'IDLE' || state === 'LOADING') {
+  // --- Render LOADING ---
+  if (state === 'LOADING') {
     return (
       <div data-tool="wajar-tanah" className="min-h-screen bg-stone-50">
         <div className="mx-auto max-w-2xl px-4 py-12">
-          <div className="mb-8 text-center">
-            <div className="mb-4"><Home className="h-12 w-12 text-emerald-600 mx-auto" /></div>
-            <Skeleton shimmer className="mx-auto h-8 w-48 mb-2" />
-            <Skeleton shimmer className="mx-auto h-4 w-64" />
-          </div>
+          <PageHeader
+            icon={<Home className="h-5 w-5" />}
+            title="Wajar Tanah"
+            description="Bandingkan harga properti dengan benchmark pasar lokal."
+            className="text-center"
+          />
+          <Card>
+            <CardContent className="p-6">
+              <ResultSkeleton />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+
+  // --- Render IDLE / FORM ---
+  if (state === 'IDLE') {
+    return (
+      <div data-tool="wajar-tanah" className="min-h-screen bg-stone-50">
+        <div className="mx-auto max-w-2xl px-4 py-12">
+          <PageHeader
+            icon={<Home className="h-5 w-5" />}
+            title="Wajar Tanah"
+            description="Bandingkan harga properti dengan benchmark pasar lokal."
+            className="text-center"
+          />
+
+          <HowItWorks
+            steps={[
+              {
+                icon: MapPin,
+                title: 'Pilih lokasi & tipe',
+                description: 'Provinsi, kota, kecamatan, dan tipe properti',
+              },
+              {
+                icon: TrendingUp,
+                title: 'AI analisis harga pasar',
+                description: 'IQR dari data listing 99.co dan Rumah123',
+              },
+              {
+                icon: Building,
+                title: 'Dapat verdict harga',
+                description: 'MURAH / WAJAR / MAHAL / SANGAT MAHAL berdasarkan data lokal',
+              },
+            ]}
+          />
+
+          <TrustBadges
+            variant="grid"
+            className="mb-6"
+            badges={[
+              { icon: Lock, label: 'Enkripsi TLS 1.3', sublabel: 'Data aman saat transfer' },
+              { icon: Trash2, label: 'Hapus Otomatis', sublabel: '30 hari setelah audit' },
+              { icon: FileCheck, label: 'Data dari Listing Publik', sublabel: '99.co & Rumah123' },
+              { icon: ShieldCheck, label: 'IQR Statistical Method', sublabel: 'Outlier otomatis dibuang' },
+            ]}
+          />
+          <DisclaimerBanner type="property" />
 
           <Card>
             <CardContent className="p-6">
               <div className="space-y-5">
-                {/* Province */}
                 <div>
-                  <Skeleton shimmer className="h-4 w-20 mb-2" />
-                  <Skeleton shimmer className="h-10 w-full" />
+                  <Label htmlFor="province">Provinsi</Label>
+                  <Select value={selectedProvince} onValueChange={handleProvinceChange}>
+                    <SelectTrigger id="province" className="mt-1.5">
+                      <SelectValue placeholder="Pilih provinsi" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {INDONESIA_PROVINCES.map((province) => (
+                        <SelectItem key={province} value={province}>
+                          {province}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                {/* City */}
                 <div>
-                  <Skeleton shimmer className="h-4 w-16 mb-2" />
-                  <Skeleton shimmer className="h-10 w-full" />
+                  <Label htmlFor="city">Kota/Kabupaten</Label>
+                  <Select value={selectedCity} onValueChange={handleCityChange} disabled={!selectedProvince}>
+                    <SelectTrigger id="city" className="mt-1.5">
+                      <SelectValue placeholder="Pilih kota/kabupaten" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cities.map((city) => (
+                        <SelectItem key={city} value={city}>
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                {/* District */}
                 <div>
-                  <Skeleton shimmer className="h-4 w-24 mb-2" />
-                  <Skeleton shimmer className="h-10 w-full" />
+                  <Label htmlFor="district">Kecamatan</Label>
+                  <Select value={selectedDistrict} onValueChange={handleDistrictChange} disabled={!selectedCity}>
+                    <SelectTrigger id="district" className="mt-1.5">
+                      <SelectValue placeholder="Pilih kecamatan" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {districts.map((district) => (
+                        <SelectItem key={district} value={district}>
+                          {district}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                {/* Property Type */}
                 <div>
-                  <Skeleton shimmer className="h-4 w-28 mb-2" />
-                  <div className="grid grid-cols-4 gap-2 mt-2">
-                    {[1, 2, 3, 4].map((i) => (
-                      <Skeleton key={i} shimmer className="h-10 rounded-lg" />
-                    ))}
+                  <Label>Tipe Properti</Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                    {PROPERTY_TYPES.map((property) => {
+                      const Icon = property.icon
+                      const isActive = selectedPropertyType === property.value
+                      return (
+                        <button
+                          key={property.value}
+                          type="button"
+                          onClick={() => setSelectedPropertyType(property.value)}
+                          className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                            isActive
+                              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                              : 'border-border bg-white text-foreground hover:border-emerald-300'
+                          }`}
+                        >
+                          <span className="inline-flex items-center gap-1">
+                            <Icon className="h-4 w-4" />
+                            {property.label}
+                          </span>
+                        </button>
+                      )
+                    })}
                   </div>
                 </div>
 
-                {/* Land Area & Price */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <Skeleton shimmer className="h-4 w-20 mb-2" />
-                    <Skeleton shimmer className="h-10 w-full" />
+                    <Label htmlFor="landArea">Luas Tanah (m²)</Label>
+                    <Input
+                      id="landArea"
+                      type="number"
+                      min="1"
+                      value={landAreaInput}
+                      onChange={(e) => setLandAreaInput(e.target.value)}
+                      placeholder="Contoh: 120"
+                      className="mt-1.5"
+                    />
                   </div>
                   <div>
-                    <Skeleton shimmer className="h-4 w-16 mb-2" />
-                    <Skeleton shimmer className="h-10 w-full" />
+                    <Label htmlFor="totalPrice">Harga Total</Label>
+                    <Input
+                      id="totalPrice"
+                      type="text"
+                      value={priceInput}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/\D/g, '')
+                        setPriceInput(raw ? parseInt(raw, 10).toLocaleString('id-ID') : '')
+                      }}
+                      placeholder="Contoh: 850.000.000"
+                      className="mt-1.5"
+                    />
                   </div>
                 </div>
 
-                {/* Submit Button */}
-                <Skeleton shimmer className="h-10 w-full rounded-lg" />
+                {pricePerSqm && (
+                  <div className="rounded-lg bg-muted p-3 text-sm">
+                    <span className="text-muted-foreground">Harga per m²:</span>{' '}
+                    <span className="font-semibold text-foreground">{formatIDR(pricePerSqm)}</span>
+                  </div>
+                )}
+
+                {errorMessage && (
+                  <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
+                    <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                    {errorMessage}
+                  </div>
+                )}
+
+                <Button
+                  onClick={handleCheckPrice}
+                  className="w-full bg-emerald-600 hover:bg-emerald-700"
+                  disabled={!selectedProvince || !selectedCity || !selectedDistrict || !landAreaInput || !priceInput}
+                >
+                  Cek Wajar Harga Properti
+                </Button>
               </div>
             </CardContent>
           </Card>
-
-          {/* Info Skeleton */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <div className="flex items-start gap-3">
-              <Skeleton shimmer className="h-5 w-5 rounded" />
-              <div className="flex-1 space-y-2">
-                <Skeleton shimmer className="h-4 w-32" />
-                <Skeleton shimmer className="h-3 w-full" />
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     )
@@ -382,7 +511,7 @@ export default function WajarTanahPage() {
               setState('IDLE')
               setBenchmarkData(null)
             }}
-            className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
           >
             <ChevronLeft className="h-4 w-4" />
             Cek lagi
@@ -448,10 +577,12 @@ export default function WajarTanahPage() {
                 benchmark?.p50 && (
                   <div className="mt-6">
                     <PropertyPriceBar
-                      userPricePerSqm={askingPricePerSqm ?? 0}
-                      p25={benchmark.p25 ?? benchmark.p50 * 0.85}
-                      p50={benchmark.p50}
-                      p75={benchmark.p75 ?? benchmark.p50 * 1.2}
+                      userPrice={askingPricePerSqm ?? 0}
+                      fairPrice={benchmark.p50}
+                      lowerBound={benchmark.p25 ?? benchmark.p50 * 0.85}
+                      upperBound={benchmark.p75 ?? benchmark.p50 * 1.2}
+                      city={selectedCity}
+                      propertyType={selectedPropertyType}
                     />
                   </div>
                 )
@@ -466,14 +597,11 @@ export default function WajarTanahPage() {
             </div>
           )}
 
-          {/* Share + Back to Home */}
-          <div className="mt-6 flex items-center justify-between">
+          {/* Back to Home */}
+          <div className="mt-6 text-center">
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
-            <ShareVerdictButton
-              customText={`Aku baru cek harga properti di ${selectedDistrict ?? selectedCity} — hasilnya ${verdict ?? 'WAJAR'} berdasarkan data pasar. Cek di cekwajar.id — gratis!`}
-            />
           </div>
 
           <CrossToolSuggestion fromTool="wajar-tanah" className="mt-6" />

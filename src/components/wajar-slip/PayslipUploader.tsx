@@ -17,10 +17,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { extractWithTesseract } from '@/lib/ocr/tesseract-client'
-import type {
-  ExtractedPayslipFields,
-  FieldConfidences,
-} from '@/lib/ocr/field-extractor'
+import { COPY } from '@/lib/copy'
+import type { ExtractedPayslipFields, FieldConfidences } from '@/lib/ocr/field-extractor'
 
 // --- Types -------------------------------------------------------------------
 
@@ -83,14 +81,14 @@ export function PayslipUploader({ onFieldsExtracted, onManualMode }: PayslipUplo
         body: formData,
       })
     } catch {
-      setState({ phase: 'ERROR', message: 'Tidak dapat terhubung ke server.' })
+      setState({ phase: 'ERROR', message: COPY.error.networkError })
       return
     }
 
     const json = await res.json()
 
     if (!res.ok || !json.success) {
-      setState({ phase: 'ERROR', message: json.error?.message ?? 'Upload gagal.' })
+      setState({ phase: 'ERROR', message: COPY.error.ocrFailed })
       return
     }
 
