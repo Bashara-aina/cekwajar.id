@@ -186,3 +186,35 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Skip link stays above nav when focused. */
+#main-content {
+  scroll-margin-top: 80px;
+}
+
+/* Suppress native tap flash on mobile; add subtle press feedback on touch devices. */
+a,
+button,
+[role="button"],
+[role="link"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: none) {
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.97);
+    transition: transform 80ms ease-out;
+  }
+}
+
+/* Mobile: enforce 52px minimum input height and 16px font-size (prevents iOS focus zoom).
+   Scoped to exclude checkbox/radio inputs which should remain small. */
+@media (max-width: 640px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea {
+    min-height: 52px;
+    font-size: 16px;
+  }
+}

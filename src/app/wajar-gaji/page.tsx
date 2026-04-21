@@ -20,6 +20,8 @@ import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
+import { TrustBadges } from '@/components/shared/TrustBadges'
 import { CityCommandSelect, CityOption } from '@/components/shared/CityCommandSelect'
 import { FormProgress } from '@/components/shared/FormProgress'
 
@@ -464,9 +466,11 @@ export default function WajarGajiPage() {
         <div className="mx-auto max-w-2xl px-4 py-12">
           <div className="mb-8 text-center">
             <div className="mb-4"><Banknote className="h-12 w-12 text-emerald-600 mx-auto" /></div>
-            <h1 className="text-2xl font-bold text-foreground">Cek Wajar Gaji</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Cek Wajar Gaji</h1>
             <p className="mt-1 text-sm text-muted-foreground">Benchmark gaji dengan 12.000+ data karyawan</p>
           </div>
+
+          <TrustBadges className="mb-6" />
 
           <Card>
             <CardContent className="p-6">
@@ -937,8 +941,11 @@ export default function WajarGajiPage() {
             </Card>
           )}
 
-          {/* Back to Home */}
-          <div className="mt-6 text-center">
+          {/* Share & Back to Home */}
+          <div className="mt-6 flex flex-col items-center gap-4">
+            <ShareVerdictButton
+              text={`📊 Gaji ${matchedTitle} di ${selectedCity}: median ${benchmark.cityP50 ? formatIDR(benchmark.cityP50) : 'lihat di cekwajar.id'}. Cek benchmark gajimu di cekwajar.id — gratis!`}
+            />
             <Link
               href="/"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"

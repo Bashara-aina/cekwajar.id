@@ -21,6 +21,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
+import { TrustBadges } from '@/components/shared/TrustBadges'
 import { PPPBasketComparison } from '@/components/wajar-kabur/PPPBasketComparison'
 
 // --- Types --------------------------------------------------------------------
@@ -164,6 +166,8 @@ export default function WajarKaburPage() {
             <Skeleton shimmer className="mx-auto h-4 w-72" />
           </div>
 
+          <TrustBadges className="mb-6" />
+
           <Card>
             <CardContent className="p-6">
               <div className="space-y-5">
@@ -269,10 +273,10 @@ export default function WajarKaburPage() {
         <div className="mx-auto max-w-2xl px-4 py-8">
           <button
             onClick={resetState}
-            className="flex items-center text-sm text-muted-foreground hover:text-emerald-600 mb-4"
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
           >
             <ChevronLeft className="h-4 w-4" />
-            Bandingkan lagi
+            Cek lagi
           </button>
 
           <Card className="mb-6">
@@ -309,7 +313,10 @@ export default function WajarKaburPage() {
             </CardContent>
           </Card>
 
-          <div className="text-center">
+          <div className="mt-4 flex flex-col items-center gap-4">
+            <ShareVerdictButton
+              text={`✈️ Perbandingan kerja di ${result.countryName}: ${ratioDisplay ? `daya beli ${ratioDisplay}x vs Indonesia` : 'cek detail di cekwajar.id'}. Sebelum kabur, cek dulu di cekwajar.id — gratis!`}
+            />
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>

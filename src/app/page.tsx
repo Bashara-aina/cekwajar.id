@@ -208,8 +208,8 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <FounderSection className="bg-white" />
-      <TestimonialsSection className="bg-white" />
+      <FounderSection className="bg-background" />
+      <TestimonialsSection className="bg-background" />
       <HowItWorks />
 
       {/* Sample result teaser */}

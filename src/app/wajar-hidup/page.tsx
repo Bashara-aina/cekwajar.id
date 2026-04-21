@@ -11,6 +11,8 @@ import { Home, Info, ArrowRight, ChevronDown, ChevronLeft, Building2, MapPin, XC
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
+import { TrustBadges } from '@/components/shared/TrustBadges'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -170,6 +172,8 @@ export default function WajarHidupPage() {
             <Skeleton shimmer className="mx-auto h-4 w-64" />
           </div>
 
+          <TrustBadges className="mb-6" />
+
           <Card>
             <CardContent className="p-6">
               <div className="space-y-5">
@@ -252,10 +256,10 @@ export default function WajarHidupPage() {
         <div className="mx-auto max-w-2xl px-4 py-8">
           <button
             onClick={resetState}
-            className="flex items-center text-sm text-muted-foreground hover:text-emerald-600 mb-4"
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
           >
             <ChevronLeft className="h-4 w-4" />
-            Hitung lagi
+            Cek lagi
           </button>
 
           {/* Verdict Card */}
@@ -369,7 +373,10 @@ export default function WajarHidupPage() {
             COL Index: Jakarta = 100 sebagai baseline
           </div>
 
-          <div className="text-center">
+          <div className="mt-4 flex flex-col items-center gap-4">
+            <ShareVerdictButton
+              text={`💰 ${result.fromCity} vs ${result.toCity}: gaji setara = ${formatIDR(result.requiredSalary)}/bulan. Cek biaya hidup antar kota di cekwajar.id — gratis!`}
+            />
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>

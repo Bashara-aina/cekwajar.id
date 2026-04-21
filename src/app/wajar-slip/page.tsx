@@ -10,7 +10,7 @@ import { useReducer, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { AlertCircle, CheckCircle2, X, AlertTriangle, Zap } from 'lucide-react'
+import { AlertCircle, CheckCircle2, ChevronLeft, AlertTriangle, Zap } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -23,6 +23,7 @@ import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
 import { FormProgress } from '@/components/shared/FormProgress'
 import { CityCommandSelect } from '@/components/shared/CityCommandSelect'
 import { FieldTooltip, SLIP_TOOLTIPS } from '@/components/shared/FieldTooltip'
+import { TrustBadges } from '@/components/shared/TrustBadges'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
 import { ViolationItem } from '@/components/wajar-slip/ViolationItem'
@@ -327,11 +328,13 @@ export default function WajarSlipPage() {
         <div className="mx-auto max-w-2xl px-4 py-10 space-y-5">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground">Cek Slip Gaji — Gratis</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Cek Slip Gaji — Gratis</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Pastikan PPh21 dan BPJS sudah dipotong dengan benar. Hanya butuh 30 detik.
             </p>
           </div>
+
+          <TrustBadges className="py-2" />
 
           {/* Disclaimer */}
           <DisclaimerBanner type="tax" />
@@ -636,10 +639,10 @@ export default function WajarSlipPage() {
           </div>
           <button
             onClick={() => dispatch({ type: 'RESET' })}
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            <X className="h-4 w-4" />
-            Batal
+            <ChevronLeft className="h-4 w-4" />
+            Cek lagi
           </button>
         </div>
 

@@ -27,6 +27,8 @@ import { VerdictBadge } from '@/components/wajar-tanah/VerdictBadge'
 import { PropertyPriceBar } from '@/components/wajar-tanah/PropertyPriceBar'
 import { PropertyVerdict } from '@/app/api/property/benchmark/route'
 import { CrossToolSuggestion } from '@/components/CrossToolSuggestion'
+import { ShareVerdictButton } from '@/components/shared/ShareVerdictButton'
+import { TrustBadges } from '@/components/shared/TrustBadges'
 
 // --- Provinces & Cities --------------------------------------------------------
 
@@ -250,6 +252,8 @@ export default function WajarTanahPage() {
             <Skeleton shimmer className="mx-auto h-4 w-64" />
           </div>
 
+          <TrustBadges className="mb-6" />
+
           <Card>
             <CardContent className="p-6">
               <div className="space-y-5">
@@ -465,8 +469,11 @@ export default function WajarTanahPage() {
             </div>
           )}
 
-          {/* Back to Home */}
-          <div className="mt-6 text-center">
+          {/* Share & Back to Home */}
+          <div className="mt-6 flex flex-col items-center gap-4">
+            <ShareVerdictButton
+              text={`🏠 Properti di ${selectedDistrict || 'area ini'}: ${askingPricePerSqm ? formatIDR(askingPricePerSqm) + '/m²' : 'lihat'} · Median pasar ${benchmark?.p50 ? formatIDR(benchmark.p50) + '/m²' : '?'}. Cek harga properti di cekwajar.id — gratis!`}
+            />
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="inline h-4 w-4" /> Kembali
             </Link>
