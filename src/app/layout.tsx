@@ -21,12 +21,6 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  themeColor: '#10b981',
-}
-
 export const metadata: Metadata = {
   title: 'cekwajar.id — Audit Slip Gaji, Benchmark Gaji & Harga Properti',
   description:
