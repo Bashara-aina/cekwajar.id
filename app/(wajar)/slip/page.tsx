@@ -10,6 +10,7 @@ import { HowItWorks } from "@/components/HowItWorksTool";
 
 import { ViolationSummaryBanner } from "@/components/ViolationSummaryBanner";
 import { SampleResultTeaser } from "@/components/SampleResultTeaser";
+import { ConfettiEffect } from "@/components/ConfettiEffect";
 import { ShareVerdictButton } from "@/components/ShareVerdictButton";
 import { ResultSkeleton } from "@/components/ResultSkeleton";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
@@ -339,6 +340,8 @@ export default function WajarSlipPage() {
       )}
 
       {result ? (
+        <>
+          <ConfettiEffect trigger={result.violations.length === 0} />
         <div className="space-y-4" aria-live="polite" aria-atomic="true" aria-label="Hasil audit slip gaji">
           <button
             type="button"
@@ -393,6 +396,7 @@ export default function WajarSlipPage() {
             />
           </div>
         </div>
+        </>
       ) : loading ? (
         <ResultSkeleton />
       ) : null}
