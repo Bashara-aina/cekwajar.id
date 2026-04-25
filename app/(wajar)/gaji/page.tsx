@@ -191,7 +191,7 @@ export default function GajiPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="city">Kota</Label>
                 <Select value={form.city} onValueChange={(v) => setForm({ ...form, city: v })}>
@@ -268,7 +268,7 @@ export default function GajiPage() {
                 </CardContent>
               </Card>
 
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   { label: "P50", value: result.benchmark.benchmark.gross_p50 },
                   { label: "P75", value: result.benchmark.benchmark.gross_p75 },

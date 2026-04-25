@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ResultCard } from "@/components/ResultCard";
 import { FileText, AlertTriangle, Receipt, ChevronLeft } from "lucide-react";
+import { FormProgress } from "@/components/FormProgress";
 import { PageHeader } from "@/components/PageHeader";
 import { TrustBadges } from "@/components/TrustBadges";
 import { HowItWorks } from "@/components/HowItWorksTool";
@@ -49,15 +50,25 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1).map((m) => ({
 }));
 
 export default function WajarSlipPage() {
+  const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<PayslipResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  function handleNextStep() {
+    if (currentStep < 3) setCurrentStep((s) => s + 1);
+  }
+
+  function handlePrevStep() {
+    if (currentStep > 1) setCurrentStep((s) => s - 1);
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setResult(null);
+    setCurrentStep(1);
 
     const form = e.currentTarget;
     const data: PayslipInput = {
@@ -129,141 +140,182 @@ export default function WajarSlipPage() {
             className="space-y-4"
             aria-label="Form perhitungan PPh21"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="gross_monthly">Gaji Bruto/bulan (Rp)</Label>
-                <Input
-                  id="gross_monthly"
-                  name="gross_monthly"
-                  type="number"
-                  required
-                  min={0}
-                  inputMode="numeric"
-                  placeholder="8.500.000"
+            <FormProgress
+              currentStep={currentStep}
+              totalSteps={3}
+              labels={["Periode", "Data Pendapatan", "Verifikasi"]}
+            />
+
+            {currentStep === 1 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="month">Bulan</Label>
+                  <Select name="month" defaultValue={String(new Date().getMonth() + 1)} disabled={loading}>
+                    <SelectTrigger id="month">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {MONTHS.map((m) => (
+                        <SelectItem key={m.value} value={String(m.value)}>
+                          {m.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="year">Tahun</Label>
+                  <Input
+                    id="year"
+                    name="year"
+                    type="number"
+                    required
+                    min={2020}
+                    max={2030}
+                    inputMode="numeric"
+                    defaultValue={new Date().getFullYear()}
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+            )}
+
+            {currentStep === 2 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="gross_monthly">Gaji Bruto/bulan (Rp)</Label>
+                  <Input
+                    id="gross_monthly"
+                    name="gross_monthly"
+                    type="number"
+                    required
+                    min={0}
+                    inputMode="numeric"
+                    placeholder="8.500.000"
+                    disabled={loading}
+                    aria-describedby="gross_monthly_hint"
+                  />
+                  <p id="gross_monthly_hint" className="text-xs text-muted-foreground">
+                    Masukkan gaji bruto bulanan sebelum potong
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="ptkp_status">Status PTKP</Label>
+                  <Select name="ptkp_status" defaultValue="TK0" disabled={loading}>
+                    <SelectTrigger id="ptkp_status" aria-describedby="ptkp_status_hint">
+                      <SelectValue placeholder="Pilih status PTKP" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PTKP_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p id="ptkp_status_hint" className="text-xs text-muted-foreground">
+                    Status pajak untuk menentukan PTKP
+                  </p>
+                </div>
+
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="city">Kota/Kabupaten</Label>
+                  <Input
+                    id="city"
+                    name="city"
+                    type="text"
+                    required
+                    placeholder="Jakarta"
+                    disabled={loading}
+                    aria-describedby="city_hint"
+                  />
+                  <p id="city_hint" className="text-xs text-muted-foreground">
+                    Kota tempat bekerja
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {currentStep === 3 && (
+              <div className="grid grid-cols-1 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="reported_pph21">PPh21 di slip (Rp) <span className="text-muted-foreground font-normal">(opsional)</span></Label>
+                  <Input
+                    id="reported_pph21"
+                    name="reported_pph21"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    placeholder="Biarkan kosong jika tidak tahu"
+                    disabled={loading}
+                    aria-describedby="reported_pph21_hint"
+                  />
+                  <p id="reported_pph21_hint" className="text-xs text-muted-foreground">
+                    Isi jika ingin dibandingkan dengan perhitungan sistem
+                  </p>
+                </div>
+
+                <fieldset className="border-0 p-0 m-0 space-y-2">
+                  <legend className="sr-only">Status NPWP</legend>
+                  <div className="flex items-center gap-2">
+                    <input
+                      id="npwp"
+                      name="npwp"
+                      type="checkbox"
+                      defaultChecked={true}
+                      disabled={loading}
+                      className={cn(
+                        "h-4 w-4 rounded border-input",
+                        "focus:ring-2 focus:ring-ring focus:ring-offset-2",
+                        "disabled:cursor-not-allowed disabled:opacity-50"
+                      )}
+                      aria-describedby="npwp_hint"
+                    />
+                    <Label htmlFor="npwp" className="text-sm font-normal cursor-pointer">
+                      Punya NPWP
+                    </Label>
+                    <span id="npwp_hint" className="text-xs text-muted-foreground">
+                      Centang jika Anda memiliki NPWP aktif
+                    </span>
+                  </div>
+                </fieldset>
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              {currentStep > 1 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handlePrevStep}
                   disabled={loading}
-                  aria-describedby="gross_monthly_hint"
-                />
-                <p id="gross_monthly_hint" className="text-xs text-muted-foreground">
-                  Masukkan gaji bruto bulanan sebelum potong
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="ptkp_status">Status PTKP</Label>
-                <Select name="ptkp_status" defaultValue="TK0" disabled={loading}>
-                  <SelectTrigger id="ptkp_status" aria-describedby="ptkp_status_hint">
-                    <SelectValue placeholder="Pilih status PTKP" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {PTKP_OPTIONS.map((opt) => (
-                      <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <p id="ptkp_status_hint" className="text-xs text-muted-foreground">
-                  Status pajak untuk menentukan PTKP
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="month">Bulan</Label>
-                <Select name="month" defaultValue={String(new Date().getMonth() + 1)} disabled={loading}>
-                  <SelectTrigger id="month">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {MONTHS.map((m) => (
-                      <SelectItem key={m.value} value={String(m.value)}>
-                        {m.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="year">Tahun</Label>
-                <Input
-                  id="year"
-                  name="year"
-                  type="number"
-                  required
-                  min={2020}
-                  max={2030}
-                  defaultValue={new Date().getFullYear()}
+                  className="flex-1"
+                >
+                  ← Kembali
+                </Button>
+              )}
+              {currentStep < 3 ? (
+                <Button
+                  type="button"
+                  onClick={handleNextStep}
                   disabled={loading}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="city">Kota/Kabupaten</Label>
-                <Input
-                  id="city"
-                  name="city"
-                  type="text"
-                  required
-                  placeholder="Jakarta"
+                  className="flex-1"
+                >
+                  Lanjut →
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
                   disabled={loading}
-                  aria-describedby="city_hint"
-                />
-                <p id="city_hint" className="text-xs text-muted-foreground">
-                  Kota tempat bekerja
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="reported_pph21">PPh21 di slip (Rp) <span className="text-muted-foreground font-normal">(opsional)</span></Label>
-                <Input
-                  id="reported_pph21"
-                  name="reported_pph21"
-                  type="number"
-                  inputMode="numeric"
-                  min={0}
-                  placeholder="Biarkan kosong jika tidak tahu"
-                  disabled={loading}
-                  aria-describedby="reported_pph21_hint"
-                />
-                <p id="reported_pph21_hint" className="text-xs text-muted-foreground">
-                  Isi jika ingin dibandingkan dengan perhitungan sistem
-                </p>
-              </div>
+                  className="flex-1"
+                  aria-label={loading ? COPY.loading.slip : COPY.cta.cek_slip}
+                >
+                  {loading ? COPY.loading.slip : COPY.cta.cek_slip}
+                </Button>
+              )}
             </div>
-
-            <fieldset className="border-0 p-0 m-0 space-y-2">
-              <legend className="sr-only">Status NPWP</legend>
-              <div className="flex items-center gap-2">
-                <input
-                  id="npwp"
-                  name="npwp"
-                  type="checkbox"
-                  defaultChecked={true}
-                  disabled={loading}
-                  className={cn(
-                    "h-4 w-4 rounded border-input",
-                    "focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                    "disabled:cursor-not-allowed disabled:opacity-50"
-                  )}
-                  aria-describedby="npwp_hint"
-                />
-                <Label htmlFor="npwp" className="text-sm font-normal cursor-pointer">
-                  Punya NPWP
-                </Label>
-                <span id="npwp_hint" className="text-xs text-muted-foreground">
-                  Centang jika Anda memiliki NPWP aktif
-                </span>
-              </div>
-            </fieldset>
-
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full"
-              aria-label={loading ? COPY.loading.slip : COPY.cta.cek_slip}
-            >
-              {loading ? COPY.loading.slip : COPY.cta.cek_slip}
-            </Button>
           </form>
         </CardContent>
       </Card>
@@ -289,7 +341,7 @@ export default function WajarSlipPage() {
         <div className="space-y-4" aria-live="polite" aria-atomic="true" aria-label="Hasil audit slip gaji">
           <button
             type="button"
-            onClick={() => { setResult(null); setError(null); }}
+            onClick={() => { setResult(null); setError(null); setCurrentStep(1); }}
             className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />

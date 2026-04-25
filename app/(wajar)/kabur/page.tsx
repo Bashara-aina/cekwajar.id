@@ -78,7 +78,7 @@ export default function KaburPage() {
       <Card>
         <CardContent className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="current_city">Kota Sekarang</Label>
                 <Select
@@ -192,7 +192,7 @@ function KaburResult({ result }: { result: Record<string, unknown> }) {
       </Card>
 
       {/* Side-by-side comparison */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { city: current, label: "Kota Sekarang" },
           { city: target, label: "Kota Target" },

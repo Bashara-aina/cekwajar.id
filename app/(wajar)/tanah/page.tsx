@@ -123,7 +123,7 @@ export default function WajarTanahPage() {
         onSubmit={handleSubmit}
         className="bg-white rounded-xl border shadow-sm p-6 space-y-4"
       >
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <label className="flex flex-col gap-1">
             <span className="text-sm font-medium text-gray-700">Kota</span>
             <input
