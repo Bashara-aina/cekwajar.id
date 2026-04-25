@@ -14,7 +14,11 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plane } from "lucide-react";
+import { Plane, Globe, Briefcase, DollarSign, ChevronLeft } from "lucide-react";
+import { PageHeader } from "@/components/PageHeader";
+import { TrustBadges } from "@/components/TrustBadges";
+import { HowItWorks } from "@/components/HowItWorksTool";
+import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
 
 const CITIES = [
   { value: "jakarta", label: "Jakarta" },
@@ -57,20 +61,19 @@ export default function KaburPage() {
 
   return (
     <div className="max-w-xl mx-auto space-y-6 p-6">
-      <div>
-        <div className="flex items-center gap-3 mb-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500 text-white">
-            <Plane className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Wajar Kabur</h1>
-          </div>
-        </div>
-        <p className="text-muted-foreground text-sm">
-          Seberapa realistis pindah ke kota lain? Analisis PPP dan biaya hidup
-          antar kota di Indonesia.
-        </p>
-      </div>
+      <PageHeader
+        icon={Plane}
+        title="PPP Kabur"
+        description="Bandingkan daya beli di Indonesia vs luar negeri"
+      />
+
+      <TrustBadges />
+
+      <HowItWorks steps={[
+        { icon: Globe, title: "Pilih 2 negara", description: "Pilih negara asal dan tujuan" },
+        { icon: Briefcase, title: "Bandingkan 7 kategori", description: "Biaya pokok, housing, makan, transportasi dll" },
+        { icon: DollarSign, title: "Lihat PPP Index", description: "Dapatkan Purchasing Power Parity index" },
+      ]} />
 
       <Card>
         <CardContent className="p-6">
@@ -119,7 +122,7 @@ export default function KaburPage() {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Menganalisis..." : "Analisis Kelayakan Pindah"}
+              {loading ? "Menganalisis data PPP dan biaya hidup... 🌍" : "Analisis Kelayakan Pindah"}
             </Button>
           </form>
         </CardContent>
@@ -127,9 +130,19 @@ export default function KaburPage() {
 
       {result && (
         <FreemiumGate requiredTier="pro" featureName="Hasil analisis kabur">
+          <button
+            type="button"
+            onClick={() => setResult(null)}
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Cek lagi
+          </button>
           <KaburResult result={result} />
         </FreemiumGate>
       )}
+
+      <CrossToolSuggestion fromTool="kabur" />
     </div>
   );
 }

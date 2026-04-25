@@ -13,6 +13,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/PageHeader";
+import { TrustBadges } from "@/components/TrustBadges";
+import { HowItWorks } from "@/components/HowItWorksTool";
+import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
+import { Banknote, Search, TrendingUp, Scale, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface BenchmarkResult {
@@ -150,12 +155,19 @@ export default function GajiPage() {
 
   return (
     <div className="max-w-xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Wajar Gaji</h1>
-        <p className="text-muted-foreground text-sm mt-1">
-          Bandingkan gaji kotor kamu dengan market rate
-        </p>
-      </div>
+      <PageHeader
+        icon={Banknote}
+        title="Banding Gaji"
+        description="Cek apakah gaji kamu di atas atau di bawah rata-rata"
+      />
+
+      <TrustBadges />
+
+      <HowItWorks steps={[
+        { icon: Search, title: "Masukkan job title dan lokasi", description: "Input informasi pekerjaan kamu" },
+        { icon: TrendingUp, title: "Lihat market rate P50/P75/P90", description: "Bandingkan dengan gaji pekerja similar" },
+        { icon: Scale, title: "Dapatkan banding gaji", description: "Terima rekomendasi naik gaji" },
+      ]} />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Card>
@@ -219,7 +231,7 @@ export default function GajiPage() {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Menghitung..." : "Bandingkan Gaji"}
+              {loading ? "Mencari benchmark gaji untuk posisi ini... 🔍" : "Bandingkan Gaji"}
             </Button>
           </CardContent>
         </Card>
@@ -227,6 +239,14 @@ export default function GajiPage() {
 
       {result && (
         <div className="space-y-4">
+          <button
+            type="button"
+            onClick={() => setResult(null)}
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Cek lagi
+          </button>
           {result.benchmark?.benchmark ? (
             <>
               <Card>
@@ -251,45 +271,10 @@ export default function GajiPage() {
                     <CardContent className="pt-4 text-center">
                       <Badge variant="secondary" className="mb-2">{item.label}</Badge>
                       <p className="font-semibold text-sm">{formatRupiah(item.value)}</p>
-                    </CardContent>
+</CardContent>
                   </Card>
                 ))}
               </div>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Posisi Kamu</CardTitle>
-                  <CardDescription>
-                    {result.percentile === "DI_BAWAH" ? (
-                      <Badge variant="destructive">Di Bawah Market</Badge>
-                    ) : result.percentile === "DI_ATAS" ? (
-                      <Badge variant="success">Di Atas Market</Badge>
-                    ) : (
-                      <Badge variant="secondary">Wajar</Badge>
-                    )}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold">{formatRupiah(Number(form.gross_monthly))}</p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Distribusi</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <PercentileBar
-                    user={Number(form.gross_monthly)}
-                    p50={result.benchmark.benchmark.gross_p50}
-                    p75={result.benchmark.benchmark.gross_p75}
-                    p90={result.benchmark.benchmark.gross_p90}
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Berdasarkan {result.benchmark.benchmark.sample_count} data sampel
-                  </p>
-                </CardContent>
-              </Card>
             </>
           ) : (
             <Card>
@@ -302,6 +287,8 @@ export default function GajiPage() {
           )}
         </div>
       )}
+
+      <CrossToolSuggestion fromTool="gaji" />
     </div>
   );
 }

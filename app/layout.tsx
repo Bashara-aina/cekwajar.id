@@ -18,8 +18,19 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "cekwajar.id — Cek Gaji Wajar Atau Tidak",
-  description: "Platform verifikasi keadilan gaji dan biaya hidup di Indonesia. Periksa PPh21, BPJS, benchmark gaji, dan harga properti dengan standar regulasi terkini.",
-  keywords: ["payslip", "pph21", "bpjs", "gaji", "Indonesia", "payroll", "compliance", "benchmark", "TER"],
+  description:
+    "Platform verifikasi keadilan gaji dan biaya hidup di Indonesia. Periksa PPh21, BPJS, benchmark gaji, dan harga properti dengan standar regulasi terkini.",
+  keywords: [
+    "payslip",
+    "pph21",
+    "bpjs",
+    "gaji",
+    "Indonesia",
+    "payroll",
+    "compliance",
+    "benchmark",
+    "TER",
+  ],
   authors: [{ name: "cekwajar.id" }],
   openGraph: {
     title: "cekwajar.id — Cek Gaji Wajar Atau Tidak",
@@ -30,7 +41,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "cekwajar.id — Cek Gaji Wajar Atau Tidak",
-    description: "Platform verifikasi keadilan gaji dan biaya hidup di Indonesia.",
+    description:
+      "Platform verifikasi keadilan gaji dan biaya hidup di Indonesia.",
   },
 };
 
@@ -44,7 +56,13 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${jetbrainsMono.variable} min-h-full flex flex-col antialiased`}
       >
-        {children}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-emerald-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium"
+        >
+          Langsung ke konten utama
+        </a>
+        <main id="main-content">{children}</main>
       </body>
     </html>
   );

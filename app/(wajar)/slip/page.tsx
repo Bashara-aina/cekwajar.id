@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { ResultCard } from "@/components/ResultCard";
-import { FileText, AlertTriangle } from "lucide-react";
+import { FileText, AlertTriangle, Receipt, ChevronLeft } from "lucide-react";
+import { PageHeader } from "@/components/PageHeader";
+import { TrustBadges } from "@/components/TrustBadges";
+import { HowItWorks } from "@/components/HowItWorksTool";
+import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
+import { ViolationSummaryBanner } from "@/components/ViolationSummaryBanner";
+import { SampleResultTeaser } from "@/components/SampleResultTeaser";
 import type { PayslipInput } from "@/lib/validators/pph21.schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -96,12 +102,22 @@ export default function WajarSlipPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-foreground">Wajar Slip</h1>
-        <p className="text-muted-foreground mt-1">
-          Periksa apakah PPh21 di slip gaji Anda dihitung dengan benar
-        </p>
-      </div>
+      <PageHeader
+        icon={Receipt}
+        title="Cek Slip Gaji"
+        description="Pastikan payroll kamu sesuai UU Ketenagakerjaan"
+      />
+      <TrustBadges />
+
+      <HowItWorks
+        steps={[
+          { icon: FileText, title: "Upload slip gaji", description: "Input data slip gaji kamu" },
+          { icon: AlertTriangle, title: "Cek pelanggaran THR & UP", description: "Deteksi potensi pelanggaran" },
+          { icon: FileText, title: "Dapatkan rekomendasi", description: "Terima langkah perbaikan" },
+        ]}
+      />
+
+      <SampleResultTeaser />
 
       <Card>
         <CardContent className="pt-6">
@@ -237,7 +253,7 @@ export default function WajarSlipPage() {
               className="w-full"
               aria-label={loading ? "Sedang menghitung PPh21, harap tunggu" : "Periksa slip gaji"}
             >
-              {loading ? "Menghitung..." : "Periksa Slip Gaji"}
+              {loading ? "Memvalidasi slip gaji kamu... ⚡" : "Periksa Slip Gaji"}
             </Button>
           </form>
         </CardContent>
@@ -259,7 +275,15 @@ export default function WajarSlipPage() {
       )}
 
       {result ? (
-        <div className="space-y-4" role="region" aria-label="Hasil perhitungan PPh21">
+        <div className="space-y-4" aria-live="polite" aria-atomic="true" aria-label="Hasil audit slip gaji">
+          <button
+            type="button"
+            onClick={() => { setResult(null); setError(null); }}
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Cek lagi
+          </button>
           <ResultCard
             title="PPh21 per Bulan"
             amount={result.monthly_pph21}
@@ -271,6 +295,16 @@ export default function WajarSlipPage() {
             violations={result.violations}
             icon={FileText}
           />
+
+          {result.violations && result.violations.length > 0 && (
+            <ViolationSummaryBanner
+              violations={result.violations.map(v => ({
+                code: v.code,
+                title: v.message,
+                severity: v.severity,
+              }))}
+            />
+          )}
 
           <div className="sr-only" aria-live="polite">
             {verdictText}

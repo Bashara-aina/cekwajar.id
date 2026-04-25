@@ -2,11 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Lock } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface FreemiumGateProps {
   children: React.ReactNode;
   requiredTier?: "basic" | "pro";
   featureName?: string;
+  hiddenLabel?: string;
+  className?: string;
 }
 
 const TIER_ORDER = ["free", "basic", "pro"] as const;
@@ -25,6 +30,8 @@ export function FreemiumGate({
   children,
   requiredTier = "basic",
   featureName = "Fitur ini",
+  hiddenLabel,
+  className,
 }: FreemiumGateProps) {
   const [loading, setLoading] = useState(true);
   const [userTier, setUserTier] = useState<Tier | null>(null);
@@ -72,13 +79,15 @@ export function FreemiumGate({
 
   if (loading) {
     return (
-      <div className="relative">
+      <div className={cn("relative", className)}>
         <div className="blur-sm pointer-events-none select-none opacity-30">
           {children}
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl border shadow-lg p-4">
-            <span className="animate-pulse text-sm text-gray-400">Memuat...</span>
+          <div className="bg-card/80 backdrop-blur-sm rounded-xl border shadow-lg p-4">
+            <span className="animate-pulse text-sm text-muted-foreground">
+              Memuat...
+            </span>
           </div>
         </div>
       </div>
@@ -91,33 +100,29 @@ export function FreemiumGate({
   }
 
   return (
-    <div className="relative">
-      {/* Blur overlay for free users */}
-      <div className="blur-sm pointer-events-none select-none opacity-50">
-        {children}
-      </div>
+    <div className={cn("relative", className)}>
+      <div className="opacity-50">{children}</div>
 
-      {/* Gate overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl border shadow-lg p-6 text-center max-w-sm mx-auto">
-          <div className="text-4xl mb-3">🔒</div>
-          <h3 className="font-bold text-gray-900 mb-1">
-            Upgrade untuk Akses Penuh
+        <div className="bg-card/95 backdrop-blur-sm rounded-xl border shadow-lg p-6 text-center max-w-sm mx-auto">
+          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-6 h-6 text-primary" />
+          </div>
+          <h3 className="font-bold text-lg text-foreground mb-1">
+            {hiddenLabel ?? `Selisih ${featureName} Tersembunyi`}
           </h3>
-          <p className="text-sm text-gray-500 mb-4">
-            {featureName} tersedia untuk pengguna{" "}
-            <span className="font-semibold text-blue-600">
-              {requiredTier === "pro" ? "Pro" : "Basic"}
-            </span>
+          <p className="text-sm text-muted-foreground mb-4">
+            Upgrade ke Basic untuk akses penuh ke{" "}
+            <span className="font-medium text-foreground">{featureName}</span>
           </p>
-          <button
+          <Button
             onClick={handleUpgrade}
-            className="w-full bg-blue-600 text-white rounded-lg py-2.5 font-semibold text-sm hover:bg-blue-700 cursor-pointer"
+            className="w-full bg-primary hover:bg-primary/90"
           >
-            Upgrade Sekarang
-          </button>
-          <p className="text-xs text-gray-400 mt-2">
-            Mulai dari Rp 29.000/bulan
+            Lihat Selisih — Rp 29K/bulan
+          </Button>
+          <p className="text-xs text-muted-foreground mt-2">
+            Kurang dari 1 kopi per hari
           </p>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { WordmarkLogo } from "@/components/WordmarkLogo";
 
 const footerLinks = {
   product: [
@@ -64,16 +65,8 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M8 1L10 5.5L14.5 6L11 9.5L12 14L8 11.5L4 14L5 9.5L1.5 6L6 5.5L8 1Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </div>
-              <span className="text-lg font-bold">cekwajar.id</span>
+            <Link href="/" className="mb-4">
+              <WordmarkLogo size="md" />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
               Platform verifikasi keadilan gaji dan biaya hidup di Indonesia.

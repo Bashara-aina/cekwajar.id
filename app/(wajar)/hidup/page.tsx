@@ -3,6 +3,11 @@
 import { useState } from "react";
 import { ResultCard } from "@/components/ResultCard";
 import { FreemiumGate } from "@/components/FreemiumGate";
+import { PageHeader } from "@/components/PageHeader";
+import { TrustBadges } from "@/components/TrustBadges";
+import { HowItWorks } from "@/components/HowItWorksTool";
+import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
+import { TrendingUp, MapPin, Calculator, BarChart3, ChevronLeft } from "lucide-react";
 
 const CITY_COST_INDEX: Record<string, Record<string, number>> = {
   jakarta:   { rice_kg: 15000, chicken_kg: 38000, internet_month: 250000, transport_month: 200000, electricity_kwh: 1400, water_month: 50000 },
@@ -108,12 +113,19 @@ export default function HidupPage() {
 
   return (
     <div className="max-w-xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Wajar Hidup</h1>
-        <p className="text-gray-500 text-sm mt-1">
-          Breakdown biaya hidup bulanan
-        </p>
-      </div>
+      <PageHeader
+        icon={TrendingUp}
+        title="Biaya Hidup"
+        description="Bandingkan biaya hidup kota kamu dengan kota lain"
+      />
+
+      <TrustBadges />
+
+      <HowItWorks steps={[
+        { icon: MapPin, title: "Pilih kota comparison", description: "Pilih kota yang mau dibanding" },
+        { icon: Calculator, title: "Input biaya bulanan", description: "Masukkan pengeluaran kost, makan, transportasi" },
+        { icon: BarChart3, title: "Bandingkan hasil", description: "Lihat perbandingan biaya hidup" },
+      ]} />
 
       <form onSubmit={handleSubmit} className="bg-white rounded-xl border p-6 space-y-4">
         <div>
@@ -219,13 +231,21 @@ export default function HidupPage() {
           disabled={loading}
           className="w-full bg-blue-600 text-white rounded-lg py-2.5 font-semibold text-sm hover:bg-blue-700 disabled:opacity-50"
         >
-          {loading ? "Menghitung..." : "Hitung Biaya Hidup"}
+          {loading ? "Menganalisis komponen biaya hidup... 📊" : "Hitung Biaya Hidup"}
         </button>
       </form>
 
       {result && (
         <FreemiumGate requiredTier="basic" featureName="Full breakdown">
           <div className="space-y-4">
+            <button
+              type="button"
+              onClick={() => setResult(null)}
+              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Cek lagi
+            </button>
             {/* Verdict */}
             <ResultCard
               title="Total Biaya Bulanan"
@@ -279,8 +299,10 @@ export default function HidupPage() {
               {result.verdict === "MAHAMAL" && "Biaya hidup lebih besar dari pendapatan — tidak wajar"}
             </div>
           </div>
-        </FreemiumGate>
+</FreemiumGate>
       )}
+
+      <CrossToolSuggestion fromTool="hidup" />
     </div>
   );
 }

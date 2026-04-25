@@ -19,6 +19,7 @@ import { HowItWorks } from "@/components/landing/HowItWorks";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { FAQ } from "@/components/landing/FAQ";
 import { Footer } from "@/components/landing/Footer";
+import { FounderSection } from "@/components/FounderSection";
 
 const tools = [
   {
@@ -251,7 +252,8 @@ export default function Home() {
               >
                 <Link
                   href={tool.href}
-                  className="group block rounded-2xl border border-border p-6 bg-card hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200"
+                  aria-label={`${tool.name} — ${tool.description}`}
+                  className="group block rounded-2xl border border-border p-6 bg-card hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div
@@ -379,6 +381,9 @@ export default function Home() {
 
       {/* FAQ */}
       <FAQ />
+
+      {/* Founder Section */}
+      <FounderSection />
 
       {/* Footer */}
       <Footer />

@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { ResultCard } from "@/components/ResultCard";
-import { Landmark, AlertTriangle } from "lucide-react";
+import { Landmark, AlertTriangle, MapPin, Map, CheckSquare, ChevronLeft } from "lucide-react";
+import { PageHeader } from "@/components/PageHeader";
+import { TrustBadges } from "@/components/TrustBadges";
+import { HowItWorks } from "@/components/HowItWorksTool";
+import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
 
 interface PropertyResult {
   price_per_m2: number;
@@ -101,12 +105,19 @@ export default function WajarTanahPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Wajar Tanah</h1>
-        <p className="text-gray-500 mt-1">
-          Cek apakah harga tanah di area Anda wajar atau kemahalan
-        </p>
-      </div>
+      <PageHeader
+        icon={Landmark}
+        title="Cek Tanah"
+        description="Cek harga tanah di zona lokasi kamu"
+      />
+
+      <TrustBadges />
+
+      <HowItWorks steps={[
+        { icon: MapPin, title: "Input lokasi tanah", description: "Masukkan alamat atau koordinat tanah" },
+        { icon: Map, title: "Pilih zona", description: "Hijau (subsidi) / Media / Merah (non-subsidi)" },
+        { icon: CheckSquare, title: "Cek harga pasar", description: "Lihat estimasi harga per m2 sesuai zona" },
+      ]} />
 
       <form
         onSubmit={handleSubmit}
@@ -213,6 +224,14 @@ export default function WajarTanahPage() {
 
       {result && pricePerM2 && (
         <div className="space-y-4">
+          <button
+            type="button"
+            onClick={() => { setResult(null); setError(null); setValidationErrors([]); }}
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Cek lagi
+          </button>
           <ResultCard
             title="Harga per m²"
             amount={pricePerM2}
@@ -231,6 +250,8 @@ export default function WajarTanahPage() {
           )}
         </div>
       )}
+
+      <CrossToolSuggestion fromTool="tanah" />
     </div>
   );
 }
