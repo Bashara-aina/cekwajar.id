@@ -5,13 +5,6 @@ import { ResultCard } from "@/components/ResultCard";
 import { FreemiumGate } from "@/components/FreemiumGate";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plane, Globe, Briefcase, DollarSign, ChevronLeft } from "lucide-react";
@@ -19,20 +12,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { TrustBadges } from "@/components/TrustBadges";
 import { HowItWorks } from "@/components/HowItWorksTool";
 import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
-
-const CITIES = [
-  { value: "jakarta", label: "Jakarta" },
-  { value: "surabaya", label: "Surabaya" },
-  { value: "bandung", label: "Bandung" },
-  { value: "tangerang", label: "Tangerang" },
-  { value: "bekasi", label: "Bekasi" },
-  { value: "bali", label: "Bali" },
-  { value: "singapore", label: "Singapore" },
-  { value: "kuala_lumpur", label: "Kuala Lumpur" },
-  { value: "bangkok", label: "Bangkok" },
-  { value: "tokyo", label: "Tokyo" },
-  { value: "hong_kong", label: "Hong Kong" },
-];
+import { InternationalCitySheet } from "@/components/InternationalCitySheet";
 
 export default function KaburPage() {
   const [form, setForm] = useState({
@@ -81,43 +61,19 @@ export default function KaburPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="current_city">Kota Sekarang</Label>
-                <Select
+                <InternationalCitySheet
                   value={form.current_city}
-                  onValueChange={(v) =>
-                    setForm({ ...form, current_city: v })
-                  }
-                >
-                  <SelectTrigger id="current_city">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CITIES.map((c) => (
-                      <SelectItem key={c.value} value={c.value}>
-                        {c.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  onValueChange={(v) => setForm({ ...form, current_city: v })}
+                  placeholder="Pilih kota saat ini..."
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="target_city">Kota Target</Label>
-                <Select
+                <InternationalCitySheet
                   value={form.target_city}
-                  onValueChange={(v) =>
-                    setForm({ ...form, target_city: v })
-                  }
-                >
-                  <SelectTrigger id="target_city">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CITIES.map((c) => (
-                      <SelectItem key={c.value} value={c.value}>
-                        {c.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  onValueChange={(v) => setForm({ ...form, target_city: v })}
+                  placeholder="Pilih kota tujuan..."
+                />
               </div>
             </div>
 

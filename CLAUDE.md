@@ -59,8 +59,8 @@ SUPABASE_SERVICE_ROLE_KEY=
 SENTRY_DSN=
 
 # Midtrans (optional)
-MIDTRANS_SERVER_KEY=
-MIDTRANS_CLIENT_KEY=
+MIDTRANS_SERVER_KEY=          # Server-side (used in /api/midtrans/snap-token)
+NEXT_PUBLIC_MIDTRANS_CLIENT_KEY=  # Client-side Snap.js (must start with NEXT_PUBLIC_)
 ```
 
 ## Commands
