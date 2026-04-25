@@ -33,9 +33,16 @@ interface BenchmarkResult {
   } | null;
 }
 
+interface PPh21Result {
+  monthly_pph21: number;
+  annual_gross: number;
+  ppk: number;
+  violations: Array<{ code: string; severity: string; message: string }>;
+}
+
 interface GajiResult {
   benchmark: BenchmarkResult;
-  pph21: unknown;
+  pph21: PPh21Result;
   percentile: "DI_BAWAH" | "WAJAR" | "DI_ATAS";
 }
 
@@ -154,7 +161,7 @@ export default function GajiPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div data-tool="wajar-gaji" className="max-w-xl mx-auto space-y-6 bg-blue-50 dark:bg-blue-950/20 rounded-xl p-4 sm:p-6">
       <PageHeader
         icon={Banknote}
         title="Banding Gaji"

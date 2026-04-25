@@ -293,6 +293,20 @@ html {
   --tool-tint: 240 253 250;
 }
 
+/* === V06 Critical Violation Pulse === */
+@keyframes pulse-critical {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0);
+  }
+}
+
+.animate-pulse-critical {
+  animation: pulse-critical 2s ease-in-out infinite;
+}
+
 /* === Reduced Motion Support === */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -104,7 +104,7 @@ export default function WajarTanahPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div data-tool="wajar-tanah" className="max-w-2xl mx-auto space-y-6 bg-teal-50 dark:bg-teal-950/20 rounded-xl p-4 sm:p-6">
       <PageHeader
         icon={Landmark}
         title="Cek Tanah"

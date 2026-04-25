@@ -72,7 +72,7 @@ const faqs = [
   {
     question: "Bagaimana kalau selisih PPh21 saya kecil?",
     answer:
-      "Even if the difference is small, having accurate calculations helps you understand your rights. If the difference is Rp 50K/month, break-even happens in about 2 weeks of subscription.",
+      "Even jika selisihnya kecil, memiliki perhitungan yang akurat membantu kamu memahami hak-hak kamu. Jika selisihnya Rp 50K/bulan, break-even terjadi dalam sekitar 2 minggu langganan.",
   },
   {
     question: "Bagaimana kalau saya ingin berhenti?",
@@ -151,7 +151,7 @@ export default function PricingPage() {
                   "w-full h-12",
                   plan.featured
                     ? "bg-emerald-600 hover:bg-emerald-700 text-white"
-                    : "variant=outline"
+                    : ""
                 )}
                 variant={plan.featured ? "default" : "outline"}
               >

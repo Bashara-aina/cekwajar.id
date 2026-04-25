@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export function SampleResultTeaser() {
   const [open, setOpen] = useState(false);

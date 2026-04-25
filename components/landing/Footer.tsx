@@ -11,12 +11,12 @@ const footerLinks = {
     { label: "Wajar Tanah", href: "/tanah" },
   ],
   legal: [
-    { label: "Kebijakan Privasi", href: "#" },
-    { label: "Syarat & Ketentuan", href: "#" },
-    { label: "Cookie Policy", href: "#" },
+    { label: "Kebijakan Privasi", href: "/privacy" },
+    { label: "Syarat & Ketentuan", href: "/terms" },
+    { label: "Cookie Policy", href: "/privacy#cookie" },
   ],
   company: [
-    { label: "Tentang Kami", href: "#" },
+    { label: "Tentang Kami", href: "/#founder" },
     { label: "Blog", href: "#" },
     { label: "Karir", href: "#" },
     { label: "Kontak", href: "mailto:hi@cekwajar.id" },
@@ -143,12 +143,12 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

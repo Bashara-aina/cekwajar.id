@@ -6,9 +6,11 @@ import { FileText, AlertTriangle, Receipt, ChevronLeft } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { TrustBadges } from "@/components/TrustBadges";
 import { HowItWorks } from "@/components/HowItWorksTool";
-import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
+
 import { ViolationSummaryBanner } from "@/components/ViolationSummaryBanner";
 import { SampleResultTeaser } from "@/components/SampleResultTeaser";
+import { ResultSkeleton } from "@/components/ResultSkeleton";
+import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import type { PayslipInput } from "@/lib/validators/pph21.schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,8 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { COPY } from "@/lib/copy";
 
 type Violation = { code: string; severity: "CRITICAL" | "WARNING" | "INFO"; message: string };
 
@@ -79,7 +81,7 @@ export default function WajarSlipPage() {
       if (!res.ok) throw new Error(await res.text());
       setResult(await res.json());
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Calculation failed");
+      setError(err instanceof Error ? err.message : COPY.errors.calculation_failed);
     } finally {
       setLoading(false);
     }
@@ -92,16 +94,17 @@ export default function WajarSlipPage() {
       ? "yellow"
       : "green";
 
+  const hasCritical = result?.violations?.some((v: Violation) => v.severity === "CRITICAL");
   const verdictText = result
     ? result.violations?.length > 0
-      ? result.violations.some((v: Violation) => v.severity === "CRITICAL")
-        ? "PERHATIAN: Ditemukan pelanggaran kritis pada slip gaji Anda"
-        : "PERHATIAN: Ditemukan beberapa masalah pada slip gaji Anda"
-      : "WAJAR: PPh21 dihitung dengan benar"
+      ? hasCritical
+        ? COPY.verdict.slip_pelanggaran.replace("{count}", String(result.violations.length))
+        : COPY.verdict.slip_pelanggaran.replace("{count}", String(result.violations.length))
+      : COPY.verdict.slip_sesuai
     : null;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div data-tool="wajar-slip" className="max-w-2xl mx-auto space-y-6 bg-amber-50 dark:bg-amber-950/20 rounded-xl p-4 sm:p-6">
       <PageHeader
         icon={Receipt}
         title="Cek Slip Gaji"
@@ -111,9 +114,9 @@ export default function WajarSlipPage() {
 
       <HowItWorks
         steps={[
-          { icon: FileText, title: "Upload slip gaji", description: "Input data slip gaji kamu" },
-          { icon: AlertTriangle, title: "Cek pelanggaran THR & UP", description: "Deteksi potensi pelanggaran" },
-          { icon: FileText, title: "Dapatkan rekomendasi", description: "Terima langkah perbaikan" },
+          { icon: FileText, title: "Input data slip", description: "Masukkan data dari slip gaji kamu" },
+          { icon: AlertTriangle, title: "Deteksi pelanggaran", description: "Cek kepatuhan PPh21 & BPJS" },
+          { icon: FileText, title: "Dapatkan hasil", description: "Lihat detail pelanggaran dan rekomendasi" },
         ]}
       />
 
@@ -126,7 +129,7 @@ export default function WajarSlipPage() {
             className="space-y-4"
             aria-label="Form perhitungan PPh21"
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="gross_monthly">Gaji Bruto/bulan (Rp)</Label>
                 <Input
@@ -135,6 +138,7 @@ export default function WajarSlipPage() {
                   type="number"
                   required
                   min={0}
+                  inputMode="numeric"
                   placeholder="8.500.000"
                   disabled={loading}
                   aria-describedby="gross_monthly_hint"
@@ -194,7 +198,7 @@ export default function WajarSlipPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="city">Kota</Label>
+                <Label htmlFor="city">Kota/Kabupaten</Label>
                 <Input
                   id="city"
                   name="city"
@@ -215,6 +219,7 @@ export default function WajarSlipPage() {
                   id="reported_pph21"
                   name="reported_pph21"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   placeholder="Biarkan kosong jika tidak tahu"
                   disabled={loading}
@@ -226,38 +231,44 @@ export default function WajarSlipPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <input
-                id="npwp"
-                name="npwp"
-                type="checkbox"
-                disabled={loading}
-                className={cn(
-                  "h-4 w-4 rounded border-input",
-                  "focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                  "disabled:cursor-not-allowed disabled:opacity-50"
-                )}
-                aria-describedby="npwp_hint"
-              />
-              <Label htmlFor="npwp" className="text-sm font-normal">
-                Punya NPWP
-              </Label>
-              <span id="npwp_hint" className="text-xs text-muted-foreground">
-                Centang jika Anda memiliki NPWP aktif
-              </span>
-            </div>
+            <fieldset className="border-0 p-0 m-0 space-y-2">
+              <legend className="sr-only">Status NPWP</legend>
+              <div className="flex items-center gap-2">
+                <input
+                  id="npwp"
+                  name="npwp"
+                  type="checkbox"
+                  defaultChecked={true}
+                  disabled={loading}
+                  className={cn(
+                    "h-4 w-4 rounded border-input",
+                    "focus:ring-2 focus:ring-ring focus:ring-offset-2",
+                    "disabled:cursor-not-allowed disabled:opacity-50"
+                  )}
+                  aria-describedby="npwp_hint"
+                />
+                <Label htmlFor="npwp" className="text-sm font-normal cursor-pointer">
+                  Punya NPWP
+                </Label>
+                <span id="npwp_hint" className="text-xs text-muted-foreground">
+                  Centang jika Anda memiliki NPWP aktif
+                </span>
+              </div>
+            </fieldset>
 
             <Button
               type="submit"
               disabled={loading}
               className="w-full"
-              aria-label={loading ? "Sedang menghitung PPh21, harap tunggu" : "Periksa slip gaji"}
+              aria-label={loading ? COPY.loading.slip : COPY.cta.cek_slip}
             >
-              {loading ? "Memvalidasi slip gaji kamu... ⚡" : "Periksa Slip Gaji"}
+              {loading ? COPY.loading.slip : COPY.cta.cek_slip}
             </Button>
           </form>
         </CardContent>
       </Card>
+
+      <DisclaimerBanner type="tax" />
 
       {error && (
         <Card>
@@ -324,29 +335,7 @@ export default function WajarSlipPage() {
           </div>
         </div>
       ) : loading ? (
-        <div className="space-y-4" role="status" aria-label="Memuat hasil">
-          <Card>
-            <CardContent className="pt-4 space-y-3">
-              <Skeleton className="h-4 w-1/3" />
-              <Skeleton className="h-8 w-1/2" />
-              <Skeleton className="h-3 w-1/4" />
-            </CardContent>
-          </Card>
-          <div className="grid grid-cols-2 gap-4">
-            <Card>
-              <CardContent className="pt-4 space-y-2">
-                <Skeleton className="h-4 w-2/3" />
-                <Skeleton className="h-6 w-1/2" />
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-4 space-y-2">
-                <Skeleton className="h-4 w-2/3" />
-                <Skeleton className="h-6 w-1/2" />
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+        <ResultSkeleton />
       ) : null}
     </div>
   );

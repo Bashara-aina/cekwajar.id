@@ -112,7 +112,7 @@ export default function HidupPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div data-tool="wajar-hidup" className="max-w-xl mx-auto space-y-6 bg-stone-50 dark:bg-stone-950/20 rounded-xl p-4 sm:p-6">
       <PageHeader
         icon={TrendingUp}
         title="Biaya Hidup"

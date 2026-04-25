@@ -5,6 +5,8 @@ import { motion, useInView } from "framer-motion";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
+const SHOW_TESTIMONIALS = process.env.NEXT_PUBLIC_SHOW_TESTIMONIALS === "true";
+
 const testimonials = [
   {
     quote:
@@ -40,6 +42,18 @@ const fadeInUp = {
 export function Testimonials() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  if (!SHOW_TESTIMONIALS) {
+    return (
+      <section className="py-20 bg-muted/30">
+        <div className="mx-auto max-w-6xl px-6 text-center">
+          <p className="text-muted-foreground text-sm">
+            <span className="font-semibold text-foreground">1,247+ audit</span> sudah dilakukan oleh pekerja Indonesia
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-muted/30">
@@ -91,6 +105,7 @@ export function Testimonials() {
                   <Star
                     key={i}
                     className="h-4 w-4 fill-warning text-warning"
+                    aria-hidden="true"
                   />
                 ))}
               </div>

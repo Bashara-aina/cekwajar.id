@@ -27,6 +27,8 @@ export function ViolationSummaryBanner({
     (v) => v.severity === 'CRITICAL' || v.severity === 'TINGGI'
   ).length;
 
+  const hasV06 = violations.some((v) => v.code === 'V06');
+
   const isCritical = criticalCount > 0;
 
   const formatIDR = (num: number) =>
@@ -40,7 +42,9 @@ export function ViolationSummaryBanner({
     <div
       className={cn(
         'rounded-xl p-5 mb-4 animate-fade-in-up border-2',
-        isCritical
+        hasV06
+          ? 'bg-red-50 dark:bg-red-950/30 border-red-500 dark:border-red-500 animate-pulse-critical'
+          : isCritical
           ? 'bg-red-50 dark:bg-red-950/30 border-red-300 dark:border-red-800'
           : 'bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800',
         className

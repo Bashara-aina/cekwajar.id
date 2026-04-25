@@ -60,7 +60,7 @@ export default function KaburPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto space-y-6 p-6">
+    <div data-tool="wajar-kabur" className="max-w-xl mx-auto space-y-6 bg-indigo-50 dark:bg-indigo-950/20 rounded-xl p-4 sm:p-6">
       <PageHeader
         icon={Plane}
         title="PPP Kabur"
