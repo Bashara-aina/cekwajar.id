@@ -307,6 +307,37 @@ html {
   animation: pulse-critical 2s ease-in-out infinite;
 }
 
+/* === Mobile Touch Optimization (Dimension 82 & 85) === */
+@media (max-width: 640px) {
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="search"],
+  select,
+  textarea {
+    min-height: 52px !important;
+    font-size: 16px !important;
+  }
+  button[type="submit"],
+  a[role="button"] {
+    min-height: 48px;
+  }
+}
+
+/* iOS tap highlight removal + active press state */
+a,
+button,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  button:active:not(:disabled) {
+    transform: scale(0.97);
+    transition: transform 0.1s;
+  }
+}
+
 /* === Reduced Motion Support === */
 @media (prefers-reduced-motion: reduce) {
   *,

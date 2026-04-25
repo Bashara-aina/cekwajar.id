@@ -21,7 +21,7 @@ const faqs = [
   {
     question: "Berapa biaya langganan?",
     answer:
-      "Plan Free gratis selamanya dengan 1 cek slip per bulan. Plan Basic Rp 29K/bulan untuk 5 cek slip. Plan Pro Rp 79K/bulan untuk unlimited cek slip加上 akses API dan notifikasi.",
+      "Plan Free gratis selamanya dengan 1 cek slip per bulan. Plan Basic Rp 29K/bulan untuk 5 cek slip. Plan Pro Rp 79K/bulan untuk unlimited cek slip plus akses API dan notifikasi.",
   },
   {
     question: "Apakah ini legal untuk digunakan sebagai bukti?",
@@ -31,7 +31,7 @@ const faqs = [
   {
     question: "Benchmark gaji dari mana datanya?",
     answer:
-      "Data benchmark gaji kami bersumber dari agregasi data работодателей yang menyerahkan slip ke bpjs (), ditambah survey market salary dari berbagai platform recruitment Indonesia. Data diperbarui setiap kuartal.",
+      "Data benchmark gaji kami bersumber dari agregasi data employer yang menyerahkan slip ke BPJS, ditambah survei market salary dari berbagai platform rekrutmen Indonesia. Data diperbarui setiap kuartal.",
   },
   {
     question: "Apakah bisa cek slip untuk freelancer atau PKL?",

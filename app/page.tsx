@@ -151,8 +151,8 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight"
         >
-          Cek Gaji Anda{" "}
-          <span className="text-primary">Wajar</span> Atau Tidak
+          Slip Gaji Kamu{" "}
+          <span className="text-primary">Dipotong Sesuai</span> Atau Tidak
         </motion.h1>
 
         <motion.p
@@ -161,7 +161,7 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground mb-4"
         >
-          Platform verifikasi keadilan gaji untuk pekerja Indonesia
+          AI temukan berapa yang kurang — atau lebih — dipotong dari gajimu. Semua gratis, tanpa daftar.
         </motion.p>
 
         <motion.p
