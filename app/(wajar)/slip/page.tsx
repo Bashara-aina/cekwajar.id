@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { ResultCard } from "@/components/ResultCard";
 import { FileText, AlertTriangle, Receipt, ChevronLeft } from "lucide-react";
+import { CityCommandSelect } from "@/components/wajar-slip/CityCommandSelect";
+import { INDONESIAN_CITIES } from "@/lib/cities";
 import { FormProgress } from "@/components/FormProgress";
 import { PageHeader } from "@/components/PageHeader";
 import { TrustBadges } from "@/components/TrustBadges";
@@ -12,6 +14,7 @@ import { ViolationSummaryBanner } from "@/components/ViolationSummaryBanner";
 import { SampleResultTeaser } from "@/components/SampleResultTeaser";
 import { ConfettiEffect } from "@/components/ConfettiEffect";
 import { ShareVerdictButton } from "@/components/ShareVerdictButton";
+import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
 import { ResultSkeleton } from "@/components/ResultSkeleton";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import type { PayslipInput } from "@/lib/validators/pph21.schema";
@@ -56,6 +59,7 @@ export default function WajarSlipPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<PayslipResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [city, setCity] = useState("Jakarta Pusat");
 
   function handleNextStep() {
     if (currentStep < 3) setCurrentStep((s) => s + 1);
@@ -224,15 +228,14 @@ export default function WajarSlipPage() {
 
                 <div className="space-y-2 sm:col-span-2">
                   <Label htmlFor="city">Kota/Kabupaten</Label>
-                  <Input
-                    id="city"
-                    name="city"
-                    type="text"
-                    required
-                    placeholder="Jakarta"
-                    disabled={loading}
-                    aria-describedby="city_hint"
+                  <CityCommandSelect
+                    cities={INDONESIAN_CITIES}
+                    value={city}
+                    onValueChange={setCity}
+                    placeholder="Cari kota..."
+                    className="w-full"
                   />
+                  <input type="hidden" name="city" value={city} />
                   <p id="city_hint" className="text-xs text-muted-foreground">
                     Kota tempat bekerja
                   </p>
@@ -395,6 +398,8 @@ export default function WajarSlipPage() {
               amountLabel="Penghasilan Kena Pajak"
             />
           </div>
+
+          <CrossToolSuggestion fromTool="slip" />
         </div>
         </>
       ) : loading ? (

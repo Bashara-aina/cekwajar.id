@@ -1,102 +1,111 @@
+import { ShieldCheck, Trash2, UserX, FileCheck, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface TrustBadgeItemProps {
-  icon: React.ReactNode;
-  text: string;
+interface Badge {
+  icon: React.ElementType;
+  label: string;
+  sublabel?: string;
 }
 
-function TrustBadgeItem({ icon, text }: TrustBadgeItemProps) {
-  return (
-    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-      {icon}
-      <span>{text}</span>
-    </div>
-  );
-}
+const DEFAULT_BADGES: Badge[] = [
+  {
+    icon: Lock,
+    label: "Enkripsi TLS 1.3",
+    sublabel: "Data aman saat transfer",
+  },
+  {
+    icon: Trash2,
+    label: "Hapus Otomatis 30 Hari",
+    sublabel: "Data tidak disimpan permanen",
+  },
+  {
+    icon: UserX,
+    label: "Tanpa Nama Tersimpan",
+    sublabel: "Audit bisa tanpa daftar",
+  },
+  {
+    icon: FileCheck,
+    label: "Berbasis PMK 168/2023",
+    sublabel: "Regulasi pajak resmi Indonesia",
+  },
+];
+
+const PROPERTY_BADGES: Badge[] = [
+  {
+    icon: Lock,
+    label: "Enkripsi TLS 1.3",
+    sublabel: "Data aman saat transfer",
+  },
+  {
+    icon: Trash2,
+    label: "Hapus Otomatis",
+    sublabel: "30 hari setelah audit",
+  },
+  {
+    icon: FileCheck,
+    label: "Data dari Listing Publik",
+    sublabel: "99.co & Rumah123",
+  },
+  {
+    icon: ShieldCheck,
+    label: "IQR Statistical Method",
+    sublabel: "Outlier otomatis dibuang",
+  },
+];
 
 interface TrustBadgesProps {
+  badges?: Badge[];
   className?: string;
+  variant?: "default" | "property" | "compact";
 }
 
-export function TrustBadges({ className }: TrustBadgesProps) {
+export function TrustBadges({
+  badges,
+  className,
+  variant = "default",
+}: TrustBadgesProps) {
+  const activeBadges = badges ?? (variant === "property" ? PROPERTY_BADGES : DEFAULT_BADGES);
+
+  if (variant === "compact") {
+    return (
+      <div className={cn("flex flex-wrap gap-2 justify-center", className)}>
+        {activeBadges.map((badge) => {
+          const Icon = badge.icon;
+          return (
+            <div
+              key={badge.label}
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/60 rounded-full px-3 py-1"
+            >
+              <Icon className="w-3 h-3 text-emerald-500" />
+              <span>{badge.label}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
-    <div className={cn("flex flex-wrap items-center gap-x-4 gap-y-1.5", className)}>
-      <TrustBadgeItem
-        icon={
-          <svg
-            className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            aria-hidden="true"
+    <div className={cn("grid grid-cols-2 md:grid-cols-4 gap-3 mb-6", className)}>
+      {activeBadges.map((badge) => {
+        const Icon = badge.icon;
+        return (
+          <div
+            key={badge.label}
+            className="flex flex-col items-center text-center p-3 bg-emerald-50 dark:bg-emerald-950/20 rounded-xl border border-emerald-100 dark:border-emerald-900"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-            />
-          </svg>
-        }
-        text="Enkripsi TLS 1.3"
-      />
-      <TrustBadgeItem
-        icon={
-          <svg
-            className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        }
-        text="Hapus Otomatis 30 Hari"
-      />
-      <TrustBadgeItem
-        icon={
-          <svg
-            className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-            />
-          </svg>
-        }
-        text="Tanpa Nama"
-      />
-      <TrustBadgeItem
-        icon={
-          <svg
-            className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        }
-        text="Berbasis PMK 168/2023"
-      />
+            <Icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mb-1.5" />
+            <p className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">
+              {badge.label}
+            </p>
+            {badge.sublabel && (
+              <p className="text-xs text-emerald-700/70 dark:text-emerald-400/70 mt-0.5 leading-tight">
+                {badge.sublabel}
+              </p>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

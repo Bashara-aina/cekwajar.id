@@ -1,6 +1,8 @@
 "use client";
 
+import { AlertTriangle } from "lucide-react";
 import { Badge } from "./ui/badge";
+import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 
 interface Violation {
@@ -53,11 +55,32 @@ export function ResultCard({
     CRITICAL: "border-l-4 border-l-red-500",
   };
 
+  const hasV06 = violations.some((v) => v.code === "V06");
+
   return (
-    <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+    <div
+      className={cn(
+        "rounded-xl border bg-white shadow-sm overflow-hidden",
+        hasV06 && "border-red-400 dark:border-red-600 animate-pulse-critical ring-2 ring-red-200 dark:ring-red-900"
+      )}
+    >
+      {hasV06 && (
+        <div className="bg-red-600 text-white text-xs font-bold px-4 py-2 flex items-center gap-1.5">
+          <AlertTriangle className="w-3.5 h-3.5" />
+          PELANGGARAN HUKUM — UU Ketenagakerjaan Pasal 90
+        </div>
+      )}
+
       {/* Header */}
       <div className="px-5 py-4 border-b flex items-center gap-3">
-        {Icon && <Icon className="h-5 w-5 text-gray-500" />}
+        {Icon && (
+          <Icon
+            className={cn(
+              "h-5 w-5",
+              hasV06 ? "text-red-500" : "text-gray-500"
+            )}
+          />
+        )}
         <h3 className="font-semibold text-gray-900">{title}</h3>
         {verdict && (
           <Badge className={`ml-auto ${verdictStyles[verdictColor]}`}>
@@ -70,7 +93,9 @@ export function ResultCard({
       {amount !== undefined && (
         <div className="px-5 py-4">
           <p className="text-sm text-gray-500 mb-1">{amountLabel ?? "Amount"}</p>
-          <p className="text-3xl font-bold text-gray-900">{formatCurrency(amount)}</p>
+          <p className="text-3xl font-bold text-gray-900">
+            {formatCurrency(amount)}
+          </p>
         </div>
       )}
 
@@ -80,9 +105,16 @@ export function ResultCard({
           {violations.map((v, i) => (
             <div
               key={i}
-              className={`rounded-lg px-3 py-2 text-sm bg-white border ${severityStyles[v.severity]}`}
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm bg-white border",
+                v.code === "V06"
+                  ? "border-red-300 bg-red-50/50"
+                  : severityStyles[v.severity]
+              )}
             >
-              <span className="font-mono text-xs text-gray-400 mr-2">[{v.code}]</span>
+              <span className="font-mono text-xs text-gray-400 mr-2">
+                [{v.code}]
+              </span>
               {v.message}
             </div>
           ))}

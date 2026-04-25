@@ -21,6 +21,7 @@ import { FAQ } from "@/components/landing/FAQ";
 import { Footer } from "@/components/landing/Footer";
 import { FounderSection } from "@/components/FounderSection";
 import { MulaiDariMana } from "@/components/MulaiDariMana";
+import { AuditCounterBadge } from "@/components/AuditCounterBadge";
 
 const tools = [
   {
@@ -190,6 +191,8 @@ export default function Home() {
             <Link href="#pricing">Lihat Pricing</Link>
           </Button>
         </motion.div>
+
+        <AuditCounterBadge className="inline-flex items-center gap-1.5 text-sm text-muted-foreground mt-4" />
 
         {/* Data source badges */}
         <motion.div

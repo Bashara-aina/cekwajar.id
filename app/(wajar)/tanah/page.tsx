@@ -111,7 +111,7 @@ export default function WajarTanahPage() {
         description="Cek harga tanah di zona lokasi kamu"
       />
 
-      <TrustBadges />
+      <TrustBadges variant="property" />
 
       <HowItWorks steps={[
         { icon: MapPin, title: "Input lokasi tanah", description: "Masukkan alamat atau koordinat tanah" },
