@@ -1,26 +1,272 @@
 @import "tailwindcss";
 
+/* ============================================
+   PLUS JAKARTA SANS — loaded via next/font
+   Fallback: system-ui for when font not ready
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* === Semantic Color Tokens (Light Mode) === */
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --color-primary-10: #2563eb1a;
+
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #0f172a;
+
+  --color-success: #16a34a;
+  --color-success-foreground: #ffffff;
+  --color-success-10: #16a34a1a;
+
+  --color-danger: #dc2626;
+  --color-danger-foreground: #ffffff;
+  --color-danger-10: #dc26261a;
+
+  --color-warning: #d97706;
+  --color-warning-foreground: #ffffff;
+  --color-warning-10: #d977061a;
+
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #2563eb;
+
+  /* === Surface Tokens === */
+  --color-background: #ffffff;
+  --color-foreground: #09090b;
+  --color-card: #ffffff;
+  --color-card-foreground: #09090b;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #09090b;
+
+  /* === Chart Colors (Tremor-compatible) === */
+  --color-chart-1: #2563eb;
+  --color-chart-2: #16a34a;
+  --color-chart-3: #d97706;
+  --color-chart-4: #dc2626;
+  --color-chart-5: #7c3aed;
+
+  /* === Radius === */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* === Tailwind v4 @theme — maps CSS vars to utility classes === */
+  /* Colors */
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-secondary-foreground);
+  --color-success: var(--color-success);
+  --color-success-foreground: var(--color-success-foreground);
+  --color-danger: var(--color-danger);
+  --color-danger-foreground: var(--color-danger-foreground);
+  --color-warning: var(--color-warning);
+  --color-warning-foreground: var(--color-warning-foreground);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-border: var(--color-border);
+  --color-input: var(--color-input);
+  --color-ring: var(--color-ring);
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-card: var(--color-card);
+  --color-card-foreground: var(--color-card-foreground);
+  --color-popover: var(--color-popover);
+  --color-popover-foreground: var(--color-popover-foreground);
+  --color-chart-1: var(--color-chart-1);
+  --color-chart-2: var(--color-chart-2);
+  --color-chart-3: var(--color-chart-3);
+  --color-chart-4: var(--color-chart-4);
+  --color-chart-5: var(--color-chart-5);
+
+  /* Fonts (set in layout.tsx, referenced here for Tailwind) */
+  --font-sans: var(--font-plus-jakarta);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* Border Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Animation easings */
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* === Dark Mode === */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-primary: #3b82f6;
+    --color-primary-foreground: #ffffff;
+
+    --color-secondary: #1e293b;
+    --color-secondary-foreground: #f8fafc;
+
+    --color-success: #22c55e;
+    --color-success-foreground: #ffffff;
+
+    --color-danger: #ef4444;
+    --color-danger-foreground: #ffffff;
+
+    --color-warning: #f59e0b;
+    --color-warning-foreground: #000000;
+
+    --color-muted: #1e293b;
+    --color-muted-foreground: #94a3b8;
+
+    --color-border: #334155;
+    --color-input: #334155;
+    --color-ring: #3b82f6;
+
+    --color-background: #09090b;
+    --color-foreground: #fafafa;
+    --color-card: #0a0a0a;
+    --color-card-foreground: #fafafa;
+    --color-popover: #0a0a0a;
+    --color-popover-foreground: #fafafa;
+
+    --color-chart-1: #3b82f6;
+    --color-chart-2: #22c55e;
+    --color-chart-3: #f59e0b;
+    --color-chart-4: #ef4444;
+    --color-chart-5: #8b5cf6;
   }
 }
 
+/* === Base Styles === */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Custom Scrollbar === */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+}
+
+/* === Text Selection === */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+/* === Focus Ring (a11y) === */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* === Smooth Scrolling === */
+html {
+  scroll-behavior: smooth;
+}
+
+/* === Shimmer Animation (for Skeleton loaders) === */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-muted) 25%,
+    var(--color-border) 50%,
+    var(--color-muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* === Fade-in-up Animation (for scroll reveals) === */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s var(--ease-out) forwards;
+}
+
+/* === Accordion animations === */
+@keyframes accordion-down {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 1000px;
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    max-height: 1000px;
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.3s var(--ease-out);
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.3s var(--ease-out);
+}
+
+/* === Count-up number animation === */
+@keyframes count-up {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

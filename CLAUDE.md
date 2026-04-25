@@ -1,5 +1,10 @@
 # CekWajar.id - Indonesian Wage Fairness Platform
 
+> **⚠️ CANONICAL VERSION** — This is the active development codebase.
+> Previous `src/` version (Pages Router): archived at `/home/newadmin/swarm-bot/ARCHIVE_cekwajar-src-version/`
+>
+> GitHub: https://github.com/Bashara-aina/cekwajar.id
+
 Platform untuk memverifikasi keadilan gaji dan harga properti di Indonesia.
 
 ## Tech Stack

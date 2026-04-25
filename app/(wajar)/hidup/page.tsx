@@ -111,7 +111,7 @@ export default function HidupPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Wajar Hidup</h1>
         <p className="text-gray-500 text-sm mt-1">
-          Breakdown biaya hidup bulanan & 黄金购买力
+          Breakdown biaya hidup bulanan
         </p>
       </div>
 
@@ -236,7 +236,7 @@ export default function HidupPage() {
             {/* Gold purchasing power */}
             <div className="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-xl p-4">
               <div className="text-xs text-yellow-700 font-medium mb-1">
-                黄金购买力 — Gold Purchasing Power
+                Daya Beli Emas — Gold Purchasing Power
               </div>
               <div className="text-2xl font-black text-amber-700">
                 {result.goldPurchasingPower.toFixed(2)} gram

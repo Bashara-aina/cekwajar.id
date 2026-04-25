@@ -3,6 +3,18 @@
 import { useState } from "react";
 import { ResultCard } from "@/components/ResultCard";
 import { FreemiumGate } from "@/components/FreemiumGate";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Plane } from "lucide-react";
 
 const CITIES = [
   { value: "jakarta", label: "Jakarta" },
@@ -34,9 +46,7 @@ export default function KaburPage() {
         `/api/worldbank?current_city=${form.current_city}&target_city=${form.target_city}`
       );
       const wb = await wbRes.json();
-
       const feasibility = calculateFeasibility(wb);
-
       setResult({ wb, feasibility });
     } catch (err) {
       console.error(err);
@@ -46,54 +56,74 @@ export default function KaburPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div className="max-w-xl mx-auto space-y-6 p-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Wajar Kabur</h1>
-        <p className="text-gray-500 text-sm mt-1">
-         逃走可行性 — Seberapa realistis pindah ke kota lain?
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500 text-white">
+            <Plane className="h-5 w-5" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Wajar Kabur</h1>
+          </div>
+        </div>
+        <p className="text-muted-foreground text-sm">
+          Seberapa realistis pindah ke kota lain? Analisis PPP dan biaya hidup
+          antar kota di Indonesia.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border p-6 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Kota Sekarang
-            </label>
-            <select
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-              value={form.current_city}
-              onChange={(e) => setForm({ ...form, current_city: e.target.value })}
-            >
-              {CITIES.map((c) => (
-                <option key={c.value} value={c.value}>{c.label}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Kota Target
-            </label>
-            <select
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-              value={form.target_city}
-              onChange={(e) => setForm({ ...form, target_city: e.target.value })}
-            >
-              {CITIES.map((c) => (
-                <option key={c.value} value={c.value}>{c.label}</option>
-              ))}
-            </select>
-          </div>
-        </div>
+      <Card>
+        <CardContent className="p-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="current_city">Kota Sekarang</Label>
+                <Select
+                  value={form.current_city}
+                  onValueChange={(v) =>
+                    setForm({ ...form, current_city: v })
+                  }
+                >
+                  <SelectTrigger id="current_city">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CITIES.map((c) => (
+                      <SelectItem key={c.value} value={c.value}>
+                        {c.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="target_city">Kota Target</Label>
+                <Select
+                  value={form.target_city}
+                  onValueChange={(v) =>
+                    setForm({ ...form, target_city: v })
+                  }
+                >
+                  <SelectTrigger id="target_city">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CITIES.map((c) => (
+                      <SelectItem key={c.value} value={c.value}>
+                        {c.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white rounded-lg py-2.5 font-semibold text-sm hover:bg-blue-700 disabled:opacity-50"
-        >
-          {loading ? "Menganalisis..." : "Analisis Kelayakan"}
-        </button>
-      </form>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Menganalisis..." : "Analisis Kelayakan Pindah"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
 
       {result && (
         <FreemiumGate requiredTier="pro" featureName="Hasil analisis kabur">
@@ -110,7 +140,11 @@ function KaburResult({ result }: { result: Record<string, unknown> }) {
       current_city: { name: string; indicators: Record<string, number | null> };
       target_city: { name: string; indicators: Record<string, number | null> };
     };
-    feasibility: { score: number; label: string; verdict: "WAJAR" | "SUSAH" | "MUSTAHIL" };
+    feasibility: {
+      score: number;
+      label: string;
+      verdict: "WAJAR" | "SUSAH" | "MUSTAHIL";
+    };
   };
 
   const current = wb.current_city;
@@ -120,63 +154,59 @@ function KaburResult({ result }: { result: Record<string, unknown> }) {
     (target.indicators.cost_of_living || 100) /
     (current.indicators.cost_of_living || 100);
 
+  const verdictConfig = {
+    WAJAR: { color: "text-success", bg: "bg-success/10", border: "border-success/20" },
+    SUSAH: { color: "text-warning", bg: "bg-warning/10", border: "border-warning/20" },
+    MUSTAHIL: { color: "text-danger", bg: "bg-danger/10", border: "border-danger/20" },
+  };
+  const vcfg = verdictConfig[feasibility.verdict];
+
   return (
     <div className="space-y-4">
       {/* Feasibility Score */}
-      <div className="bg-white rounded-xl border p-6 text-center">
-        <div className="text-4xl font-black text-blue-600 mb-1">
-          {feasibility.score}/10
-        </div>
-        <div className={`text-lg font-bold ${
-          feasibility.verdict === "WAJAR" ? "text-green-600" :
-          feasibility.verdict === "SUSAH" ? "text-yellow-600" : "text-red-600"
-        }`}>
-          {feasibility.label}
-        </div>
-        <p className="text-sm text-gray-500 mt-1">
-          逃走可行性 — Escape Feasibility Index
-        </p>
-      </div>
+      <Card className={`border ${vcfg.border}`}>
+        <CardContent className="p-6 text-center">
+          <div className={`text-5xl font-black font-mono ${vcfg.color} mb-2`}>
+            {feasibility.score}/10
+          </div>
+          <Badge className={`${vcfg.bg} ${vcfg.color} border-0 mb-2`}>
+            {feasibility.label}
+          </Badge>
+          <p className="text-sm text-muted-foreground mt-1">
+            Escape Feasibility Index — Seberapa realistis pindah ke kota lain
+          </p>
+        </CardContent>
+      </Card>
 
       {/* Side-by-side comparison */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl border p-4">
-          <div className="text-xs text-gray-500 mb-2">Kota Sekarang</div>
-          <div className="font-bold text-sm mb-3">{current.name}</div>
-          <div className="space-y-2 text-xs">
-            <div className="flex justify-between">
-              <span className="text-gray-500">Cost of Living</span>
-              <span className="font-medium">
-                {(current.indicators.cost_of_living || 0).toFixed(1)}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">GDP per capita</span>
-              <span className="font-medium">
-                ${((current.indicators.gdp_per_capita || 0) / 1000).toFixed(0)}k
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl border p-4">
-          <div className="text-xs text-gray-500 mb-2">Kota Target</div>
-          <div className="font-bold text-sm mb-3">{target.name}</div>
-          <div className="space-y-2 text-xs">
-            <div className="flex justify-between">
-              <span className="text-gray-500">Cost of Living</span>
-              <span className="font-medium">
-                {(target.indicators.cost_of_living || 0).toFixed(1)}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">GDP per capita</span>
-              <span className="font-medium">
-                ${((target.indicators.gdp_per_capita || 0) / 1000).toFixed(0)}k
-              </span>
-            </div>
-          </div>
-        </div>
+        {[
+          { city: current, label: "Kota Sekarang" },
+          { city: target, label: "Kota Target" },
+        ].map(({ city, label }) => (
+          <Card key={label}>
+            <CardHeader className="p-4 pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">
+                {label}
+              </CardTitle>
+              <p className="font-semibold">{city.name}</p>
+            </CardHeader>
+            <CardContent className="p-4 pt-0 space-y-2">
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">Cost of Living</span>
+                <span className="font-medium font-mono">
+                  {(city.indicators.cost_of_living || 0).toFixed(1)}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">GDP per capita</span>
+                <span className="font-medium font-mono">
+                  ${((city.indicators.gdp_per_capita || 0) / 1000).toFixed(0)}k
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {/* Cost ratio analysis */}
@@ -186,21 +216,34 @@ function KaburResult({ result }: { result: Record<string, unknown> }) {
         verdict={
           costRatio < 1.3 ? "WAJAR" : costRatio < 2.0 ? "DI_ATAS" : "DI_BAWAH"
         }
-        amountLabel={`${costRatio.toFixed(2)}x cost ratio`}
+        amountLabel={`${costRatio.toFixed(2)}x rasio biaya`}
       />
 
-      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4 text-sm text-blue-800">
-        <div className="font-semibold mb-1">💡 Insight</div>
-        {costRatio < 1.3 && (
-          <p>Kota target memiliki biaya hidup yang mirip. Gaji lokal masih cukup untuk bertahan.</p>
-        )}
-        {costRatio >= 1.3 && costRatio < 2.0 && (
-          <p>Biaya hidup di kota target lebih tinggi ~{(costRatio * 100 - 100).toFixed(0)}%. Pastikan negotiate salary 30% lebih tinggi.</p>
-        )}
-        {costRatio >= 2.0 && (
-          <p>Biaya hidup di kota target jauh lebih tinggi. Perlu salary yang sangat kompetitif atautabungan besar.</p>
-        )}
-      </div>
+      {/* Insight */}
+      <Card className="bg-primary/5 border-primary/20">
+        <CardContent className="p-4">
+          <p className="text-sm font-medium mb-1">Insight</p>
+          {costRatio < 1.3 && (
+            <p className="text-sm text-muted-foreground">
+              Kota target memiliki biaya hidup yang mirip. Gaji lokal masih cukup
+              untuk bertahan.
+            </p>
+          )}
+          {costRatio >= 1.3 && costRatio < 2.0 && (
+            <p className="text-sm text-muted-foreground">
+              Biaya hidup di kota target lebih tinggi{" "}
+              ~{(costRatio * 100 - 100).toFixed(0)}%. Pastikan negosiasi
+              salary 30% lebih tinggi.
+            </p>
+          )}
+          {costRatio >= 2.0 && (
+            <p className="text-sm text-muted-foreground">
+              Biaya hidup di kota target jauh lebih tinggi. Perlu salary yang
+              sangat kompetitif atau tabungan besar.
+            </p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -215,18 +258,30 @@ function calculateFeasibility(
   const currentCost = wb.current_city.indicators.cost_of_living || 100;
   const ratio = targetCost / currentCost;
 
-  // Score from 0-10
   let score = 10 - (ratio - 1) * 5;
   score = Math.max(0, Math.min(10, score));
 
-  // Bonus for GDP per capita (higher = more salary potential)
   const targetGDP = wb.target_city.indicators.gdp_per_capita || 5000;
   if (targetGDP > 30000) score += 1;
   if (targetGDP > 50000) score += 1;
 
   score = Math.max(0, Math.min(10, score));
 
-  if (score >= 7) return { score: Math.round(score), label: "Cuku七 Terbang", verdict: "WAJAR" };
-  if (score >= 4) return { score: Math.round(score), label: "Perlu Negotiasi", verdict: "SUSAH" };
-  return { score: Math.round(score), label: "Susah Banget", verdict: "MUSTAHIL" };
+  if (score >= 7)
+    return {
+      score: Math.round(score),
+      label: "Cukup Realistis",
+      verdict: "WAJAR",
+    };
+  if (score >= 4)
+    return {
+      score: Math.round(score),
+      label: "Perlu Negosiasi",
+      verdict: "SUSAH",
+    };
+  return {
+    score: Math.round(score),
+    label: "Susah Banget",
+    verdict: "MUSTAHIL",
+  };
 }

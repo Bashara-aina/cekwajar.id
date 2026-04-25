@@ -1,50 +1,77 @@
 "use client";
 
-import { FileText, Banknote, Plane, Scale, Landmark, Check } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+  FileText,
+  Banknote,
+  Plane,
+  Scale,
+  Landmark,
+  Check,
+  ArrowRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Navbar } from "@/components/landing/Navbar";
+import { Stats } from "@/components/landing/Stats";
+import { HowItWorks } from "@/components/landing/HowItWorks";
+import { Testimonials } from "@/components/landing/Testimonials";
+import { FAQ } from "@/components/landing/FAQ";
+import { Footer } from "@/components/landing/Footer";
 
 const tools = [
   {
     name: "Wajar Slip",
-    description: "Audit payslip Anda — cek kepatuhan PPh21 & BPJS dengan standar regulasi terkini.",
+    description:
+      "Audit slip gaji Anda — cek kepatuhan PPh21 & BPJS dengan standar PMK 168/2023 terbaru.",
     icon: FileText,
     href: "/slip",
     color: "bg-blue-500",
+    badge: "PPh21 + BPJS",
   },
   {
     name: "Wajar Gaji",
-    description: "Bandingkan gaji Anda dengan benchmark industri berdasarkan posisi, lokasi, dan pengalaman.",
+    description:
+      "Bandingkan gaji Anda dengan benchmark industri berdasarkan posisi, lokasi, dan pengalaman.",
     icon: Banknote,
     href: "/gaji",
     color: "bg-green-500",
+    badge: "Salary Benchmark",
   },
   {
     name: "Wajar Kabur",
-    description: "Analisis PPP dan biaya hidup antar kota di Indonesia — tahu persis kota mana yang lebih murah.",
+    description:
+      "Analisis PPP dan biaya hidup antar kota di Indonesia — tahu persis kota mana yang lebih murah.",
     icon: Plane,
     href: "/kabur",
     color: "bg-purple-500",
+    badge: "PPP Analysis",
   },
   {
     name: "Wajar Hidup",
-    description: "Bandingkan biaya hidup: makan, sewa, transportasi, dan tagihan bulanan di berbagai kota.",
+    description:
+      "Bandingkan biaya hidup: makan, sewa, transportasi, dan tagihan bulanan di berbagai kota.",
     icon: Scale,
     href: "/hidup",
     color: "bg-orange-500",
+    badge: "Cost of Living",
   },
   {
     name: "Wajar Tanah",
-    description: "Cek apakah harga properti di lokasi tertentu wajar berdasarkan data pasar terkini.",
+    description:
+      "Cek apakah harga properti di lokasi tertentu wajar berdasarkan data pasar terkini.",
     icon: Landmark,
     href: "/tanah",
     color: "bg-red-500",
+    badge: "Property Index",
   },
 ];
 
 const plans = [
   {
     name: "Free",
-    price: "IDR 0",
+    price: "Rp 0",
     period: "selamanya",
     description: "Cukup untuk pengecekan pertama.",
     features: [
@@ -57,7 +84,7 @@ const plans = [
   },
   {
     name: "Basic",
-    price: "IDR 29K",
+    price: "Rp 29K",
     period: "per bulan",
     description: "Untuk pekerja yang ingin cek secara rutin.",
     features: [
@@ -71,7 +98,7 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "IDR 79K",
+    price: "Rp 79K",
     period: "per bulan",
     description: "Full access untuk HR dan individu yang serius.",
     features: [
@@ -85,146 +112,276 @@ const plans = [
   },
 ];
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.5, ease: [0.33, 1, 0.68, 1] as [number, number, number, number] },
+  }),
+};
+
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
-      {/* Header */}
-      <header className="border-b border-zinc-200 dark:border-zinc-800">
-        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-bold tracking-tight">cekwajar.id</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            <a href="#tools" className="hover:text-black dark:hover:text-white transition-colors">Tools</a>
-            <a href="#pricing" className="hover:text-black dark:hover:text-white transition-colors">Pricing</a>
-            <a href="/slip" className="hover:text-black dark:hover:text-white transition-colors">Masuk</a>
-          </nav>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
 
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 py-24 text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-          Cek Gaji Anda Wajar Atau Tidak
-        </h1>
-        <p className="mx-auto max-w-2xl text-lg text-zinc-600 dark:text-zinc-400 mb-4">
-          Gratuity公平 checker untuk pekerja Indonesia
-        </p>
-        <p className="mx-auto max-w-2xl text-base text-zinc-500 dark:text-zinc-500 mb-10">
-          5 alat terintegrasi untukAudit slip gaji, bandingkan gaji, hitung biaya hidup, dan cek harga properti — semua dari satu tempat.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="#tools"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-black px-8 text-sm font-medium text-white dark:bg-white dark:text-black hover:opacity-90 transition-opacity"
-          >
-            Mulai Sekarang — Gratis
-          </a>
-          <a
-            href="#pricing"
-            className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-300 dark:border-zinc-700 px-8 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
-          >
-            Lihat Pricing
-          </a>
-        </div>
+      <section className="mx-auto max-w-6xl px-6 pt-16 pb-20 text-center">
+        {/* Trust badge above headline */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-1.5 text-xs font-medium text-muted-foreground mb-8"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+          </span>
+          Trusted by 10,000+ Indonesian workers
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight"
+        >
+          Cek Gaji Anda{" "}
+          <span className="text-primary">Wajar</span> Atau Tidak
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground mb-4"
+        >
+          Platform verifikasi keadilan gaji untuk pekerja Indonesia
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="mx-auto max-w-2xl text-base text-muted-foreground mb-10"
+        >
+          5 alat terintegrasi untuk audit slip gaji, bandingkan gaji dengan
+          benchmark industri, hitung biaya hidup, dan cek harga properti —
+          semua dari satu tempat.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center"
+        >
+          <Button size="lg" asChild className="gap-2">
+            <Link href="#tools">
+              Mulai Sekarang — Gratis
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button size="lg" variant="outline" asChild>
+            <Link href="#pricing">Lihat Pricing</Link>
+          </Button>
+        </motion.div>
+
+        {/* Data source badges */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex flex-wrap items-center justify-center gap-3 mt-12"
+        >
+          <span className="text-xs text-muted-foreground">
+            Data bersumber dari:
+          </span>
+          {["BPS Indonesia", "World Bank", "PMK 168/2023"].map((source) => (
+            <Badge key={source} variant="outline" className="text-xs font-normal">
+              {source}
+            </Badge>
+          ))}
+        </motion.div>
       </section>
 
+      {/* Stats */}
+      <Stats />
+
       {/* Tools */}
-      <section id="tools" className="mx-auto max-w-6xl px-6 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-4">Semua Tool yang Anda Butuhkan</h2>
-          <p className="text-zinc-600 dark:text-zinc-400">Pilih alat yang sesuai kebutuhan Anda</p>
-        </div>
+      <section id="tools" className="mx-auto max-w-6xl px-6 py-20">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.1 } },
+          }}
+          className="text-center mb-12"
+        >
+          <motion.h2
+            variants={fadeInUp}
+            className="text-3xl font-bold tracking-tight mb-4"
+          >
+            Semua Tool yang Anda Butuhkan
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            className="text-muted-foreground max-w-xl mx-auto"
+          >
+            Pilih alat yang sesuai kebutuhan Anda. Semua gratis untuk
+            memulai.
+          </motion.p>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tools.map((tool) => {
+          {tools.map((tool, i) => {
             const Icon = tool.icon;
             return (
-              <Link
+              <motion.div
                 key={tool.name}
-                href={tool.href}
-                className="group block rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-lg transition-all"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                custom={i}
+                variants={fadeInUp}
               >
-                <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${tool.color} text-white mb-4`}>
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  {tool.name}
-                </h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                  {tool.description}
-                </p>
-              </Link>
+                <Link
+                  href={tool.href}
+                  className="group block rounded-2xl border border-border p-6 bg-card hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div
+                      className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${tool.color} text-white`}
+                    >
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <Badge variant="outline" className="text-xs">
+                      {tool.badge}
+                    </Badge>
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                    {tool.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {tool.description}
+                  </p>
+                  <div className="mt-4 flex items-center gap-1 text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    Gunakan tool
+                    <ArrowRight className="h-3 w-3" />
+                  </div>
+                </Link>
+              </motion.div>
             );
           })}
         </div>
       </section>
 
+      {/* How it Works */}
+      <HowItWorks />
+
+      {/* Testimonials */}
+      <Testimonials />
+
       {/* Pricing */}
-      <section id="pricing" className="mx-auto max-w-6xl px-6 py-16 border-t border-zinc-200 dark:border-zinc-800">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-4">Pilihan Plan yang Fleksibel</h2>
-          <p className="text-zinc-600 dark:text-zinc-400">Mulai gratis, upgrade kapan saja</p>
-        </div>
+      <section id="pricing" className="mx-auto max-w-6xl px-6 py-20 border-t border-border">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.1 } },
+          }}
+          className="text-center mb-12"
+        >
+          <motion.h2
+            variants={fadeInUp}
+            className="text-3xl font-bold tracking-tight mb-4"
+          >
+            Pilihan Plan yang Fleksibel
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            className="text-muted-foreground"
+          >
+            Mulai gratis, upgrade kapan saja. Tanpa kartu kredit.
+          </motion.p>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {plans.map((plan) => (
-            <div
+          {plans.map((plan, i) => (
+            <motion.div
               key={plan.name}
-              className={`relative rounded-2xl border p-8 ${
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              custom={i}
+              variants={fadeInUp}
+              className={`relative rounded-2xl border p-8 flex flex-col ${
                 plan.popular
-                  ? "border-blue-500 dark:border-blue-500 shadow-lg shadow-blue-500/10"
-                  : "border-zinc-200 dark:border-zinc-800"
+                  ? "border-primary shadow-lg shadow-primary/10 bg-card"
+                  : "border-border bg-card"
               }`}
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex h-6 items-center rounded-full bg-blue-500 px-3 text-xs font-semibold text-white">
+                  <Badge className="bg-primary text-primary-foreground shadow-sm">
                     Populer
-                  </span>
+                  </Badge>
                 </div>
               )}
+
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-1">{plan.name}</h3>
-                <p className="text-sm text-zinc-500">{plan.description}</p>
+                <p className="text-sm text-muted-foreground">
+                  {plan.description}
+                </p>
               </div>
+
               <div className="mb-6">
-                <span className="text-3xl font-bold tracking-tight">{plan.price}</span>
-                <span className="text-sm text-zinc-500 ml-1">/{plan.period}</span>
+                <span className="text-3xl font-bold tracking-tight font-mono">
+                  {plan.price}
+                </span>
+                <span className="text-sm text-muted-foreground ml-1">
+                  /{plan.period}
+                </span>
               </div>
-              <ul className="space-y-3 mb-8">
+
+              <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-3 text-sm">
-                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                    <span className="text-zinc-700 dark:text-zinc-300">{feature}</span>
+                  <li
+                    key={feature}
+                    className="flex items-center gap-3 text-sm"
+                  >
+                    <Check className="h-4 w-4 text-success flex-shrink-0" />
+                    <span className="text-muted-foreground">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <button
-                className={`w-full h-11 rounded-full text-sm font-medium transition-colors ${
-                  plan.popular
-                    ? "bg-blue-500 text-white hover:bg-blue-600"
-                    : "bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700"
+
+              <Button
+                className={`w-full ${
+                  plan.popular ? "" : "variant-outline"
                 }`}
+                variant={plan.popular ? "default" : "outline"}
+                asChild
               >
-                {plan.cta}
-              </button>
-            </div>
+                <Link href="#tools">{plan.cta}</Link>
+              </Button>
+            </motion.div>
           ))}
         </div>
       </section>
 
+      {/* FAQ */}
+      <FAQ />
+
       {/* Footer */}
-      <footer className="mx-auto max-w-6xl px-6 py-12 border-t border-zinc-200 dark:border-zinc-800">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-sm text-zinc-500">
-            © 2026 cekwajar.id — Gratuity公平 untuk pekerja Indonesia
-          </div>
-          <div className="flex gap-6 text-sm text-zinc-500">
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Tentang</a>
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Privasi</a>
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Kontak</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
