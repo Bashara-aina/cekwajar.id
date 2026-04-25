@@ -1,0 +1,58 @@
+# Docker Compose for cekwajar.id local development
+# Run: docker-compose up -d
+
+services:
+  # Redis for BullMQ job queue
+  redis:
+    image: redis:7-alpine
+    container_name: cekwajar-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # PostgreSQL for Payload CMS
+  postgres:
+    image: postgres:16-alpine
+    container_name: cekwajar-postgres
+    environment:
+      POSTGRES_USER: cekwajar
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cekwajar_dev}
+      POSTGRES_DB: cekwajar
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cekwajar -d cekwajar"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # LocalStack for S3-compatible storage (receipts, payslips)
+  localstack:
+    image: localstack/localstack:latest
+    container_name: cekwajar-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3,ses
+      - DEFAULT_REGION=ap-southeast-1
+      - DEBUG=1
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  postgres_data:
+  localstack_data:
