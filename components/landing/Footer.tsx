@@ -11,7 +11,7 @@ const footerLinks = {
     { label: "Wajar Tanah", href: "/tanah" },
   ],
   legal: [
-    { label: "Kebijakan Privasi", href: "/privacy" },
+    { label: "Kebijakan Privasi", href: "/privacy-policy" },
     { label: "Syarat & Ketentuan", href: "/terms" },
     { label: "Cookie Policy", href: "/privacy#cookie" },
   ],
