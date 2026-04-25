@@ -7,6 +7,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { TrustBadges } from "@/components/TrustBadges";
 import { HowItWorks } from "@/components/HowItWorksTool";
 import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
+import { MobileCitySheet } from "@/components/MobileCitySheet";
+import { INDONESIAN_CITIES } from "@/lib/cities";
 import { TrendingUp, MapPin, Calculator, BarChart3, ChevronLeft } from "lucide-react";
 
 const CITY_COST_INDEX: Record<string, Record<string, number>> = {
@@ -30,7 +32,7 @@ export default function HidupPage() {
   const [form, setForm] = useState({
     monthly_income: "",
     family_members: "1",
-    city: "jakarta",
+    city: "Jakarta",
   });
   const [customItems, setCustomItems] = useState<{ name: string; amount: string }[]>([]);
   const [result, setResult] = useState<{
@@ -163,19 +165,12 @@ export default function HidupPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Kota
             </label>
-            <select
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            <MobileCitySheet
+              cities={INDONESIAN_CITIES}
               value={form.city}
-              onChange={(e) => setForm({ ...form, city: e.target.value })}
-            >
-              {Object.keys(CITY_COST_INDEX)
-                .filter((k) => k !== "default" && k !== "singapore")
-                .map((k) => (
-                  <option key={k} value={k}>
-                    {k.charAt(0).toUpperCase() + k.slice(1)}
-                  </option>
-                ))}
-            </select>
+              onValueChange={(v) => setForm({ ...form, city: v })}
+              placeholder="Cari kota..."
+            />
           </div>
         </div>
 

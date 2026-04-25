@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { CreditCard, CheckCircle2, HelpCircle } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { TrustBadges } from "@/components/TrustBadges";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { SamplePaidResultModal } from "@/components/SamplePaidResultModal";
+import { UPGRADE_COPY } from "@/lib/upgrade-copy";
 
 const plans = [
   {
@@ -87,6 +90,8 @@ const faqs = [
 ];
 
 export default function PricingPage() {
+  const [sampleOpen, setSampleOpen] = useState(false);
+
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <PageHeader
@@ -95,6 +100,20 @@ export default function PricingPage() {
         description="Pilih paket yang sesuai kebutuhan kamu"
       />
       <TrustBadges />
+
+      <section className="text-center py-8 px-4 max-w-2xl mx-auto">
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">
+          Cari tahu persis
+          <br />
+          <span className="text-emerald-600">
+            berapa yang kurang dibayar perusahaanmu
+          </span>
+        </h1>
+        <p className="text-muted-foreground text-lg">
+          Upgrade untuk akses angka lengkap — bukan estimasi, tapi kalkulasi
+          PMK 168/2023 yang akurat.
+        </p>
+      </section>
 
       {/* Pricing Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -130,12 +149,10 @@ export default function PricingPage() {
                 </p>
               </div>
 
-              {/* Value framing */}
               <div className="bg-emerald-50 dark:bg-emerald-950/30 rounded-lg p-3 mb-4 text-xs text-emerald-700 dark:text-emerald-400">
-                💡 Kurang dari 1 kopi per hari. Batal kapan saja.
+                💡 {UPGRADE_COPY.valueFrame}. {UPGRADE_COPY.cancelAnytime}.
               </div>
 
-              {/* Features */}
               <ul className="space-y-3 mb-6 text-sm">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2">
@@ -161,6 +178,19 @@ export default function PricingPage() {
           </Card>
         ))}
       </div>
+
+      <p className="text-center text-sm text-muted-foreground">
+        Belum yakin?{" "}
+        <button
+          type="button"
+          className="text-emerald-600 underline hover:no-underline"
+          onClick={() => setSampleOpen(true)}
+        >
+          Lihat dulu contoh hasil lengkapnya →
+        </button>
+      </p>
+
+      <SamplePaidResultModal open={sampleOpen} onOpenChange={setSampleOpen} />
 
       {/* Feature Comparison Table */}
       <div>
@@ -230,14 +260,10 @@ export default function PricingPage() {
 
       {/* CTA */}
       <div className="text-center py-8 border-t border-border">
-        <p className="text-muted-foreground mb-4">
-          Belum yakin?{" "}
-          <Link href="/slip" className="text-emerald-600 hover:underline">
-            Cek dulu contoh hasil audit slip gaji →
-          </Link>
-        </p>
         <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
-          <Link href="/upgrade?plan=basic">Mulai Paket Basic — Rp 29K/bulan</Link>
+          <Link href="/upgrade?plan=basic">
+            Mulai Paket Basic — Rp 29K/bulan
+          </Link>
         </Button>
       </div>
     </div>

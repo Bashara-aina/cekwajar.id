@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { CookieConsent } from "@/components/CookieConsent";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { LayoutBanner } from "@/components/LayoutBanner";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -64,6 +65,7 @@ export default function RootLayout({
         >
           Langsung ke konten utama
         </a>
+        <LayoutBanner />
         <main id="main-content" className="pb-16 md:pb-0">{children}</main>
         <MobileBottomNav />
         <CookieConsent />

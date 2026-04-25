@@ -22,6 +22,14 @@ const toolNavLinks = [
   { href: "/hidup", label: "Wajar Hidup", desc: "Biaya hidup & gaji" },
 ];
 
+const TOOL_ACCENT: Record<string, string> = {
+  "/slip": "bg-amber-500",
+  "/gaji": "bg-blue-500",
+  "/tanah": "bg-stone-500",
+  "/kabur": "bg-indigo-500",
+  "/hidup": "bg-teal-500",
+};
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -51,6 +59,16 @@ export function Navbar() {
                 href={link.href}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-150"
               >
+                {link.label}
+              </a>
+            ))}
+            {toolNavLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-150"
+              >
+                <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${TOOL_ACCENT[link.href] ?? "bg-muted-foreground"}`} aria-hidden="true" />
                 {link.label}
               </a>
             ))}
@@ -101,21 +119,22 @@ export function Navbar() {
                     Tool Cekwajar
                   </p>
                   <nav className="flex flex-col gap-1">
-                    {toolNavLinks.map((link) => (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setIsOpen(false)}
-                        className="flex flex-col gap-0.5 rounded-lg px-3 py-2 hover:bg-muted transition-colors"
-                      >
-                        <span className="text-sm font-medium text-foreground">
-                          {link.label}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {link.desc}
-                        </span>
-                      </a>
-                    ))}
+{toolNavLinks.map((link) => (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setIsOpen(false)}
+                          className="flex flex-col gap-0.5 rounded-lg px-3 py-2 hover:bg-muted transition-colors"
+                        >
+                          <span className="flex items-center gap-2 text-sm font-medium text-foreground">
+                            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${TOOL_ACCENT[link.href] ?? "bg-muted-foreground"}`} aria-hidden="true" />
+                            {link.label}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {link.desc}
+                          </span>
+                        </a>
+                      ))}
                   </nav>
                 </div>
                 <div className="flex flex-col gap-3 mt-4 border-t border-border pt-4">

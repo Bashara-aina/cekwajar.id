@@ -5,18 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/PageHeader";
 import { TrustBadges } from "@/components/TrustBadges";
 import { HowItWorks } from "@/components/HowItWorksTool";
 import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
+import { MobileCitySheet } from "@/components/MobileCitySheet";
+import { INDONESIAN_CITIES } from "@/lib/cities";
 import { Banknote, Search, TrendingUp, Scale, ChevronLeft } from "lucide-react";
 
 interface BenchmarkResult {
@@ -68,7 +63,7 @@ function formatRupiah(val: number): string {
 export default function GajiPage() {
   const [form, setForm] = useState({
     job_title: "",
-    city: "jakarta",
+    city: "Jakarta Pusat",
     experience_years: "",
     gross_monthly: "",
   });
@@ -153,18 +148,12 @@ export default function GajiPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="city">Kota</Label>
-                <Select value={form.city} onValueChange={(v) => setForm({ ...form, city: v })}>
-                  <SelectTrigger id="city">
-                    <SelectValue placeholder="Pilih kota" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="jakarta">Jakarta</SelectItem>
-                    <SelectItem value="surabaya">Surabaya</SelectItem>
-                    <SelectItem value="bandung">Bandung</SelectItem>
-                    <SelectItem value="tangerang">Tangerang</SelectItem>
-                    <SelectItem value="bekasi">Bekasi</SelectItem>
-                  </SelectContent>
-                </Select>
+                <MobileCitySheet
+                  cities={INDONESIAN_CITIES}
+                  value={form.city}
+                  onValueChange={(v) => setForm({ ...form, city: v })}
+                  placeholder="Cari kota..."
+                />
               </div>
 
               <div className="space-y-2">

@@ -1,99 +1,86 @@
 "use client";
 
-import { X, CheckCircle2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { SAMPLE_RESULT, UPGRADE_COPY } from "@/lib/upgrade-copy";
 
 interface SamplePaidResultModalProps {
-  open: boolean;
-  onClose: () => void;
-  className?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function SamplePaidResultModal({
   open,
-  onClose,
-  className,
+  onOpenChange,
 }: SamplePaidResultModalProps) {
-  if (!open) return null;
-
   return (
-    <div
-      className={cn(
-        "fixed inset-0 z-50 flex items-center justify-center p-4",
-        className
-      )}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Contoh hasil premium"
-    >
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Contoh Hasil Paket Basic</DialogTitle>
+        </DialogHeader>
 
-      {/* Modal */}
-      <Card className="relative z-10 max-w-md w-full max-h-[90vh] overflow-y-auto animate-fade-in-up shadow-2xl">
-        <CardContent className="pt-6 space-y-4">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-              <h2 className="font-semibold text-lg">Contoh Hasil Premium</h2>
+        <div className="space-y-3">
+          <p className="text-xs text-muted-foreground italic">
+            Contoh dengan data fiktif — bukan data nyata
+          </p>
+
+          <div className="border rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-mono text-xs bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                {SAMPLE_RESULT.violationCode}
+              </span>
+              <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded font-semibold">
+                TINGGI
+              </span>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              aria-label="Tutup"
-              className="h-8 w-8"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+            <p className="font-semibold text-sm mb-2">
+              {SAMPLE_RESULT.violationMessage}
+            </p>
 
-          <div className="bg-emerald-50 dark:bg-emerald-950/30 rounded-lg p-3 text-xs text-emerald-700 dark:text-emerald-300">
-            💡 Ini adalah contoh tampilan hasil premium. Upgrade untuk membuka semua fitur.
-          </div>
-
-          <div className="space-y-3">
-            {[
-              { label: "PPh21 per Bulan", value: "Rp 847.500", blurred: false },
-              { label: "Selisih PPh21", value: "Rp 52.000", blurred: false },
-              { label: "Gaji Bruto Setahun", value: "Rp 124.800.000", blurred: false },
-              { label: "P25 (Median Bawah)", value: "Rp 8.200.000", blurred: true },
-              { label: "P75 (Median Atas)", value: "Rp 12.500.000", blurred: true },
-              { label: "Tren Gaji 3 Tahun", value: "📈 +15%", blurred: true },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{item.label}</span>
-                <span
-                  className={cn(
-                    "text-sm font-medium",
-                    item.blurred && "blur-[3px] select-none"
-                  )}
-                >
-                  {item.value}
+            <div className="bg-muted/50 rounded-lg p-3 text-xs space-y-1.5">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">PPh21 di slip:</span>
+                <span className="font-mono">
+                  Rp {SAMPLE_RESULT.pph21AtSlip.toLocaleString("id-ID")}
                 </span>
               </div>
-            ))}
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Seharusnya (TER):</span>
+                <span className="font-mono">
+                  Rp {SAMPLE_RESULT.pph21ShouldBe.toLocaleString("id-ID")}
+                </span>
+              </div>
+              <div className="flex justify-between border-t pt-1.5 mt-1.5">
+                <span className="font-semibold">Selisih bulan ini:</span>
+                <span className="font-mono font-bold text-red-600">
+                  Rp {SAMPLE_RESULT.monthlyDiff.toLocaleString("id-ID")}
+                </span>
+              </div>
+              <div className="flex justify-between text-amber-600 dark:text-amber-400">
+                <span className="font-semibold">Potensi akumulasi setahun:</span>
+                <span className="font-mono font-bold">
+                  Rp {SAMPLE_RESULT.annualAccumulation.toLocaleString("id-ID")}
+                </span>
+              </div>
+            </div>
+
+            <p className="text-xs text-muted-foreground mt-2">
+              {SAMPLE_RESULT.recommendation}
+            </p>
           </div>
 
-          <div className="border-t border-border pt-4 space-y-3">
-            <Button
-              asChild
-              className="w-full bg-emerald-600 hover:bg-emerald-700"
-            >
-              <a href="/upgrade?plan=basic">Upgrade ke Basic — Rp 29K/bulan</a>
-            </Button>
-            <Button asChild variant="outline" className="w-full">
-              <a href="/slip">Cek Gratisan</a>
-            </Button>
+          <div className="bg-emerald-50 dark:bg-emerald-950/30 rounded-lg p-3 text-xs text-emerald-700 dark:text-emerald-400">
+            💡 {UPGRADE_COPY.roiFrame}
           </div>
-        </CardContent>
-      </Card>
-    </div>
+
+          <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700">
+            <a href="/upgrade">
+              Unlock Paket Basic — {UPGRADE_COPY.priceLabel} →
+            </a>
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

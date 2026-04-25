@@ -17,6 +17,9 @@ import { ShareVerdictButton } from "@/components/ShareVerdictButton";
 import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
 import { ResultSkeleton } from "@/components/ResultSkeleton";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
+import { PremiumGate } from "@/components/PremiumGate";
+import { PREMIUMGATE_HIDDEN_LABELS } from "@/lib/upgrade-copy";
+import { FieldTooltip, FIELD_TOOLTIPS } from "@/components/FieldTooltip";
 import type { PayslipInput } from "@/lib/validators/pph21.schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -111,6 +114,11 @@ export default function WajarSlipPage() {
       ? "yellow"
       : "green";
 
+  const hasV06 = result?.violations?.some((v: Violation) => v.code === "V06");
+  const hasV02 = result?.violations?.some((v: Violation) => v.code === "V02");
+  const hasBPJS = result?.violations?.some((v: Violation) =>
+    ["V03", "V04", "V05"].includes(v.code)
+  );
   const hasCritical = result?.violations?.some((v: Violation) => v.severity === "CRITICAL");
   const verdictText = result
     ? result.violations?.length > 0
@@ -208,7 +216,10 @@ export default function WajarSlipPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="ptkp_status">Status PTKP</Label>
+                  <Label htmlFor="ptkp_status" className="inline-flex items-center gap-1">
+                    Status PTKP
+                    <FieldTooltip content={FIELD_TOOLTIPS.ptkp} />
+                  </Label>
                   <Select name="ptkp_status" defaultValue="TK0" disabled={loading}>
                     <SelectTrigger id="ptkp_status" aria-describedby="ptkp_status_hint">
                       <SelectValue placeholder="Pilih status PTKP" />
@@ -246,7 +257,10 @@ export default function WajarSlipPage() {
             {currentStep === 3 && (
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="reported_pph21">PPh21 di slip (Rp) <span className="text-muted-foreground font-normal">(opsional)</span></Label>
+                  <Label htmlFor="reported_pph21" className="inline-flex items-center gap-1">
+                    PPh21 di slip (Rp) <span className="text-muted-foreground font-normal">(opsional)</span>
+                    <FieldTooltip content={FIELD_TOOLTIPS.pph21} />
+                  </Label>
                   <Input
                     id="reported_pph21"
                     name="reported_pph21"
@@ -278,8 +292,9 @@ export default function WajarSlipPage() {
                       )}
                       aria-describedby="npwp_hint"
                     />
-                    <Label htmlFor="npwp" className="text-sm font-normal cursor-pointer">
+                    <Label htmlFor="npwp" className="inline-flex items-center gap-1 text-sm font-normal cursor-pointer">
                       Punya NPWP
+                      <FieldTooltip content={FIELD_TOOLTIPS.npwp} />
                     </Label>
                     <span id="npwp_hint" className="text-xs text-muted-foreground">
                       Centang jika Anda memiliki NPWP aktif
@@ -354,17 +369,63 @@ export default function WajarSlipPage() {
             <ChevronLeft className="w-4 h-4" />
             Cek lagi
           </button>
-          <ResultCard
-            title="PPh21 per Bulan"
-            amount={result.monthly_pph21}
-            amountLabel="PPh21 yang seharusnya dipotong"
-            verdict={
-              result.violations?.length > 0 ? "PERHATIAN" : "WAJAR"
-            }
-            verdictColor={verdictColor}
-            violations={result.violations}
-            icon={FileText}
-          />
+          {result.violations && result.violations.length > 0 ? (
+            <>
+              <ResultCard
+                title="PPh21 per Bulan"
+                amountLabel="PPh21 yang seharusnya dipotong"
+                verdict="PERHATIAN"
+                verdictColor={verdictColor}
+                violations={result.violations}
+                icon={FileText}
+              />
+              <PremiumGate
+                hiddenLabel={
+                  hasV06
+                    ? PREMIUMGATE_HIDDEN_LABELS.umk.label
+                    : hasV02
+                    ? PREMIUMGATE_HIDDEN_LABELS.pph21.label
+                    : hasBPJS
+                    ? PREMIUMGATE_HIDDEN_LABELS.bpjs.label
+                    : PREMIUMGATE_HIDDEN_LABELS.pph21.label
+                }
+                benefit={
+                  hasV06
+                    ? PREMIUMGATE_HIDDEN_LABELS.umk.benefit
+                    : hasV02
+                    ? PREMIUMGATE_HIDDEN_LABELS.pph21.benefit
+                    : hasBPJS
+                    ? PREMIUMGATE_HIDDEN_LABELS.bpjs.benefit
+                    : PREMIUMGATE_HIDDEN_LABELS.pph21.benefit
+                }
+                previewContent={
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between">
+                      <span>PPh21 di slip:</span>
+                      <span className="font-mono">
+                        Rp {result.monthly_pph21.toLocaleString("id-ID")}
+                      </span>
+                    </div>
+                    <div className="flex justify-between font-bold">
+                      <span>Selisih:</span>
+                      <span className="font-mono text-red-500">
+                        Rp ██.███.███
+                      </span>
+                    </div>
+                  </div>
+                }
+              />
+            </>
+          ) : (
+            <ResultCard
+              title="PPh21 per Bulan"
+              amount={result.monthly_pph21}
+              amountLabel="PPh21 yang seharusnya dipotong"
+              verdict="WAJAR"
+              verdictColor="green"
+              icon={FileText}
+            />
+          )}
 
           {result.violations && result.violations.length > 0 && (
             <ViolationSummaryBanner
@@ -387,15 +448,35 @@ export default function WajarSlipPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <ResultCard
-              title="Gaji Bruto Setahun"
-              amount={result.annual_gross}
-              amountLabel="Gross annual income"
+            <PremiumGate
+              compact
+              className="border rounded-xl p-4 bg-white dark:bg-slate-900"
+              previewContent={
+                <div className="space-y-1">
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Gaji Bruto Setahun
+                  </p>
+                  <p className="text-2xl font-bold blur-sm select-none">
+                    Rp {result.annual_gross.toLocaleString("id-ID")}
+                  </p>
+                </div>
+              }
+              hiddenLabel={PREMIUMGATE_HIDDEN_LABELS.annual_gross.label}
+              benefit={PREMIUMGATE_HIDDEN_LABELS.annual_gross.benefit}
             />
-            <ResultCard
-              title="PKP"
-              amount={result.ppk}
-              amountLabel="Penghasilan Kena Pajak"
+            <PremiumGate
+              compact
+              className="border rounded-xl p-4 bg-white dark:bg-slate-900"
+              previewContent={
+                <div className="space-y-1">
+                  <p className="text-xs text-muted-foreground mb-1">PKP</p>
+                  <p className="text-2xl font-bold blur-sm select-none">
+                    Rp {result.ppk.toLocaleString("id-ID")}
+                  </p>
+                </div>
+              }
+              hiddenLabel={PREMIUMGATE_HIDDEN_LABELS.ppk.label}
+              benefit={PREMIUMGATE_HIDDEN_LABELS.ppk.benefit}
             />
           </div>
 
