@@ -172,21 +172,26 @@ export function calculatePPh21(
   return monthlyPPh21;
 }
 
-export const UMK_2024: Record<string, number> = {
-  jakarta: 5_000_000,
-  surabaya: 4_725_000,
-  bandung: 4_800_000,
-  tangerang: 4_525_000,
-  bekasi: 4_500_000,
+export const UMK_2026: Record<string, number> = {
+  jakarta: 5_396_761,
+  bekasi: 5_690_752,
+  surabaya: 4_786_940,
+  bandung: 4_482_914,
+  tangerang: 4_906_102,
+  depok: 4_900_000,
+  medan: 4_500_000,
+  semarang: 4_600_000,
+  makassar: 4_200_000,
+  palembang: 4_350_000,
   default: 4_000_000,
 };
 
 export function getUMK(city: string): number {
   const cityLower = city.toLowerCase();
-  for (const [key, val] of Object.entries(UMK_2024)) {
+  for (const [key, val] of Object.entries(UMK_2026)) {
     if (cityLower.includes(key)) return val;
   }
-  return UMK_2024.default;
+  return UMK_2026.default;
 }
 
 export interface BPJSBreakdown {

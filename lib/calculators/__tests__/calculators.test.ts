@@ -3,11 +3,11 @@ import { getUMK, calculateBPJS, PTKP_VALUES, getTERRate, calculatePPh21 } from "
 
 describe("getUMK", () => {
   it("returns Jakarta UMK for jakarta input", () => {
-    expect(getUMK("jakarta")).toBe(5_000_000);
+    expect(getUMK("jakarta")).toBe(5_396_761);
   });
 
   it("returns Surabaya UMK for surabaya input (case insensitive)", () => {
-    expect(getUMK("SURABAYA")).toBe(4_725_000);
+    expect(getUMK("SURABAYA")).toBe(4_786_940);
   });
 
   it("returns default for unknown cities", () => {
@@ -28,7 +28,7 @@ describe("calculateBPJS", () => {
 
   it("applies 10x UMK ceiling for high salaries", () => {
     const result = calculateBPJS(100_000_000, "jakarta");
-    const ceiling = 5_000_000 * 10;
+    const ceiling = 5_396_761 * 10;
     expect(result.jht_employee_monthly).toBe(Math.floor(ceiling * 0.02));
   });
 
