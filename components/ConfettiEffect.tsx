@@ -11,10 +11,8 @@ export function ConfettiEffect({
     if (!trigger) return;
 
     let animationId: number;
-    let canvasEl: HTMLCanvasElement;
 
     const canvas2d = document.createElement("canvas");
-    canvasEl = canvas2d;
     canvas2d.style.position = "fixed";
     canvas2d.style.top = "0";
     canvas2d.style.left = "0";

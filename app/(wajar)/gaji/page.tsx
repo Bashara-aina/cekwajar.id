@@ -18,7 +18,6 @@ import { TrustBadges } from "@/components/TrustBadges";
 import { HowItWorks } from "@/components/HowItWorksTool";
 import { CrossToolSuggestion } from "@/components/CrossToolSuggestion";
 import { Banknote, Search, TrendingUp, Scale, ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface BenchmarkResult {
   benchmark: {
@@ -64,46 +63,6 @@ function formatRupiah(val: number): string {
     currency: "IDR",
     maximumFractionDigits: 0,
   }).format(val);
-}
-
-function PercentileBar({
-  user,
-  p50,
-  p75,
-  p90,
-}: {
-  user: number;
-  p50: number;
-  p75: number;
-  p90: number;
-}) {
-  const max = p90 * 1.2;
-  const positions = [
-    { label: "P50", value: p50, color: "bg-blue-400" },
-    { label: "P75", value: p75, color: "bg-blue-600" },
-    { label: "P90", value: p90, color: "bg-blue-800" },
-    { label: "Kamu", value: user, color: "bg-red-500" },
-  ];
-
-  return (
-    <div role="img" aria-label={`Grafik distribusi gaji: Anda di posisi ${Math.round((user / max) * 100)}%`}>
-      <div className="relative h-4 bg-muted rounded-full overflow-hidden flex">
-        {positions.map((p) => (
-          <div
-            key={p.label}
-            className={cn("absolute w-2 h-4 rounded-full top-0", p.color)}
-            style={{ left: `${Math.min((p.value / max) * 100, 100)}%` }}
-            role="presentation"
-            aria-label={`${p.label}: ${formatRupiah(p.value)}`}
-          />
-        ))}
-      </div>
-      <div className="flex justify-between mt-1">
-        <span className="text-xs text-muted-foreground">0</span>
-        <span className="text-xs text-muted-foreground">P90</span>
-      </div>
-    </div>
-  );
 }
 
 export default function GajiPage() {

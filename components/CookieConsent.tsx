@@ -1,14 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export function CookieConsent() {
   const [show, setShow] = useState(false);
+  const mounted = useRef(false);
 
   useEffect(() => {
+    if (mounted.current) return;
+    mounted.current = true;
     const consent = localStorage.getItem("cw_consent");
-    if (!consent) setShow(true);
+    if (!consent) {
+      // Use setTimeout to avoid sync setState in effect warning
+      setTimeout(() => setShow(true), 0);
+    }
   }, []);
 
   const accept = () => {

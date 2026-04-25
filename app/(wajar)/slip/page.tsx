@@ -10,6 +10,7 @@ import { HowItWorks } from "@/components/HowItWorksTool";
 
 import { ViolationSummaryBanner } from "@/components/ViolationSummaryBanner";
 import { SampleResultTeaser } from "@/components/SampleResultTeaser";
+import { ShareVerdictButton } from "@/components/ShareVerdictButton";
 import { ResultSkeleton } from "@/components/ResultSkeleton";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import type { PayslipInput } from "@/lib/validators/pph21.schema";
@@ -368,6 +369,12 @@ export default function WajarSlipPage() {
               }))}
             />
           )}
+
+          <ShareVerdictButton
+            verdict={verdictText ?? ""}
+            toolName="Wajar Slip"
+            className="w-full"
+          />
 
           <div className="sr-only" aria-live="polite">
             {verdictText}
