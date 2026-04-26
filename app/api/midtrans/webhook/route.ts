@@ -1,139 +1,107 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase/server";
-import crypto from "crypto";
+import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase/server'
+import crypto from 'crypto'
+
+export const runtime = 'nodejs'
 
 interface MidtransNotification {
-  order_id: string;
-  transaction_status: "settlement" | "capture" | "pending" | "expire" | "cancel";
-  gross_amount: string;
-  status_code: string;
-  transaction_id: string;
+  order_id: string
+  transaction_status: 'settlement' | 'capture' | 'pending' | 'expire' | 'cancel' | 'deny'
+  gross_amount: string
+  status_code: string
+  transaction_id: string
 }
 
-function verifyMidtransNotification(
-  rawBody: string,
+function verifySignature(
+  orderId: string,
+  statusCode: string,
+  grossAmount: string,
   signatureKey: string
 ): boolean {
-  const serverKey = process.env.MIDTRANS_SERVER_KEY;
+  const serverKey = process.env.MIDTRANS_SERVER_KEY
   if (!serverKey) {
-    console.error("MIDTRANS_SERVER_KEY is not configured");
-    return false;
+    console.error('[webhook] MIDTRANS_SERVER_KEY not configured')
+    return false
   }
-
   const expected = crypto
-    .createHash("sha512")
-    .update(rawBody + serverKey)
-    .digest("hex");
-
-  return expected === signatureKey;
+    .createHash('sha512')
+    .update(orderId + statusCode + grossAmount + serverKey)
+    .digest('hex')
+  return expected === signatureKey
 }
 
-async function processUpgradeSubscription(
-  userId: string,
-  tier: "pro" | "basic"
-): Promise<void> {
-  const { error } = await supabaseAdmin.rpc("upgrade_subscription", {
-    p_user_id: userId,
-    p_tier: tier,
-  });
+export async function POST(req: NextRequest) {
+  const rawBody = await req.text()
+  const signatureKey = req.headers.get('x-midtrans-signature-key') ?? ''
 
-  if (error) {
-    console.error("Failed to upgrade subscription:", error);
-    throw error;
-  }
-}
-
-export async function POST(request: NextRequest) {
-  const rawBody = await request.text();
-  const signatureKey = request.headers.get("x-midtrans-signature-key") ?? "";
-
-  // Validate signature first
-  if (!signatureKey || !verifyMidtransNotification(rawBody, signatureKey)) {
-    console.warn("Invalid Midtrans signature received");
-    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-  }
-
-  let notification: MidtransNotification;
-
+  let notification: MidtransNotification
   try {
-    notification = JSON.parse(rawBody);
+    notification = JSON.parse(rawBody)
   } catch {
-    console.error("Failed to parse Midtrans notification body");
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    return NextResponse.json({ error: 'invalid_json' }, { status: 400 })
   }
 
-  const { order_id, transaction_status, gross_amount, status_code, transaction_id } = notification;
+  const { order_id, transaction_status, gross_amount, status_code, transaction_id } = notification
 
-  // Log the notification for debugging
-  console.error("Midtrans webhook received:", {
-    order_id,
-    transaction_status,
-    gross_amount,
-    status_code,
-    transaction_id,
-  });
+  if (!verifySignature(order_id, status_code, gross_amount, signatureKey)) {
+    console.warn('[webhook] Invalid signature for order:', order_id)
+    return NextResponse.json({ error: 'invalid_signature' }, { status: 401 })
+  }
 
-  // Handle different transaction statuses
-  switch (transaction_status) {
-    case "settlement":
-    case "capture": {
-      // Successful payment - upgrade subscription
-      // Extract user ID from order_id format: CEKWAJAR_{userId}_{tier}
-      const parts = order_id.replace("CEKWAJAR_", "").split("_");
-      const userId = parts[0];
+  console.log('[webhook] Received:', { order_id, transaction_status, gross_amount })
 
-      if (!userId) {
-        console.error("Invalid order_id format:", order_id);
-        return NextResponse.json({ error: "Invalid order_id format" }, { status: 400 });
-      }
+  type PaymentRow = { id: string; status: string | number }
+  const existing = await supabaseAdmin
+    .from('payments')
+    .select('id, status')
+    .eq('midtrans_order_id', order_id)
+    .maybeSingle() as { data: PaymentRow | null } | null
 
-      // Determine tier based on amount
-      // pro: 79000, basic: other amounts
-      const amount = Number(gross_amount);
-      const tier: "pro" | "basic" = amount >= 79000 ? "pro" : "basic";
+  const statusVal = existing?.data?.status
+  const isPaid = statusVal === 'paid' || statusVal === 1 || statusVal === '1'
+  if (isPaid && ['settlement', 'capture'].includes(transaction_status)) {
+    return NextResponse.json({ ok: true, note: 'already_processed' })
+  }
 
+  const amountIdr = Math.round(Number(gross_amount))
+
+  if (['settlement', 'capture'].includes(transaction_status)) {
+    const userId = order_id.replace('CEKWAJAR_', '').split('_')[0]
+
+    if (userId && !order_id.includes('guest')) {
+      const rpcCall = await supabaseAdmin.rpc('upgrade_subscription', {
+        p_user_id: userId,
+        p_tier: 'pro',
+      })
+      if (rpcCall.error) console.error('[webhook] upgrade_subscription failed:', rpcCall.error)
+    }
+
+    if (existing?.data) {
       try {
-        // Fire and forget - don't await processing
-        // Midtrans expects 200 response quickly
-        processUpgradeSubscription(userId, tier).catch((err) => {
-          console.error("Async subscription upgrade failed:", err);
-        });
-
-        console.error(`Subscription upgraded for user ${userId} to ${tier}`);
-      } catch (err) {
-        console.error("Failed to process subscription upgrade:", err);
-        // Still return 200 to Midtrans to prevent retries
-        // The payment was successful, we'll handle the upgrade separately
-      }
-
-      break;
+        const upd = await supabaseAdmin.from('payments').update({ status: 'paid', paid_at: new Date().toISOString() }).eq('id', existing.data.id)
+        if (upd.error) console.error('[webhook] update payment failed:', upd.error)
+      } catch (err) { console.error('[webhook] update payment failed:', err) }
+    } else {
+      try {
+        const ins = await supabaseAdmin.from('payments').insert({
+          midtrans_order_id: order_id,
+          user_id: userId ?? null,
+          amount_idr: amountIdr,
+          status: 'paid',
+          paid_at: new Date().toISOString(),
+          midtrans_transaction_id: transaction_id,
+        })
+        if (ins.error) console.error('[webhook] insert payment failed:', ins.error)
+      } catch (err) { console.error('[webhook] insert payment failed:', err) }
     }
-
-    case "pending": {
-      // Payment is pending - no action needed
-      console.error("Payment pending for order:", order_id);
-      break;
+  } else if (['cancel', 'deny', 'expire'].includes(transaction_status)) {
+    if (existing?.data) {
+      try {
+        const upd = await supabaseAdmin.from('payments').update({ status: transaction_status }).eq('id', existing.data.id)
+        if (upd.error) console.error('[webhook] update payment failed:', upd.error)
+      } catch (err) { console.error('[webhook] update payment failed:', err) }
     }
-
-    case "expire": {
-      // Payment expired - log for analytics
-      console.error("Payment expired for order:", order_id);
-      // Could trigger notification to user or cleanup
-      break;
-    }
-
-    case "cancel": {
-      // Payment was cancelled - log for analytics
-      console.error("Payment cancelled for order:", order_id);
-      // Could trigger notification to user
-      break;
-    }
-
-    default:
-      console.warn("Unknown transaction status:", transaction_status);
   }
 
-  // Return 200 quickly to Midtrans
-  // Don't wait for any processing
-  return NextResponse.json({ received: true }, { status: 200 });
+  return NextResponse.json({ ok: true })
 }
