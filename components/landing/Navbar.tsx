@@ -76,10 +76,10 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center gap-3">
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/slip">Masuk</Link>
+              <Link href="/auth/login">Masuk</Link>
             </Button>
-            <Button size="sm" asChild>
-              <Link href="#tools">Coba Gratis</Link>
+            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700" asChild>
+              <Link href="/slip">Cek Gratis →</Link>
             </Button>
           </div>
 
@@ -139,13 +139,13 @@ export function Navbar() {
                 </div>
                 <div className="flex flex-col gap-3 mt-4 border-t border-border pt-4">
                   <Button variant="outline" className="w-full" asChild>
-                    <Link href="/slip" onClick={() => setIsOpen(false)}>
+                    <Link href="/auth/login" onClick={() => setIsOpen(false)}>
                       Masuk
                     </Link>
                   </Button>
-                  <Button className="w-full" asChild>
-                    <Link href="#tools" onClick={() => setIsOpen(false)}>
-                      Coba Gratis
+                  <Button className="w-full bg-emerald-600 hover:bg-emerald-700" asChild>
+                    <Link href="/slip" onClick={() => setIsOpen(false)}>
+                      Cek Gratis →
                     </Link>
                   </Button>
                 </div>
