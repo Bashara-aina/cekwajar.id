@@ -118,7 +118,7 @@ export function VerdictMockup({ className = '' }: { className?: string }) {
       <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-3 flex items-center gap-2.5">
         <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
         <p className="text-xs text-emerald-800">
-          <strong>Slip sesuai:</strong> Kamu juga bisa dapat verdict "tidak ada pelanggaran" — bukan cuma yang buruk yang kita tunjukkan.
+          <strong>Slip sesuai:</strong> Kamu juga bisa dapat verdict &ldquo;tidak ada pelanggaran&rdquo; — bukan cuma yang buruk yang kita tunjukkan.
         </p>
       </div>
     </div>

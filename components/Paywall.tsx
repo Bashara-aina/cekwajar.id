@@ -41,7 +41,7 @@ export function Paywall(props: PaywallProps) {
 
 function NumericGate({
   shortfallIdr,
-  feature,
+  feature: _feature,
   customCta,
   className,
 }: {
