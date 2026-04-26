@@ -57,11 +57,9 @@ export function PricingSection() {
             <p className="text-4xl font-extrabold text-slate-900">Rp 0</p>
             <p className="text-sm text-slate-400 mt-0.5">selamanya</p>
 
-            <Link href="/slip" className="mt-5 block">
-              <Button variant="outline" className="w-full h-11 font-semibold">
-                Mulai Gratis →
-              </Button>
-            </Link>
+            <Button variant="outline" className="mt-5 w-full h-11 font-semibold" asChild>
+              <Link href="/slip">Mulai Gratis →</Link>
+            </Button>
 
             <p className="mt-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Yang kamu dapat</p>
             <ul className="mt-2 space-y-2">
@@ -99,15 +97,15 @@ export function PricingSection() {
               <p className="text-sm text-slate-500">/ bulan</p>
             </div>
             <p className="text-xs font-semibold text-emerald-600 mt-0.5">
-              ↳ Kurang dari 1/17 rata-rata selisih yang ditemukan (Rp {Math.round(REVENUE_ANCHORS.AVG_SHORTFALL_IDR / 1000)}K)
+              ↳ Kurang dari 1/{Math.round(REVENUE_ANCHORS.AVG_SHORTFALL_IDR / REVENUE_ANCHORS.PRO_PRICE_IDR)} rata-rata selisih yang ditemukan (Rp {Math.round(REVENUE_ANCHORS.AVG_SHORTFALL_IDR / 1000)}K)
             </p>
 
-            <Link href="/upgrade" className="mt-5 block">
-              <Button className="h-12 w-full bg-emerald-600 font-bold text-base shadow-lg shadow-emerald-500/30 hover:bg-emerald-700">
+            <Button className="mt-5 h-12 w-full bg-emerald-600 font-bold text-base shadow-lg shadow-emerald-500/30 hover:bg-emerald-700" asChild>
+              <Link href="/upgrade">
                 Mulai Pro Sekarang
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
             <p className="mt-2 text-center text-[11px] text-slate-400">
               Garansi 7 hari uang kembali · Batalkan kapan saja dari dashboard
             </p>
@@ -130,7 +128,7 @@ export function PricingSection() {
             <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
             <div>
               <p className="text-sm font-bold text-emerald-900">
-                Math sederhana: Rp {Math.round(REVENUE_ANCHORS.AVG_SHORTFALL_IDR / 1000)}K rata-rata ditemukan ÷ Rp {REVENUE_ANCHORS.PRO_PRICE_IDR / 1000}K biaya Pro = <span className="text-emerald-600">17× ROI bulan pertama.</span>
+                Math sederhana: Rp {Math.round(REVENUE_ANCHORS.AVG_SHORTFALL_IDR / 1000)}K rata-rata ditemukan ÷ Rp {REVENUE_ANCHORS.PRO_PRICE_IDR / 1000}K biaya Pro = <span className="text-emerald-600">{Math.round(REVENUE_ANCHORS.AVG_SHORTFALL_IDR / REVENUE_ANCHORS.PRO_PRICE_IDR)}× ROI bulan pertama.</span>
               </p>
               <p className="mt-1 text-xs text-emerald-700">
                 Kalau audit kamu tidak menemukan pelanggaran apa pun? Email kami dalam 7 hari — refund penuh, tanpa pertanyaan.

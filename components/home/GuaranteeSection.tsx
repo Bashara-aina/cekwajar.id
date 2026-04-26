@@ -49,7 +49,7 @@ export function GuaranteeSection() {
               return (
                 <div key={p.label} className="text-center">
                   <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
-                    <Icon className="h-4.5 w-4.5 text-emerald-600" />
+                    <Icon className="h-[18px] w-[18px] text-emerald-600" />
                   </div>
                   <p className="text-xs font-bold text-slate-800">{p.label}</p>
                   <p className="text-[10px] text-slate-500 mt-0.5">{p.sub}</p>

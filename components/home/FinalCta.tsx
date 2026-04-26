@@ -11,7 +11,7 @@ function LiveUserCount() {
   useEffect(() => {
     fetch('/api/audit-counter')
       .then((r) => r.json())
-      .then((d) => setCount(d.total ?? null))
+      .then((d) => setCount(typeof d.count === 'number' ? d.count : null))
       .catch(() => {})
   }, [])
   if (!count || count < 1000) return null

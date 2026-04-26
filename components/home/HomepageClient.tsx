@@ -26,7 +26,6 @@ const TOOLS = [
     name: 'Wajar Slip',
     desc: 'Audit PPh21 & BPJS slip gajimu',
     accent: 'bg-amber-500/10 text-amber-700 border-amber-200',
-    dot: 'bg-amber-500',
     badge: 'Paling Populer',
   },
   {
@@ -35,7 +34,6 @@ const TOOLS = [
     name: 'Wajar Gaji',
     desc: 'Benchmark gaji industri P25–P90',
     accent: 'bg-blue-500/10 text-blue-700 border-blue-200',
-    dot: 'bg-blue-500',
     badge: null,
   },
   {
@@ -44,7 +42,6 @@ const TOOLS = [
     name: 'Wajar Tanah',
     desc: 'Verifikasi harga properti vs pasar',
     accent: 'bg-stone-500/10 text-stone-700 border-stone-200',
-    dot: 'bg-stone-500',
     badge: null,
   },
   {
@@ -53,7 +50,6 @@ const TOOLS = [
     name: 'Wajar Kabur',
     desc: 'Bandingkan daya beli 20+ negara',
     accent: 'bg-indigo-500/10 text-indigo-700 border-indigo-200',
-    dot: 'bg-indigo-500',
     badge: null,
   },
   {
@@ -62,7 +58,6 @@ const TOOLS = [
     name: 'Wajar Hidup',
     desc: 'Hitung biaya hidup vs gajimu',
     accent: 'bg-teal-500/10 text-teal-700 border-teal-200',
-    dot: 'bg-teal-500',
     badge: null,
   },
 ]
@@ -73,10 +68,11 @@ export function HomepageClient() {
       <Navbar />
 
       {/* ══════════ ABOVE THE FOLD ══════════ */}
-      <section className="relative bg-gradient-to-b from-amber-50/60 via-white/80 to-white px-4 pt-8 pb-12 sm:pt-14 sm:pb-16">
-        {/* Subtle grid bg */}
+      <section className="relative bg-gradient-to-b from-emerald-50/50 via-white/90 to-white px-4 pt-8 pb-12 sm:pt-14 sm:pb-16 overflow-hidden">
+        {/* Radial glow + subtle grid */}
+        <div className="hero-glow pointer-events-none" aria-hidden />
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          className="pointer-events-none absolute inset-0 opacity-[0.025]"
           style={{
             backgroundImage:
               'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
@@ -113,15 +109,16 @@ export function HomepageClient() {
           </p>
 
           <div className="mt-8 flex flex-col items-center gap-3">
-            <Link href="/slip" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                className="h-14 w-full bg-emerald-600 px-8 text-base font-bold shadow-xl shadow-emerald-500/30 hover:bg-emerald-700 sm:h-13 sm:w-auto"
-              >
+            <Button
+              size="lg"
+              className="h-14 w-full bg-emerald-600 px-8 text-base font-bold shadow-xl shadow-emerald-500/30 hover:bg-emerald-700 sm:w-auto"
+              asChild
+            >
+              <Link href="/slip">
                 Cek Slip Gajiku — Gratis
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
             <p className="flex items-center gap-1.5 text-xs text-slate-500">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
               Tanpa daftar · Slip dihapus 30 hari (UU PDP) · Tidak ada manusia yang melihat

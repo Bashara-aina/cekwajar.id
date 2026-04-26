@@ -101,12 +101,12 @@ function NumericGate({
         </ul>
       </div>
 
-      <Link href="/upgrade?from=verdict" className="mt-5 block">
-        <Button className="h-13 w-full bg-emerald-600 text-base font-bold shadow-lg shadow-emerald-500/30 hover:bg-emerald-700">
+      <Button className="mt-5 h-[52px] w-full bg-emerald-600 text-base font-bold shadow-lg shadow-emerald-500/30 hover:bg-emerald-700" asChild>
+        <Link href="/upgrade?from=verdict">
           {ctaText}
           <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
-      </Link>
+        </Link>
+      </Button>
 
       <RiskReversalStrip />
       <UrgencyPulse />

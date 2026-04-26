@@ -1,6 +1,6 @@
 {
   "crons": [
     { "path": "/api/cron/delete-expired-files", "schedule": "0 20 * * *" },
-    { "path": "/api/cron/funnel-health", "schedule": "0 */4 * * *" }
+    { "path": "/api/cron/funnel-health", "schedule": "0 4 * * *" }
   ]
 }

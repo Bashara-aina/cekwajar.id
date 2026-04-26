@@ -10,7 +10,6 @@ const VIOLATIONS = [
     color: 'text-amber-700',
     bg: 'bg-amber-50',
     border: 'border-amber-200',
-    dotColor: 'bg-amber-500',
   },
   {
     icon: Building2,
@@ -21,7 +20,6 @@ const VIOLATIONS = [
     color: 'text-blue-700',
     bg: 'bg-blue-50',
     border: 'border-blue-200',
-    dotColor: 'bg-blue-500',
   },
   {
     icon: TrendingDown,
@@ -32,7 +30,6 @@ const VIOLATIONS = [
     color: 'text-red-700',
     bg: 'bg-red-50',
     border: 'border-red-200',
-    dotColor: 'bg-red-500',
   },
 ]
 

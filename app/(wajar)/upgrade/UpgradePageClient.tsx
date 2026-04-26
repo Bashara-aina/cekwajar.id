@@ -316,7 +316,7 @@ export default function UpgradePageClient() {
         <Button
           onClick={handlePay}
           disabled={loading || !snapLoaded}
-          className="h-13 bg-emerald-600 px-8 font-bold text-base shadow-lg shadow-emerald-500/30 hover:bg-emerald-700"
+          className="h-[52px] bg-emerald-600 px-8 font-bold text-base shadow-lg shadow-emerald-500/30 hover:bg-emerald-700"
         >
           {loading ? (
             <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Memproses…</>

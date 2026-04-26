@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 const FAQS = [
   {
     q: 'Slip gaji saya sangat privat. Apakah aman?',
-    a: 'Sangat aman. File slip di-upload langsung ke server Singapore (AWS ap-southeast-1), diproses oleh OCR otomatis, dan dihapus permanen setelah 30 hari sesuai UU PDP No.27/2022. Tidak ada manusia yang pernah melihat slip kamu — hanya mesin. Data dienkripsi saat transit dan saat disimpan.',
+    a: 'Sangat aman. File slip di-upload langsung ke Supabase ap-southeast-1 (Singapore), diproses oleh OCR otomatis, dan dihapus permanen setelah 30 hari sesuai UU PDP No.27/2022. Tidak ada manusia yang pernah melihat slip kamu — hanya mesin. Data dienkripsi saat transit dan saat disimpan.',
   },
   {
     q: 'Apakah audit dasar benar-benar gratis?',

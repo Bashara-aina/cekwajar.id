@@ -75,7 +75,7 @@ function StarRow() {
 
 export function SocialProofTestimonials() {
   return (
-    <section className="bg-slate-50 px-4 py-14 sm:py-18">
+    <section className="bg-slate-50 px-4 py-14 sm:py-[4.5rem]">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-10">
           <h2 className="text-xl font-bold text-slate-900 sm:text-2xl lg:text-3xl">
