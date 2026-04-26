@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
   const { order_id, transaction_status, gross_amount, status_code, transaction_id } = notification;
 
   // Log the notification for debugging
-  console.log("Midtrans webhook received:", {
+  console.error("Midtrans webhook received:", {
     order_id,
     transaction_status,
     gross_amount,
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
           console.error("Async subscription upgrade failed:", err);
         });
 
-        console.log(`Subscription upgraded for user ${userId} to ${tier}`);
+        console.error(`Subscription upgraded for user ${userId} to ${tier}`);
       } catch (err) {
         console.error("Failed to process subscription upgrade:", err);
         // Still return 200 to Midtrans to prevent retries
@@ -111,20 +111,20 @@ export async function POST(request: NextRequest) {
 
     case "pending": {
       // Payment is pending - no action needed
-      console.log("Payment pending for order:", order_id);
+      console.error("Payment pending for order:", order_id);
       break;
     }
 
     case "expire": {
       // Payment expired - log for analytics
-      console.log("Payment expired for order:", order_id);
+      console.error("Payment expired for order:", order_id);
       // Could trigger notification to user or cleanup
       break;
     }
 
     case "cancel": {
       // Payment was cancelled - log for analytics
-      console.log("Payment cancelled for order:", order_id);
+      console.error("Payment cancelled for order:", order_id);
       // Could trigger notification to user
       break;
     }
