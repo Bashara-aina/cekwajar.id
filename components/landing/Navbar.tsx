@@ -85,11 +85,11 @@ export function Navbar() {
 
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" aria-label="Buka menu navigasi">
+              <Button variant="ghost" size="icon" className="h-11 w-11" aria-label="Buka menu navigasi">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-80 p-0">
+            <SheetContent side="right" className="w-[88vw] max-w-sm bg-white p-0">
               <div className="flex flex-col gap-6 p-6">
                 <div className="flex items-center justify-between">
                   <WordmarkLogo size="sm" />

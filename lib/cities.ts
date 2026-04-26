@@ -1,4 +1,4 @@
-export const INDONESIAN_CITIES = [
+const RAW_CITIES: string[] = [
   "Jakarta Pusat",
   "Jakarta Selatan",
   "Jakarta Utara",
@@ -20,7 +20,6 @@ export const INDONESIAN_CITIES = [
   "Malang",
   "Padang",
   "Pekanbaru",
-  "Makassar",
   "Samarinda",
   "Banjarmasin",
   "Denpasar",
@@ -39,7 +38,7 @@ export const INDONESIAN_CITIES = [
   "Ambon",
   "Palu",
   "Kendari",
-  "Goru",
+  "Gorontalo",
   "Tomohon",
   "Batu",
   "Blitar",
@@ -60,9 +59,19 @@ export const INDONESIAN_CITIES = [
   "Magetan",
   "Pacitan",
   "Lumajang",
-  "Probolinggo",
   "Sleman",
   "Bantul",
   "Gunung Kidul",
   "Kulon Progo",
-];
+]
+
+const seen = new Set<string>()
+export const INDONESIAN_CITIES: string[] = RAW_CITIES.filter((c) => {
+  const slug = c.toLowerCase().replace(/\s+/g, '-')
+  if (seen.has(slug)) {
+    console.warn(`[cities] Duplicate entry removed: ${c}`)
+    return false
+  }
+  seen.add(slug)
+  return true
+})

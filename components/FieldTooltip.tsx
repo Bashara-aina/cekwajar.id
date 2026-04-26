@@ -45,7 +45,7 @@ export const FIELD_TOOLTIPS = {
     "BPJS Kesehatan. Iuran: 1% dari karyawan + 4% dari pemberi kerja. Untuk layanan kesehatan nasional.",
   pph21:
     "PPh21 adalah pajak penghasilan Pasal 21 yang dipotong langsung dari gaji kamu oleh pemberi kerja.",
-  gapok: "Gaji pokok (gapok) adalah komponen tetap dari penghasilan brutto sebelum加上 tunjangan.",
+  gapok: "Gaji pokok (gapok) adalah komponen tetap dari penghasilan brutto sebelum ditambah tunjangan.",
   tunjangan: "Tunjangan adalah komponen tambahan dari penghasilan seperti tunjangan makan, transport, dll.",
   umk: "UMK (Upah Minimum Kota/Kabupaten) — juga dikenal sebagai UMR di beberapa daerah. Ini adalah batas minimum upah yang harus dibayar di kota/kamu.",
 } as const;

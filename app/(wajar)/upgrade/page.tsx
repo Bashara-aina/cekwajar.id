@@ -3,8 +3,15 @@ import type { Metadata } from "next";
 import UpgradePageClient from "./UpgradePageClient";
 
 export const metadata: Metadata = {
-  title: "Upgrade — cekwajar.id",
-  description: "Upgrade ke paket Basic atau Pro untuk akses lengkap",
+  title: "Buka Detail Slip Gajimu — IDR 49.000 / bulan · cekwajar.id",
+  description:
+    "Lihat detail rupiah selisih + skrip ke HRD. Garansi 7 hari uang kembali. Pembayaran via Midtrans.",
+  alternates: { canonical: "https://cekwajar.id/upgrade" },
+  openGraph: {
+    title: "Pro IDR 49.000 — Buka detail slip gajimu",
+    description: "Garansi 7 hari uang kembali. Batalkan kapan saja.",
+    type: "website",
+  },
 };
 
 export default function UpgradePage() {

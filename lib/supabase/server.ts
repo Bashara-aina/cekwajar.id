@@ -1,4 +1,4 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { createClient as createSupabaseClient, SupabaseClient } from "@supabase/supabase-js";
 
 let _supabaseAdmin: SupabaseClient | null = null;
 
@@ -9,7 +9,7 @@ function getSupabaseAdmin(): SupabaseClient {
     if (!supabaseUrl || !supabaseServiceKey) {
       throw new Error("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set");
     }
-    _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+    _supabaseAdmin = createSupabaseClient(supabaseUrl, supabaseServiceKey);
   }
   return _supabaseAdmin;
 }
@@ -19,3 +19,8 @@ export const supabaseAdmin: SupabaseClient = new Proxy({} as SupabaseClient, {
     return (getSupabaseAdmin() as SupabaseClient)[prop as keyof SupabaseClient];
   },
 });
+
+export async function createClient(): Promise<SupabaseClient> {
+  const { createBrowserClient } = await import('@/lib/supabase/client')
+  return createBrowserClient()
+}

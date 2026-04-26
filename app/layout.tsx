@@ -20,33 +20,35 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "cekwajar.id — Cek Gaji Wajar Atau Tidak",
+  title: "cekwajar.id — Cek Apakah Slip Gajimu Mencuri dari Kamu",
   description:
-    "Platform verifikasi keadilan gaji dan biaya hidup di Indonesia. Periksa PPh21, BPJS, benchmark gaji, dan harga properti dengan standar regulasi terkini.",
+    "Upload slip gajimu. Dalam 30 detik tahu apakah PPh21 & BPJS dipotong sesuai PMK 168/2023. Rata-rata pengguna menemukan IDR 847.000 yang seharusnya jadi miliknya — sebelum perusahaan tahu kamu cek.",
   keywords: [
-    "payslip",
-    "pph21",
-    "bpjs",
-    "gaji",
-    "Indonesia",
-    "payroll",
-    "compliance",
-    "benchmark",
-    "TER",
+    "cek slip gaji",
+    "audit pph21",
+    "bpjs salah potong",
+    "pmk 168 2023",
+    "gaji dipotong tidak wajar",
+    "cek bpjs ketenagakerjaan",
+    "jht jp salah",
+    "kalkulator pph21",
+    "slip gaji palsu",
+    "umk 2026",
   ],
-  authors: [{ name: "cekwajar.id" }],
   openGraph: {
-    title: "cekwajar.id — Cek Gaji Wajar Atau Tidak",
-    description: "Verifikasi keadilan slip gaji Anda dengan 5 alat terintegrasi.",
-    type: "website",
+    title: "Slip gajimu mencuri dari kamu? Cek dalam 30 detik.",
+    description:
+      "Audit gratis PPh21 + BPJS sesuai PMK 168/2023. Rata-rata pengguna menemukan IDR 847.000 yang seharusnya mereka dapat.",
     locale: "id_ID",
+    type: "website",
+    siteName: "cekwajar.id",
   },
   twitter: {
     card: "summary_large_image",
-    title: "cekwajar.id — Cek Gaji Wajar Atau Tidak",
-    description:
-      "Platform verifikasi keadilan gaji dan biaya hidup di Indonesia.",
+    title: "Slip gajimu mencuri dari kamu? Cek dalam 30 detik.",
+    description: "Rata-rata pengguna menemukan IDR 847.000 yang harusnya mereka dapat.",
   },
+  alternates: { canonical: "https://cekwajar.id" },
 };
 
 export default function RootLayout({

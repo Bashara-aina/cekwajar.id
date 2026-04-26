@@ -1,79 +1,51 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { CheckCircle2, FileText } from 'lucide-react'
+import { useEffect } from 'react'
+import { CheckCircle2, FileText, Share2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { ConfettiEffect } from '@/components/ConfettiEffect'
+import confetti from 'canvas-confetti'
 
 export default function UpgradeSuccessPageClient() {
-  const searchParams = useSearchParams()
-  const plan = searchParams.get('plan') ?? 'basic'
-  const [showConfetti, setShowConfetti] = useState(false)
-
   useEffect(() => {
-    const t = setTimeout(() => setShowConfetti(true), 300)
+    const t = setTimeout(() => {
+      confetti({ particleCount: 30, spread: 70, origin: { y: 0.4 } })
+    }, 300)
     return () => clearTimeout(t)
   }, [])
 
-  const planLabel = plan === 'pro' ? 'Pro' : 'Basic'
-  const planPrice = plan === 'pro' ? 'Rp 79.000' : 'Rp 29.000'
-
   return (
     <main className="min-h-screen flex items-center justify-center px-4 py-16">
-      <ConfettiEffect trigger={showConfetti} />
-
       <div className="max-w-md w-full text-center">
-        <div className="w-24 h-24 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-6 animate-in zoom-in duration-300">
-          <CheckCircle2 className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
+        <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
+          <CheckCircle2 className="w-8 h-8 text-emerald-600" />
         </div>
 
-        <h1 className="text-2xl font-bold mb-2">
-          Paket {planLabel} Aktif! 🎉
+        <h1 className="text-2xl font-extrabold text-slate-900 sm:text-3xl">
+          Berhasil. Slip kamu sekarang terbuka penuh.
         </h1>
 
-        <p className="text-muted-foreground mb-2">
-          {planPrice}/bulan · Bisa dibatalkan kapan saja
+        <p className="mt-2 text-sm text-slate-600">
+          Selamat menemukan rupiah yang seharusnya jadi milikmu.
         </p>
 
-        <p className="text-sm text-muted-foreground mb-8">
-          Email konfirmasi sudah dikirim ke alamat email kamu.
-        </p>
-
-        <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-5 mb-8 text-left">
-          <p className="font-semibold text-sm mb-3">Yang baru bisa kamu akses:</p>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-              Selisih IDR per komponen pelanggaran
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-              Tabel kalkulasi PPh21 TER lengkap
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-              Rekomendasi tindak lanjut per pelanggaran
-            </li>
-          </ul>
-        </div>
-
-        <Button
-          asChild
-          className="w-full bg-emerald-600 hover:bg-emerald-700 h-12 gap-2 mb-3"
-        >
+        <div className="mt-6 grid gap-3">
           <Link href="/slip">
-            <FileText className="w-4 h-4" />
-            Audit Slip Gaji Sekarang →
+            <Button className="h-12 w-full bg-emerald-600 hover:bg-emerald-700">
+              <FileText className="mr-2 h-4 w-4" />
+              Lihat audit terakhir saya
+            </Button>
           </Link>
-        </Button>
-
-        <Button asChild variant="outline" className="w-full h-12 gap-2">
-          <Link href="/dashboard">
-            Dashboard →
+          <Link href="/slip?reset=1">
+            <Button variant="outline" className="h-12 w-full">
+              Audit slip lain
+            </Button>
           </Link>
-        </Button>
+          <Link href="/dashboard?tab=referral" className="mt-2 inline-flex items-center justify-center gap-1.5 text-sm text-emerald-700 hover:underline">
+            <Share2 className="h-3.5 w-3.5" />
+            Bagikan ke teman → dapat 1 bulan gratis kalo dia bayar
+          </Link>
+        </div>
       </div>
     </main>
   )
