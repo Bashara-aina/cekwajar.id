@@ -27,7 +27,6 @@
     "@sentry/nextjs": "^10.48.0",
     "@supabase/postgrest-js": "^2.103.2",
     "@supabase/supabase-js": "^2.103.2",
-    "@tremor/react": "^3.18.7",
     "@types/canvas-confetti": "^1.9.0",
     "@upstash/redis": "^1.37.0",
     "bullmq": "^5.74.1",
