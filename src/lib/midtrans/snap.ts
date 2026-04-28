@@ -1,4 +1,4 @@
-import Midtrans from 'midtrans-sdk-nodejs'
+import Midtrans from '@midtrans/midtrans-nodejs'
 
 let _midtrans: Midtrans | null = null
 

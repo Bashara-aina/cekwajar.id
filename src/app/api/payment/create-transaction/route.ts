@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import Midtrans from 'midtrans-sdk-nodejs'
+import Midtrans from '@midtrans/midtrans-nodejs'
 import { z } from 'zod'
 
 const midtrans = new Midtrans({
