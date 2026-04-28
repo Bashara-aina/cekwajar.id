@@ -48,21 +48,22 @@ export async function GET(req: NextRequest) {
       p_size_band: sizeBand,
     })
     
+    let cityStats = null
     if (!stats || stats.sample_count < 5) {
-      // Fallback to city-level
-      const { data: cityStats } = await supabase
+      const { data } = await supabase
         .from('property_benchmarks')
         .select('p25, p50, p75, sample_count')
         .eq('province', province)
         .eq('city', city)
         .eq('property_type', propertyType)
         .single()
-      
+      cityStats = data
+
       if (!cityStats || cityStats.sample_count < 5) {
         return NextResponse.json({ error: 'Insufficient data' }, { status: 404 })
       }
     }
-    
+
     const p25 = stats?.p25 || cityStats?.p25 || 0
     const p50 = stats?.p50 || cityStats?.p50 || 0
     const p75 = stats?.p75 || cityStats?.p75 || 0
