@@ -1,7 +1,7 @@
 import { createClient } from '../src/lib/supabase/server'
 
 async function main() {
-  const sb = createClient()
+  const sb = await createClient()
 
   const { data: cities, error } = await sb.from('umk_2026').select('city, province')
 
