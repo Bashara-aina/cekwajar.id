@@ -55,13 +55,13 @@ export async function GET(req: NextRequest) {
     // Get PPP factors from DB
     const { data: idPPP } = await supabase
       .from('ppp_reference')
-      .select('ppp_factor')
+      .select('ppp_factor, currency_code')
       .eq('country_code', 'IDN')
       .single()
     
     const { data: foreignPPP } = await supabase
       .from('ppp_reference')
-      .select('ppp_factor, is_free_tier')
+      .select('ppp_factor, is_free_tier, currency_code')
       .eq('country_code', targetCountry)
       .single()
     
