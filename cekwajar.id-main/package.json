@@ -12,7 +12,19 @@
     "audit:images": "node scripts/check-image-size.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:all": "pnpm test && pnpm test:e2e",
+    "test:ci": "vitest run --coverage && playwright test",
+    "scrape": "npx tsx src/scripts/scrape-property-portals.ts",
+    "seed:cities": "tsx scripts/seed-col-cities.ts",
+    "seed:static": "tsx scripts/seed-static.ts",
+    "worker:prop": "tsx scripts/workers/property-worker.ts",
+    "worker:salary": "tsx scripts/workers/salary-worker.ts",
+    "worker:rent": "tsx scripts/workers/rent-worker.ts",
+    "pipeline:test": "tsx scripts/test-pipeline.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -56,11 +68,14 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.44.0",
     "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "crawlee": "^3.9.0",
+    "@crawlee/playwright": "^3.9.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
     "tailwindcss": "^4",
