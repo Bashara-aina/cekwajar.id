@@ -1,0 +1,54 @@
+# Cursor AI Backend Configuration — MiniMax-M2.7
+# Reference: https://platform.minimax.io/docs/llms.txt (Cursor integration guide)
+# ═══════════════════════════════════════════════════════════════════════
+## CONTEXT BUDGET RULE
+Every task that requires reading/modifying more than 2 files MUST
+output a subagent manifest before writing any code.
+Do not attempt to handle multi-file tasks in the main agent.
+
+
+## ⚠️ PREREQUISITE: Cursor Pro subscription required
+Without Pro, configuring MiniMax-M2.7 results in:
+"The model MiniMax-M2.7 does not work with your current plan or api key"
+
+## ⚠️ KNOWN ISSUE: "Override OpenAI Base URL" is GLOBAL
+Once enabled, it applies to ALL API keys (Anthropic, GPT, etc.).
+If Claude/GPT stop working after enabling, disable the override when not using MiniMax.
+Cursor does not yet support per-model base URLs.
+→ https://forum.cursor.com/t/custom-base-urls-for-each-custom-model/147219
+
+## SETUP STEPS (follow in order)
+
+### Step 1: Clear conflicting OpenAI env vars
+Before configuring, unset any existing OpenAI vars:
+- `OPENAI_API_KEY`
+- `OPENAI_BASE_URL`
+
+### Step 2: Configure API Key in Cursor Settings
+1. Open Cursor → Settings → Models (left sidebar)
+2. Expand "API Keys" section
+3. Enable "Override OpenAI Base URL"
+4. Base URL: `https://api.minimax.io/v1` (international) or `https://api.minimaxi.com/v1` (China)
+5. Paste API key from https://platform.minimax.io/user-center/payment/token-plan
+6. Click the button right of the API Key field to verify
+7. Click "Enable OpenAI API Key" in the popup
+
+### Step 3: Add Custom Model
+1. In the Models section, click "View All Models"
+2. Click "Add Custom Model"
+3. Enter exactly: `MiniMax-M2.7` (capital M, lowercase i, hyphen — exact spelling)
+4. Click "Add"
+
+### Step 4: Enable and Select
+1. Enable the newly added "MiniMax-M2.7" model (toggle)
+2. Select "MiniMax-M2.7" in the chat panel dropdown
+
+## NOTE: Tab Autocomplete
+Tab (Cursor Pro feature) uses Cursor's own model — NOT your custom MiniMax key.
+Custom models only work in: Chat / Composer / Edit modes.
+
+## APPLICATION CODE vs CURSOR BACKEND
+Your cekwajar.id application code uses MiniMax via OpenAI SDK:
+  baseURL: https://api.minimax.io/v1
+  (configured in src/lib/agents/ and cekwajar.mdc)
+This is SEPARATE from Cursor's backend model above.

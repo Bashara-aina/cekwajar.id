@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "name": "cekwajar",
+  "version": "0.1.0",
+  "description": "Cek Wajar ID salary audit tools — run audits, check UMK, validate BPJS directly from Cursor",
+  "author": {
+    "name": "Cek Wajar ID",
+    "url": "https://cekwajar.id"
+  },
+  "homepage": "https://cekwajar.id",
+  "repository": "",
+  "commands": [
+    {
+      "name": "audit",
+      "description": "Run a salary audit check via Cek Wajar ID",
+      "pattern": "/audit",
+      "action": {
+        "type": "console",
+        "command": "echo \"cek wajar audit\""
+      }
+    }
+  ],
+  "skills": [
+    {
+      "path": "skills/cekwajar.mdc",
+      "name": "cekwajar"
+    }
+  ],
+  "mcp": {
+    "servers": [
+      {
+        "name": "cekwajar-api",
+        "type": "http",
+        "url": "http://localhost:3000",
+        "description": "Cek Wajar ID API for salary audits, UMK lookups, and BPJS validation"
+      }
+    ]
+  },
+  "hooks": [
+    {
+      "event": "sessionstart",
+      "path": "hooks/sessionstart.json"
+    }
+  ]
+}

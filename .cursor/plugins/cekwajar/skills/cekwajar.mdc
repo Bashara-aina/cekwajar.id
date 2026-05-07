@@ -1,0 +1,62 @@
+# Cek Wajar ID Plugin
+
+Cek Wajar ID salary audit tools for Indonesian employees and HR professionals.
+
+## Capabilities
+
+- **Salary audits**: Validate if take-home pay meets Indonesian legal standards
+- **UMK lookups**: Query regional minimum wage rates (UMK/UMR) across Indonesia
+- **BPJS validation**: Verify BPJS Kesehatan and BPJS Ketenagakerjaan compliance
+- **Audit history**: Track and review past salary audit results
+
+## MCP Integration
+
+This plugin connects to the Cek Wajar ID API at `http://localhost:3000`.
+
+### Available MCP Tools
+
+- `audit_payslip` — Run a full salary audit from payslip data
+- `check_umk` — Query UMK rates by region/year
+- `validate_bpjs` — Validate BPJS Kesehatan & Ketenagakerjaan status
+- `get_audit_history` — Retrieve past audit records
+
+### MCP Server Configuration
+
+```json
+{
+  "servers": [{
+    "name": "cekwajar-api",
+    "type": "http",
+    "url": "http://localhost:3000"
+  }]
+}
+```
+
+## Usage
+
+### Command
+
+```
+/audit
+```
+
+Prints `cek wajar audit` to the console and triggers a salary audit via the MCP API.
+
+### Example Workflow
+
+1. Run `/audit` to initiate an audit
+2. The plugin queries `localhost:3000/api/audit-payslip`
+3. Results display in Cursor with compliance verdict and shortfall amounts
+
+## Requirements
+
+- Cek Wajar ID API running at `http://localhost:3000`
+- Valid authentication (Magic Link via Supabase)
+- Internet connection for UMK/BPJS validation queries
+
+## Files
+
+- `manifest.json` — Plugin manifest and MCP server config
+- `commands/audit.json` — `/audit` command definition
+- `hooks/sessionstart.json` — Session start hook config
+- `skills/cekwajar.mdc` — This documentation

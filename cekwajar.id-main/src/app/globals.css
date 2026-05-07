@@ -1,0 +1,549 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+ * cekwajar.id — Global CSS Design Tokens
+ * Primary: #1B65A6 (blue) | Verdict colors | Chart palette
+ * ══════════════════════════════════════════════════════════════════════════════ */
+@import "tailwindcss";
+@import "../lib/animations.css";
+
+/* ─── Light theme (default) ─── */
+:root {
+  /* ── Background Layers ── */
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  /* cekwajar.id PRIMARY — blue */
+  --primary: #1B65A6;
+  --primary-700: #155089;
+  --primary-500: #2B7CC9;
+  --primary-100: #E0EEFB;
+  --primary-50: #F0F7FE;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --accent: #f1f5f9;
+  --accent-foreground: #1e293b;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #1B65A6;
+  --radius: 0.5rem;
+
+  /* ── cekwajar.id LAYERED BG TOKENS ── */
+  --color-bg-base: #ffffff;
+  --color-bg-raised: #F8F9FA;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-hover: #F3F4F6;
+  --color-bg-surface-active: #E8EBF0;
+  --color-bg-inset: #F0F1F4;
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  /* ── Foreground / Text ── */
+  --color-fg-default: #111318;
+  --color-fg-muted: #4B5162;
+  --color-fg-subtle: #6E7586;
+  --color-fg-disabled: #A0A6B4;
+  --color-fg-on-accent: #ffffff;
+
+  /* ── Border ── */
+  --color-border-default: #E2E4EA;
+  --color-border-hover: #C8CBD4;
+  --color-border-focus: #1B65A6;
+  --color-border-subtle: #F0F1F4;
+
+  /* ── Accent (Primary Brand) ── */
+  --color-accent-solid: #1B65A6;
+  --color-accent-solid-hover: #155089;
+  --color-accent-solid-active: #103E6C;
+  --color-accent-subtle-bg: #EDF4FB;
+  --color-accent-subtle-fg: #1B65A6;
+  --color-accent-border: #B3D1ED;
+
+  /* ── Nav ── */
+  --nav-bg: #ffffff;
+  --nav-border: #e2e8f0;
+  --nav-text: #0f172a;
+  --nav-text-muted: #64748b;
+  --nav-hover-bg: #f1f5f9;
+
+  /* ── Body ── */
+  --page-bg: #ffffff;
+  --page-text: #0f172a;
+  --page-text-muted: #64748b;
+
+  /* ── cekwajar.id VERDICT COLORS ── */
+  /* Wajar (correct / success) */
+  --verdict-wajar: #16A34A;
+  --verdict-wajar-bg: #ECFDF3;
+  --verdict-wajar-fg: #064E24;
+  --verdict-wajar-icon: #16A34A;
+  --verdict-wajar-border: #A7F3D0;
+  --verdict-wajar-solid: #16A34A;
+
+  /* aneh (warning / anomaly) */
+  --verdict-aneh: #D97706;
+  --verdict-aneh-bg: #FFF8EB;
+  --verdict-aneh-fg: #78350F;
+  --verdict-aneh-icon: #D97706;
+  --verdict-aneh-border: #FDE68A;
+  --verdict-aneh-solid: #D97706;
+
+  /* Salah (error / incorrect) */
+  --verdict-salah: #DC2626;
+  --verdict-salah-bg: #FEF2F2;
+  --verdict-salah-fg: #7F1D1D;
+  --verdict-salah-icon: #DC2626;
+  --verdict-salah-border: #FECACA;
+  --verdict-salah-solid: #DC2626;
+
+  /* Info (neutral informational) */
+  --info: #2563EB;
+  --info-bg: #EFF6FF;
+  --info-fg: #1E40AF;
+  --info-icon: #2563EB;
+  --info-border: #BFDBFE;
+
+  /* Semantic colors */
+  --success: #10b981;
+  --success-light: #d1fae5;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+
+  /* ── Chart Palette (Light Mode) ── */
+  --color-chart-1: #1B65A6;
+  --color-chart-2: #0D9488;
+  --color-chart-3: #D97706;
+  --color-chart-4: #7C3AED;
+  --color-chart-5: #E11D48;
+  --color-chart-6: #0891B2;
+
+  /* Mobile keyboard awareness (set via useKeyboardHeight) */
+  --keyboard-h: 0;
+}
+
+/* ─── Dark theme (manual .dark class + prefers-color-scheme) ─── */
+.dark {
+  /* ── Background Layers ── */
+  --background: #0F1117;
+  --foreground: #f8fafc;
+  --card: #1C1F2B;
+  --card-foreground: #EDEDEF;
+  --popover: #1C1F2B;
+  --popover-foreground: #EDEDEF;
+
+  /* cekwajar.id PRIMARY — blue, adjusted for dark */
+  --primary: #3B8AD4;
+  --primary-700: #1B65A6;
+  --primary-500: #5BA0DC;
+  --primary-100: #1E3A5F;
+  --primary-50: #0F1F2E;
+  --primary-foreground: #ffffff;
+
+  --secondary: #1e293b;
+  --secondary-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #cbd5e1;
+  --accent: #1e293b;
+  --accent-foreground: #f8fafc;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #2A2D3A;
+  --input: #2A2D3A;
+  --ring: #5BA0DC;
+
+  /* ── cekwajar.id LAYERED BG TOKENS ── */
+  --color-bg-base: #0F1117;
+  --color-bg-raised: #161921;
+  --color-bg-surface: #1C1F2B;
+  --color-bg-surface-hover: #242736;
+  --color-bg-surface-active: #2C3042;
+  --color-bg-inset: #13151D;
+  --color-bg-overlay: rgba(0, 0, 0, 0.7);
+
+  /* ── Foreground / Text ── */
+  --color-fg-default: #EDEDEF;
+  --color-fg-muted: #9BA1B0;
+  --color-fg-subtle: #6B7280;
+  --color-fg-disabled: #454B5C;
+  --color-fg-on-accent: #ffffff;
+
+  /* ── Border ── */
+  --color-border-default: #2A2D3A;
+  --color-border-hover: #3D4155;
+  --color-border-focus: #5BA0DC;
+  --color-border-subtle: #1E212B;
+
+  /* ── Accent (Primary Brand) ── */
+  --color-accent-solid: #3B8AD4;
+  --color-accent-solid-hover: #5BA0DC;
+  --color-accent-solid-active: #2A78C2;
+  --color-accent-subtle-bg: #152238;
+  --color-accent-subtle-fg: #7DBCE8;
+  --color-accent-border: #1E3A5C;
+
+  /* ── Nav ── */
+  --nav-bg: #0F1117;
+  --nav-border: #2A2D3A;
+  --nav-text: #EDEDEF;
+  --nav-text-muted: #9BA1B0;
+  --nav-hover-bg: #1C1F2B;
+
+  /* ── Body ── */
+  --page-bg: #0F1117;
+  --page-text: #EDEDEF;
+  --page-text-muted: #9BA1B0;
+
+  /* ── cekwajar.id VERDICT COLORS — deeply desaturated for dark bg ── */
+  /* Wajar */
+  --verdict-wajar: #4ADE80;
+  --verdict-wajar-bg: #0D2818;
+  --verdict-wajar-fg: #A7F3D0;
+  --verdict-wajar-icon: #4ADE80;
+  --verdict-wajar-border: #1A3D28;
+  --verdict-wajar-solid: #16A34A;
+
+  /* aneh */
+  --verdict-aneh: #FBBF24;
+  --verdict-aneh-bg: #2A1F0A;
+  --verdict-aneh-fg: #FDE68A;
+  --verdict-aneh-icon: #FBBF24;
+  --verdict-aneh-border: #3D3014;
+  --verdict-aneh-solid: #D97706;
+
+  /* Salah */
+  --verdict-salah: #F87171;
+  --verdict-salah-bg: #2A1215;
+  --verdict-salah-fg: #FECACA;
+  --verdict-salah-icon: #F87171;
+  --verdict-salah-border: #3D1E22;
+  --verdict-salah-solid: #DC2626;
+
+  /* Info */
+  --info: #60A5FA;
+  --info-bg: #111C33;
+  --info-fg: #93C5FD;
+  --info-icon: #60A5FA;
+  --info-border: #1E2D4A;
+
+  /* Semantic colors */
+  --success: #34d399;
+  --success-light: #064e3b;
+  --warning: #fbbf24;
+  --warning-light: #78350f;
+
+  /* ── Chart Palette (Dark Mode) ── */
+  --color-chart-1: #5BA0DC;
+  --color-chart-2: #2DD4BF;
+  --color-chart-3: #FBBF24;
+  --color-chart-4: #A78BFA;
+  --color-chart-5: #FB7185;
+  --color-chart-6: #22D3EE;
+
+  /* Shadows: none in dark mode — elevation via luminance difference */
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-focus: 0 0 0 2px var(--color-border-focus);
+}
+
+/* ─── System preference dark mode (no .dark class) ─── */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    /* ── Background Layers ── */
+    --background: #0F1117;
+    --foreground: #f8fafc;
+    --card: #1C1F2B;
+    --card-foreground: #EDEDEF;
+    --popover: #1C1F2B;
+    --popover-foreground: #EDEDEF;
+
+    --primary: #3B8AD4;
+    --primary-700: #1B65A6;
+    --primary-500: #5BA0DC;
+    --primary-100: #1E3A5F;
+    --primary-50: #0F1F2E;
+    --primary-foreground: #ffffff;
+
+    --secondary: #1e293b;
+    --secondary-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #cbd5e1;
+    --accent: #1e293b;
+    --accent-foreground: #f8fafc;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #2A2D3A;
+    --input: #2A2D3A;
+    --ring: #5BA0DC;
+
+    --color-bg-base: #0F1117;
+    --color-bg-raised: #161921;
+    --color-bg-surface: #1C1F2B;
+    --color-bg-surface-hover: #242736;
+    --color-bg-surface-active: #2C3042;
+    --color-bg-inset: #13151D;
+    --color-bg-overlay: rgba(0, 0, 0, 0.7);
+
+    --color-fg-default: #EDEDEF;
+    --color-fg-muted: #9BA1B0;
+    --color-fg-subtle: #6B7280;
+    --color-fg-disabled: #454B5C;
+    --color-fg-on-accent: #ffffff;
+
+    --color-border-default: #2A2D3A;
+    --color-border-hover: #3D4155;
+    --color-border-focus: #5BA0DC;
+    --color-border-subtle: #1E212B;
+
+    --color-accent-solid: #3B8AD4;
+    --color-accent-solid-hover: #5BA0DC;
+    --color-accent-solid-active: #2A78C2;
+    --color-accent-subtle-bg: #152238;
+    --color-accent-subtle-fg: #7DBCE8;
+    --color-accent-border: #1E3A5C;
+
+    --nav-bg: #0F1117;
+    --nav-border: #2A2D3A;
+    --nav-text: #EDEDEF;
+    --nav-text-muted: #9BA1B0;
+    --nav-hover-bg: #1C1F2B;
+
+    --page-bg: #0F1117;
+    --page-text: #EDEDEF;
+    --page-text-muted: #9BA1B0;
+
+    --verdict-wajar: #4ADE80;
+    --verdict-wajar-bg: #0D2818;
+    --verdict-wajar-fg: #A7F3D0;
+    --verdict-wajar-icon: #4ADE80;
+    --verdict-wajar-border: #1A3D28;
+    --verdict-wajar-solid: #16A34A;
+
+    --verdict-aneh: #FBBF24;
+    --verdict-aneh-bg: #2A1F0A;
+    --verdict-aneh-fg: #FDE68A;
+    --verdict-aneh-icon: #FBBF24;
+    --verdict-aneh-border: #3D3014;
+    --verdict-aneh-solid: #D97706;
+
+    --verdict-salah: #F87171;
+    --verdict-salah-bg: #2A1215;
+    --verdict-salah-fg: #FECACA;
+    --verdict-salah-icon: #F87171;
+    --verdict-salah-border: #3D1E22;
+    --verdict-salah-solid: #DC2626;
+
+    --info: #60A5FA;
+    --info-bg: #111C33;
+    --info-fg: #93C5FD;
+    --info-icon: #60A5FA;
+    --info-border: #1E2D4A;
+
+    --success: #34d399;
+    --success-light: #064e3b;
+    --warning: #fbbf24;
+    --warning-light: #78350f;
+
+    --color-chart-1: #5BA0DC;
+    --color-chart-2: #2DD4BF;
+    --color-chart-3: #FBBF24;
+    --color-chart-4: #A78BFA;
+    --color-chart-5: #FB7185;
+    --color-chart-6: #22D3EE;
+
+    --shadow-xs: none;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-xl: none;
+    --shadow-focus: 0 0 0 2px var(--color-border-focus);
+  }
+}
+
+/* ─── Reduced motion: disable all animations ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-700: var(--primary-700);
+  --color-primary-500: var(--primary-500);
+  --color-primary-100: var(--primary-100);
+  --color-primary-50: var(--primary-50);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+
+  /* cekwajar.id Layered BG tokens */
+  --color-bg-base: var(--color-bg-base);
+  --color-bg-raised: var(--color-bg-raised);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-surface-hover: var(--color-bg-surface-hover);
+  --color-bg-surface-active: var(--color-bg-surface-active);
+  --color-bg-inset: var(--color-bg-inset);
+  --color-bg-overlay: var(--color-bg-overlay);
+
+  /* cekwajar.id Foreground tokens */
+  --color-fg-default: var(--color-fg-default);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-fg-subtle: var(--color-fg-subtle);
+  --color-fg-disabled: var(--color-fg-disabled);
+  --color-fg-on-accent: var(--color-fg-on-accent);
+
+  /* cekwajar.id Border tokens */
+  --color-border-default: var(--color-border-default);
+  --color-border-hover: var(--color-border-hover);
+  --color-border-focus: var(--color-border-focus);
+  --color-border-subtle: var(--color-border-subtle);
+
+  /* cekwajar.id Accent tokens */
+  --color-accent-solid: var(--color-accent-solid);
+  --color-accent-solid-hover: var(--color-accent-solid-hover);
+  --color-accent-solid-active: var(--color-accent-solid-active);
+  --color-accent-subtle-bg: var(--color-accent-subtle-bg);
+  --color-accent-subtle-fg: var(--color-accent-subtle-fg);
+  --color-accent-border: var(--color-accent-border);
+
+  /* cekwajar.id Verdict colors */
+  --color-verdict-wajar: var(--verdict-wajar);
+  --color-verdict-wajar-bg: var(--verdict-wajar-bg);
+  --color-verdict-wajar-fg: var(--verdict-wajar-fg);
+  --color-verdict-wajar-icon: var(--verdict-wajar-icon);
+  --color-verdict-wajar-border: var(--verdict-wajar-border);
+  --color-verdict-wajar-solid: var(--verdict-wajar-solid);
+  --color-verdict-aneh: var(--verdict-aneh);
+  --color-verdict-aneh-bg: var(--verdict-aneh-bg);
+  --color-verdict-aneh-fg: var(--verdict-aneh-fg);
+  --color-verdict-aneh-icon: var(--verdict-aneh-icon);
+  --color-verdict-aneh-border: var(--verdict-aneh-border);
+  --color-verdict-aneh-solid: var(--verdict-aneh-solid);
+  --color-verdict-salah: var(--verdict-salah);
+  --color-verdict-salah-bg: var(--verdict-salah-bg);
+  --color-verdict-salah-fg: var(--verdict-salah-fg);
+  --color-verdict-salah-icon: var(--verdict-salah-icon);
+  --color-verdict-salah-border: var(--verdict-salah-border);
+  --color-verdict-salah-solid: var(--verdict-salah-solid);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-info-fg: var(--info-fg);
+  --color-info-icon: var(--info-icon);
+  --color-info-border: var(--info-border);
+
+  /* cekwajar.id Gray overrides */
+  --color-gray-950: #0C0E12;
+  --color-gray-700: #374151;
+  --color-gray-500: #6B7280;
+  --color-gray-300: #D1D5DB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-50: #F9FAFB;
+
+  /* Chart palette — both modes handled via CSS vars */
+  --color-chart-1: var(--color-chart-1);
+  --color-chart-2: var(--color-chart-2);
+  --color-chart-3: var(--color-chart-3);
+  --color-chart-4: var(--color-chart-4);
+  --color-chart-5: var(--color-chart-5);
+  --color-chart-6: var(--color-chart-6);
+
+  /* Fonts (set in layout.tsx via next/font) */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* ── Border Radius ── */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* ── Fluid Typography Scale ── */
+  --text-xs: clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);
+  --text-sm: clamp(0.8125rem, 0.78rem + 0.17vw, 0.875rem);
+  --text-base: clamp(0.9375rem, 0.9rem + 0.19vw, 1rem);
+  --text-lg: clamp(1.0625rem, 1rem + 0.31vw, 1.125rem);
+  --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+  --text-3xl: clamp(1.875rem, 1.4rem + 2.4vw, 2.5rem);
+  --text-4xl: clamp(2.5rem, 1.8rem + 3.5vw, 3rem);
+  --text-display: clamp(3rem, 2rem + 5vw, 4rem);
+
+  /* ── Tone-Matched Shadows (light mode only) ── */
+  --shadow-xs: 0 1px 2px oklch(0.2 0.01 80 / 0.04);
+  --shadow-sm: 0 1px 3px oklch(0.2 0.01 80 / 0.06), 0 1px 2px oklch(0.2 0.01 80 / 0.04);
+  --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
+  --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
+  --shadow-xl: 0 24px 48px oklch(0.2 0.01 80 / 0.16);
+  --shadow-focus: 0 0 0 2px var(--color-border-focus);
+
+  /* ── Spacing (4px system) ── */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* ── Motion ── */
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-loading: 1000ms;
+  --easing-default: cubic-bezier(0.2, 0, 0, 1);
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Indonesian number formatting note ───
+ * Use Intl.NumberFormat('id-ID') for all currency and number display.
+ * Thousands separator: dot (.)  e.g. 8.550.000
+ * Decimal separator: comma (,)   e.g. 2,5%
+ * Currency prefix: "Rp " (with non-breaking space)
+ */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

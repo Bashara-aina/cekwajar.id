@@ -1,0 +1,7 @@
+{
+  "event": "sessionstart",
+  "action": {
+    "type": "log",
+    "message": "[cekwajar] Plugin loaded — Cek Wajar ID salary audit tools ready"
+  }
+}

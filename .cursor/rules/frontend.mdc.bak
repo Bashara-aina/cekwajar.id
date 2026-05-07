@@ -1,0 +1,8 @@
+---
+description: UI/UX anti-slop rules
+globs: **/*.tsx, **/*.jsx, **/components/**
+alwaysApply: false
+---
+Always use shadcn/ui components. Never raw HTML inputs or inline
+styles. Mobile-first with Tailwind. Always implement loading,
+empty, and error states.

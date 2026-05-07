@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "wajarSlip": "Wajar Slip",
+    "wajarGaji": "Wajar Gaji",
+    "blog": "Blog",
+    "masuk": "Masuk",
+    "daftar": "Daftar",
+    "akun": "Akun",
+    "riwayat": "Riwayat",
+    "langganan": "Langganan",
+    "pengaturan": "Pengaturan",
+    "keluar": "Keluar"
+  },
+  "landing": {
+    "tagline": "Karena hak lo bukan soal feeling, tapi soal aturan.",
+    "heroTitle": "Cek Potongan Gaji lo, Bener Apa Enggak.",
+    "heroSubtitle": "Audit slip gaji lo gegen\u00FCl regulation in minutes. Free.",
+    "cta": "Cek Slip Gaji Gratis",
+    "freeNoAccount": "Gratis. Tanpa daftar."
+  },
+  "form": {
+    "pageTitle": "Cek Slip Gaji",
+    "pageSubtitle": "Masukkan data dari slip lo",
+    "manualTab": "Manual",
+    "uploadTab": "Upload Slip",
+    "penghasilanSection": "Penghasilan",
+    "gajiPokok": "Gaji Pokok",
+    "tunjanganTetap": "Tunjangan Tetap",
+    "tunjanganTidakTetap": "Tunjangan Tidak Tetap",
+    "statusPTKP": "Status PTKP",
+    "ptkpHelper": "TK/0 = belum kawin, tanpa tanggungan. K/1 = kawin, 1 tanggungan.",
+    "potonganSection": "Potongan di Slip Gaji Lo",
+    "pph21": "PPh 21",
+    "bpjsKesehatan": "BPJS Kesehatan",
+    "bpjsJht": "BPJS JHT",
+    "bpjsJp": "BPJS JP",
+    "potonganLain": "Potongan Lainnya",
+    "periodeSection": "Periode",
+    "bulan": "Bulan",
+    "tahun": "Tahun",
+    "submitButton": "Cek Sekarang",
+    "trustLine": "Data lo aman. Nama dan perusahaan lo tidak disimpan.",
+    "bpjsWarning": "BPJS Kesehatan biasanya tidak melebihi Rp 120.000/bulan sesuai regulasi. Pastikan angka ini sesuai slip lo."
+  },
+  "result": {
+    "potonganWajar": "POTONGAN LO WAJAR",
+    "potonganTidakWajar": "POTONGAN LO TIDAK WAJAR",
+    "selisih": "Selisih",
+    "bagikan": "Bagikan",
+    "cekSlipLain": "Cek Slip Lain",
+    "bukaAuditLengkap": "Buka Audit Lengkap",
+    "perItem": "Detail per item + dasar hukum",
+    "suratKeberatan": "Surat keberatan ke HR",
+    "templateWhatsApp": "Template WhatsApp"
+  },
+  "verdict": {
+    "wajar": "Wajar",
+    "aneh": "Aneh",
+    "salah": "Salah"
+  },
+  "errors": {
+    "required": "Wajib diisi",
+    "networkError": "Koneksi bermasalah. Coba lagi.",
+    "serverError": "Terjadi kesalahan. Tim kami sedang memperbaiki.",
+    "notFound": "Halaman tidak ditemukan",
+    "notFoundSubtext": "Mungkin link-nya salah, atau halaman sudah dihapus.",
+    "serverErrorPage": "Ada yang salah di sisi kami",
+    "serverErrorSubtext": "Coba lagi dalam beberapa menit."
+  },
+  "empty": {
+    "noAuditHistory": "Belum ada audit",
+    "noAuditHistorySubtext": "Cek slip gaji pertama lo sekarang.",
+    "cta": "Cek Slip"
+  }
+}

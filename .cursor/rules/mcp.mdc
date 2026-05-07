@@ -1,0 +1,67 @@
+---
+description: MCP server usage rules for cekwajar.id
+globs: **/*
+alwaysApply: true
+---
+
+# MCP SERVER USAGE RULES
+
+## filesystem
+Use to read project files directly — never ask user to paste code.
+Priority read order for build tasks:
+  1. package.json (check installed packages first)
+  2. supabase/migrations/ (check DB schema before querying)
+  3. lib/engines/[relevant engine] (check logic before modifying)
+  4. req_0X_*.md (only the relevant domain doc)
+Max 5 files per session via filesystem.
+
+## git
+Use before any bug fix:
+  - git log --oneline -10 (find when bug was introduced)
+  - git diff HEAD~1 (see what changed in last commit)
+  - git blame [file] (find who changed which line)
+Never guess what changed — always use git to verify.
+
+## sequential-thinking
+ALWAYS activate for tasks that:
+  - Span more than 2 files
+  - Involve calculation engine changes
+  - Require understanding DB schema + API + UI together
+This server prevents context overflow by forcing step-by-step
+reasoning instead of one massive think block.
+
+## crawl4ai
+Use for data refresh tasks only:
+  - UMR/UMP regional minimum wages (wajar-gaji)
+  - NJOP land price indices (wajar-tanah)
+  - BPS salary survey data
+  - Cost of living indices (wajar-hidup)
+Always save scraped data to lib/data/[source]-[year].json
+Never scrape in real-time during user calculator sessions.
+
+## browser-use
+Use for:
+  - Automated UI testing of calculator flows
+  - Scraping sites that require JavaScript rendering
+  - Testing premium gate behavior (free vs paid)
+Set headless: true for all automation.
+Never use browser-use for simple HTTP scraping — use crawl4ai.
+
+## gitnexus
+Use for semantic code search across repo history.
+Only keep if it provides semantic search beyond plain git commands.
+If redundant with git server, prefer git.
+
+## hermes (DEFERRED — Legion Bot Phase 2)
+Only activate for Legion Bot multi-agent tasks.
+Set MAX_DELEGATION_DEPTH=2 to prevent recursive loops.
+Never use hermes for single-product tasks.
+
+## CONTEXT BUDGET WITH MCP
+Each MCP tool call costs ~500–2000 tokens.
+Max MCP calls per session: 10
+If you need more than 10 MCP calls: decompose into subagents.
+
+## REMOVED SERVERS
+- ruflo: REMOVED — causes context overflow (215+ tools)
+- symphony: REMOVED — wrong stack (PHP/Symfony, project is Next.js/TS)

@@ -1,0 +1,14 @@
+---
+description: Error handling standards — typed errors, correct HTTP codes, no swallowed errors
+globs: **/*.ts, **/*.tsx
+alwaysApply: false
+---
+Every async operation: try/catch with typed error handling.
+Create custom error classes (AppError, NotFoundError, ValidationError, etc.).
+Log errors with context: { userId, route, timestamp, payload }.
+Never swallow errors silently.
+HTTP status codes must be semantically correct:
+  200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 403 Forbidden,
+  404 Not Found, 409 Conflict, 422 Unprocessable Entity, 500 Server Error.
+Never expose raw DB errors to the client — always sanitize.
+All DB queries must handle NOT FOUND explicitly, never assume rows exist.

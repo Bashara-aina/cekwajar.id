@@ -1,0 +1,7 @@
+---
+description: Enforce layered backend architecture
+globs: **/*.service.ts, **/*.controller.ts, **/*.repository.ts
+alwaysApply: false
+---
+Strictly enforce Controller → Service → Repository separation.
+No DB calls outside repositories. No business logic in controllers.

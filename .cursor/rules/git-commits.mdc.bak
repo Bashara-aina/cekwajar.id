@@ -1,0 +1,10 @@
+---
+description: Git and commit conventions — Conventional Commits, branch naming
+globs: **/.git/**, **/*.ts, **/*.tsx
+alwaysApply: false
+---
+Commit messages must follow Conventional Commits:
+  feat|fix|refactor|chore|docs|test|style: short description
+Never commit directly to main — always branch.
+Branch names: feature/*, fix/*, refactor/*, chore/*.
+Every feature must include at minimum one unit test.

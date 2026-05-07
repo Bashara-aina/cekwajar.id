@@ -1,0 +1,20 @@
+---
+description: API route rules
+globs: app/api/**, src/app/api/**
+alwaysApply: false
+---
+Route → Controller → Service → Repository strictly.
+Validate session before any DB access via @supabase/ssr.
+Rate limit: check lib/config/limits.ts.
+Return { success, data?, error? } always.
+Never expose raw Supabase errors to client.
+
+# SUPABASE GENERATED COLUMNS
+Never INSERT into generated columns (e.g. violation_count, shortfall_idr).
+Never manually calculate values that Postgres computes automatically.
+Always SELECT generated columns directly — Supabase returns them.
+Before any INSERT, check the migration file for GENERATED ALWAYS AS columns.
+If shortfall_idr or similar columns appear GENERATED in migrations:
+- INSERT only the inputs (month_number, year, violations JSON, etc.)
+- SELECT the computed column back after INSERT
+- NEVER calculate it in API code

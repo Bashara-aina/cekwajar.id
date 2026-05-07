@@ -1,0 +1,9 @@
+---
+description: Documentation standards — JSDoc, README, intent-focused comments
+globs: **/*.ts, **/*.tsx
+alwaysApply: false
+---
+Use JSDoc for all exported functions.
+README must always include: purpose, setup, env vars, API routes.
+Document all non-obvious architectural decisions inline.
+Never document what the code does — document WHY.

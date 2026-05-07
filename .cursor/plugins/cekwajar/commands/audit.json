@@ -1,0 +1,9 @@
+{
+  "name": "audit",
+  "description": "Run a salary audit check via Cek Wajar ID",
+  "pattern": "/audit",
+  "action": {
+    "type": "console",
+    "command": "echo \"cek wajar audit\""
+  }
+}

@@ -1,0 +1,40 @@
+---
+alwaysApply: true
+---
+## HARD RULES (always active)
+- Never use `any` type. Never write inline styles.
+- Never useEffect+fetch. Always @tanstack/react-query.
+- Never raw form state. Always react-hook-form + zod.
+- Never install packages already in package.json.
+- Never put DB logic outside lib/db/queries.ts.
+- Never put business logic in route handlers.
+- All AI calls via lib/agents/ only, never in components.
+- Return shape: { success: boolean, data?: T, error?: string }
+- Primary AI model: MiniMax-M2.7 via OpenAI-compatible SDK.
+  See .cursorrules for Cursor backend config (requires Cursor Pro + custom model setup).
+- Test runner: Vitest (jest is deprecated here).
+
+## CONTEXT BUDGET RULE
+Estimate tokens before reading files:
+- 1 file ~3K tokens. Stop reading at 5 files max per task.
+- If task needs >5 files: output subagent manifest first.
+- Never read block_*.md or build_guide_*.md unless asked.
+- If context feels full: output CHECKPOINT and stop.
+
+## SUBAGENT TRIGGER
+If prompt contains: "all", "everything", "full", "entire",
+"all products", "implement all", "build everything" →
+STOP. Output subagent manifest. Wait for approval.
+
+## TASK COMPLETION
+After completing a task, summarize:
+1. What was changed
+2. What was NOT changed (and why)
+3. Any follow-up actions recommended
+
+## SCOPE DISCIPLINE
+- Do not refactor code outside the scope of the request.
+- Preserve existing style unless asked to refactor.
+- Never delete or overwrite existing functionality silently.
+- When unsure about intent, ASK one targeted clarifying question
+  before writing a single line of code.

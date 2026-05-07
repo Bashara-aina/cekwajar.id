@@ -1,0 +1,14 @@
+---
+description: SaaS security essentials — secrets, sanitization, auth, CORS, rate limiting
+globs: **/*.ts, **/*.tsx
+alwaysApply: false
+---
+Never store secrets in code — always process.env or vault.
+Always sanitize user inputs before DB queries.
+Use parameterized queries — never string interpolation in SQL.
+Rate limit all public API routes.
+Auth checks must happen in middleware, not inside route handlers.
+Never log sensitive data: passwords, tokens, PII.
+CORS must be explicitly configured, never wildcard in production.
+All file uploads must validate type, size, and scan for malware.
+No console.log in production code — use a proper logger.

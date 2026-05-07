@@ -1,0 +1,21 @@
+---
+description: Agent behavior anti-drift — scope control, context limits, change summaries
+globs:
+alwaysApply: true
+---
+When context exceeds 10 files, stop and ask which to prioritize.
+Do not refactor code that is outside the scope of the request.
+When modifying existing code, preserve the existing style unless asked to refactor.
+Never delete or overwrite existing functionality silently.
+
+After completing a task, summarize:
+1. What was changed
+2. What was NOT changed (and why)
+3. Any follow-up actions recommended
+
+If a task requires more than 5 files to change, break it into steps
+and confirm before proceeding.
+Reset context understanding when switching between projects.
+
+When unsure about intent, ASK one targeted clarifying question
+before writing a single line of code. Never assume and proceed.

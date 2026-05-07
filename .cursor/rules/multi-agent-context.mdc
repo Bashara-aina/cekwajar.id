@@ -1,0 +1,145 @@
+---
+alwaysApply: true
+---
+# ================================================================
+# MULTI-AGENT CONTEXT MANAGEMENT — MiniMax-M2.7 200K CEILING
+# ================================================================
+
+# ── CONTEXT BUDGET AWARENESS ────────────────────────────────────
+# NOTE: "MiniMax-M2.7" here refers to the token budget assumption for
+# this codebase (cekwajar.id uses MiniMax-M2.7 via OpenAI-compatible SDK
+# as its application LLM). This does NOT configure Cursor's own backend
+# model — Cursor's backend model is set in Cursor Settings separately.
+#
+# This codebase assumes a ~200K token context ceiling per session.
+Every session has a hard ceiling. You MUST manage context actively.
+
+Estimate token usage before starting any task:
+  - 1 file (~200 lines) ≈ 2,000–4,000 tokens
+  - 1 build_guide_*.md ≈ 8,000–15,000 tokens
+  - Full package.json + config files ≈ 3,000 tokens
+  - Active conversation history ≈ grows 1,000 tokens per exchange
+
+STOP and apply the multi-agent split rules below when:
+  - Task requires reading > 8 files simultaneously
+  - Task involves > 2 build_guide or block_*.md documents
+  - Task spans > 2 products (wajar-gaji + wajar-slip + wajar-tanah)
+  - Estimated total context exceeds 120,000 tokens (60% ceiling)
+  - You are asked to "implement everything" or "refactor all"
+
+# ── MULTI-TASK / SUBAGENT SPAWN RULES ────────────────────────────
+When multitask mode is active OR context budget risk is detected,
+AUTOMATICALLY decompose the work into subagent tasks as follows:
+
+STEP 1 — DECOMPOSE BEFORE READING ANY FILE:
+  Before opening any file, decompose the full task into independent
+  subtasks where each subtask:
+  - Touches only ONE product or ONE domain (engine/UI/API/DB)
+  - Requires reading no more than 5 files total
+  - Has a clear, testable output (a file, a function, a schema)
+  - Is independent — does not block another subtask
+
+STEP 2 — ASSIGN CONTEXT BUDGET PER SUBAGENT:
+  Each subagent session gets a maximum budget:
+  - System prompt:         ~8,000 tokens (this rules file)
+  - Task description:      ~2,000 tokens
+  - Files to read:        ~80,000 tokens (max ~20 files)
+  - Conversation buffer:  ~20,000 tokens
+  - Output buffer:        ~30,000 tokens
+  - HARD LIMIT per agent: 140,000 tokens (70% of 200K ceiling)
+  Never let a single subagent task exceed this budget.
+
+STEP 3 — SPAWN SUBAGENTS WITH ISOLATION:
+  When decomposing, output a task manifest in this format:
+
+  ## SUBAGENT MANIFEST
+  Total subtasks: [N]
+
+  ### Subagent 1: [name]
+  Scope: [single product or domain]
+  Files to read: [max 5 files, listed explicitly]
+  Output: [exact file to create or modify]
+  Blocked by: none | Subagent [N]
+  Estimated tokens: ~[number]
+
+  ### Subagent 2: [name]
+  Scope: [single product or domain]
+  Files to read: [max 5 files, listed explicitly]
+  Output: [exact file to create or modify]
+  Blocked by: none | Subagent [N]
+  Estimated tokens: ~[number]
+
+  [continue for all subagents]
+
+  Then STOP and ask: "Approve this manifest to begin execution?"
+  Do not start any subagent until manifest is approved.
+
+STEP 4 — EXECUTE ONE SUBAGENT AT A TIME:
+  After approval, execute subagents sequentially unless explicitly
+  told they can run in parallel.
+  After each subagent completes:
+  - Output a summary: what was built, which files changed
+  - Clear mental context before starting next subagent
+  - Do NOT carry code details from previous subagent into next one
+  - Only pass the OUTPUT FILE PATH as handoff, not full content
+
+# ── DOCUMENT READING STRATEGY ───────────────────────────────────
+cekwajar.id has 40+ large .md documents in the repo.
+NEVER read all documents at once. Use this priority strategy:
+
+For BUILD tasks — read in this order, stop when you have enough:
+  1. req_05_architecture.md        (system design)
+  2. req_06_database.md            (schema)
+  3. req_07_calc_engines.md        (engine specs)
+  4. req_08_api_contracts.md       (API shapes)
+  5. build_guide_0X_[product].md   (product-specific only)
+  Stop after step 3 if task is engine-only.
+  Stop after step 2 if task is DB-only.
+
+For FEATURE tasks — read ONLY:
+  1. The relevant build_guide for that product
+  2. The relevant req_ file for that domain
+  Never read block_*.md files unless explicitly asked — those are
+  business/strategy docs, not implementation specs.
+
+For BUG FIX tasks — read ONLY:
+  1. The specific file with the bug
+  2. Its test file (if exists)
+  3. One related schema/type file if needed
+  Never read more than 3 files for a bug fix.
+
+# ── CONTEXT RECOVERY (When Nearing Ceiling) ─────────────────────
+If you detect context is getting full (long conversation, many files
+already read), trigger this protocol:
+
+1. STOP current task
+2. Output a recovery checkpoint:
+   ## CONTEXT CHECKPOINT
+   Completed: [what was done so far]
+   Remaining: [what still needs to be done]
+   Next subagent should start with: [specific file or function]
+3. Instruct user to start a new Cursor chat and paste the checkpoint
+4. The new chat should begin: "Continue from checkpoint: [paste]"
+
+# ── PRODUCT ISOLATION MAP ────────────────────────────────────────
+Use this map to assign files to the correct subagent scope.
+Never mix files from different products in one subagent:
+
+wajar-gaji:   src/**/gaji/**, lib/engines/salary-benchmark.ts
+wajar-slip:   src/**/slip/**, lib/engines/slip-parser.ts, tesseract
+wajar-tanah:  src/**/tanah/**, lib/engines/land-valuation.ts
+wajar-kabur:  src/**/kabur/**, lib/engines/migration-calc.ts
+wajar-hidup:  src/**/hidup/**, lib/engines/cost-of-living.ts
+shared:       lib/schemas/**, lib/repositories/**, lib/errors/**
+auth:         middleware.ts, lib/supabase/**, app/api/auth/**
+ai-agents:    lib/agents/**, app/api/ai/**, build_guide_06*
+
+# ── MULTITASK TRIGGER KEYWORDS ───────────────────────────────────
+Automatically activate multi-agent decomposition when the user
+prompt contains any of these phrases:
+  "implement all", "build everything", "full feature",
+  "all products", "entire", "complete the", "migrate all",
+  "refactor the whole", "set up the full", "do all of"
+
+For these prompts: NEVER start writing code immediately.
+ALWAYS output a subagent manifest first and wait for approval.

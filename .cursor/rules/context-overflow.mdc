@@ -1,0 +1,25 @@
+---
+alwaysApply: true
+---
+# Context Overflow Prevention
+
+## Hard Triggers (stop immediately, output subagent manifest)
+When ANY of these conditions are met, stop current work and output a subagent manifest:
+- Task requires reading more than 5 files
+- Task involves engine changes + DB schema + API
+- Estimated context exceeds 120,000 tokens (60% ceiling)
+- Prompt contains: "all", "everything", "entire", "full feature",
+  "implement all", "build everything", "complete the", "migrate all"
+
+## Subagent Manifest Format
+When triggered, output:
+## SUBAGENT MANIFEST
+Total subtasks: [N]
+### Subagent 1: [name]
+Scope: [single product or domain]
+Files to read: [max 3 files]
+Output: [exact file to create]
+Blocked by: none | Subagent [N]
+### [repeat for N]
+
+Then STOP and wait for approval before executing.
